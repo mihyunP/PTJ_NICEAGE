@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'SangSangFlowerRoad';
+  src: url('../../assets/fonts/SangSangFlowerRoad.otf');
+  /* src: url('../../assets/fonts/sangsangflowerroad-webfont.woff2'); */
+}
+@font-face {
+  font-family: 'SSShinb7';
+  src: url('../../assets/fonts/SSShinb7.ttf');
+  /* src: url('../../assets/fonts/ssshinb7-webfont.woff2'); */
+}
+@font-face {
+  font-family: 'BlackHanSans';
+  src: url('../../assets/fonts/BlackHanSans-Regular.ttf');
+}
