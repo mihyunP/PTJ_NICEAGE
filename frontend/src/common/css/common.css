@@ -1,3 +1,17 @@
+html, body {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+@media (min-width: 1270px) {
+  html, body {
+    min-width: 1270px;
+  }
+}
+
 @font-face {
   font-family: 'SangSangFlowerRoad';
   src: url('../../assets/fonts/SangSangFlowerRoad.otf');

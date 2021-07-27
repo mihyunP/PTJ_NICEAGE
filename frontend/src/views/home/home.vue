@@ -1,6 +1,16 @@
 <template>
-  <el-button @click="clickLogin">로그인</el-button>
-  <el-button @click="clickSignup">회원가입</el-button>
+  <el-row>
+    <el-col :span="12">
+      <div class="grid-content bg-purple">
+      </div>
+    </el-col>
+    <el-col :span="12">
+      <div class="grid-content bg-purple-light">
+        <el-button @click="clickLogin">로그인</el-button>
+        <el-button @click="clickSignup">회원가입</el-button>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
