@@ -32,8 +32,10 @@ export default {
     font-style: normal;
     font-weight: normal;
     font-size: 48px;
-    line-height: 32px;
+    line-height: 4rem;
     color: #26730B;
     margin: 0;
+    margin-left: 2rem;
+    text-align: center;
   }
 </style>
