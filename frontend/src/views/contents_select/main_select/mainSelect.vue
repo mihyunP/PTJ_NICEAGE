@@ -3,28 +3,55 @@
     <el-col class="left-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
-          <!-- <el-row justify="center"><div class="main-image"></div></el-row> -->
+          <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">원하시는 메뉴를 선택해 주세요.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
         </el-col>
       </el-row>
     </el-col>
+
     <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">메뉴를 선택해 주세요.</div>
-          <el-button @click="clickSeniorCenter">
-            <span class="iconify" data-inline="false" data-icon="noto:man-raising-hand" style="font-size: 142px;"></span>
-            <div class="select-button">경로당 서비스</div>
+          <el-row justify="center">
+            
+            <el-button @click="clickSeniorCenter">
+            <div class="seniorcenter-image"></div>
+              <div class="select-button">경로당 서비스</div>
+            </el-button>
+
+            <el-button @click="clickFriendSelect">
+            <div class="friendmatching-image"></div>
+              <div class="select-button">친구 매칭</div>
+            </el-button>
+
+            <el-button @click="clickHealthSelect">
+            <span class="iconify" data-inline="false" data-icon="noto:health-worker-light-skin-tone" style="font-size: 98px;"></span>
+              <div class="select-button">건강관리 서비스</div>
+            </el-button>
+
+          </el-row>
+          <br>
+          <br>
+          <br>
+            <el-row justify="center">
+
+          <el-button @click="clickGameSelect">
+            <span class="iconify" data-inline="false" data-icon="fxemoji:videogame" style="font-size: 98px;"></span>
+            <div class="select-button">게임</div>
           </el-button>
-          <el-button @click="clickFriendSelect">
-            <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
-            <div class="select-button">친구 매칭</div>
+
+          <el-button @click="clickBoard">
+            <span class="iconify" data-inline="false" data-icon="noto:newspaper" style="font-size: 98px;"></span>
+            <div class="select-button">게시판</div>
           </el-button>
-          <el-button @click="clickHealthSelect">
-            <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
-            <div class="select-button">건강관리 서비스</div>
+
+          <el-button @click="clickMypage">
+   <div class="mypage-image"></div>
+            <div class="select-button">내정보</div>
           </el-button>
+            </el-row>
         </el-col>
       </el-row>
     </el-col>
@@ -35,6 +62,7 @@
 import { useRouter } from 'vue-router'
 
 export default {
+
   name: 'mainSelect',
 
   setup() {
@@ -46,14 +74,39 @@ export default {
       })
     }
     
-    const clickSignup = () => {
+    const clickFriendSelect = () => {
       router.push({
-        name: 'Signup',
+        name: 'FriendSelect',
       })
     }
 
-    return {clickSeniorCenter, clickSignup}
+      const clickHealthSelect = () => {
+      router.push({
+        name: 'HealthSelect',
+      })
+    }
+
+    const clickGameSelect = () => {
+      router.push({
+        name: 'GameSelect',
+      })
+    }
+    
+    const clickBoard = () => {
+      router.push({
+        name: 'Board',
+      })
+    }
+
+    const clickMypage = () => {
+      router.push({
+        name: 'Mypage',
+      })
+    }
+
+    return {clickSeniorCenter, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage}
   }
+
 }
 </script>
 
@@ -67,14 +120,14 @@ export default {
     /* opacity: 0.5; */
   }
   .el-button {
-    width: 270px;
-    height: 270px;
+    width: 150px;
+    height: 150px;
     background: #EBC86F !important;
-    border-radius: 40px !important;
+    border-radius: 25px !important;
   }
   .select-button {
     font-family: BlackHanSans;
-    font-size: 36px;
+    font-size: 21px;
   }
   .question {
     font-family: SangSangFlowerRoad;
@@ -92,6 +145,31 @@ export default {
     margin: 0 auto;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../../assets/images/main.png');
+    background-image: url('../../../assets/images/main.png');
+  }
+
+  .seniorcenter-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/seniorcenter.png');
+  }
+    .friendmatching-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/friendmatching.png');
+  }
+    .mypage-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/mypage.png');
   }
 </style>
