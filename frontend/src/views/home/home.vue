@@ -13,14 +13,16 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">처음 오셨나요?</div>
-          <el-button @click="clickLogin">
-            <span class="iconify" data-inline="false" data-icon="noto:man-raising-hand" style="font-size: 142px;"></span>
-            <div class="select-button">나 자주 와아~</div>
-          </el-button>
-          <el-button @click="clickSignup">
-            <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
-            <div class="select-button">나 처음 와아~</div>
-          </el-button>
+          <el-row justify="center">
+            <el-button @click="clickLogin">
+              <span class="iconify" data-inline="false" data-icon="noto:man-raising-hand" style="font-size: 142px;"></span>
+              <div class="select-button">나 자주 와아~</div>
+            </el-button>
+            <el-button @click="clickSignup">
+              <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
+              <div class="select-button">나 처음 와아~</div>
+            </el-button>
+          </el-row>
         </el-col>
       </el-row>
     </el-col>
