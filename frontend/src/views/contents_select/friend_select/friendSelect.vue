@@ -1,10 +1,10 @@
 <template>
-  <div>board</div>
+  friendsselect
 </template>
 
 <script>
 export default {
-
+  name: 'FriendSelect',
 }
 </script>
 

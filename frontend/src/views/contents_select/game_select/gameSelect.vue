@@ -1,10 +1,10 @@
 <template>
-  <div>board</div>
+  gameselect
 </template>
 
 <script>
 export default {
-
+  name: 'GameSelect',
 }
 </script>
 
