@@ -8,10 +8,9 @@ spring:
         url: jdbc:mysql://localhost:3306/common_project_2team?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
         username: ssafy
     jpa:
-        database: mysql
-        database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-        generate-ddl: true
-        show-sql: true
-        hibernate :
-            ddl-auto : none    
-            # ddl-auto - @Entity 테이블 정보를 실제 DB에 반영 할건지 설정(create/update/none..)
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: true
