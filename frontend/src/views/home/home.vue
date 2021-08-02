@@ -13,14 +13,16 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">처음 오셨나요?</div>
-          <el-button @click="clickLogin">
-            <span class="iconify" data-inline="false" data-icon="noto:man-raising-hand" style="font-size: 142px;"></span>
-            <div class="select-button">나 자주 와아~</div>
-          </el-button>
-          <el-button @click="clickSignup">
-            <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
-            <div class="select-button">나 처음 와아~</div>
-          </el-button>
+          <el-row justify="center">
+            <el-button class="select-btn" @click="clickLogin">
+              <span class="iconify" data-inline="false" data-icon="noto:man-raising-hand" style="font-size: 142px;"></span>
+              <div class="select-font">나 자주 와아~</div>
+            </el-button>
+            <el-button class="select-btn" @click="clickSignup">
+              <span class="iconify" data-inline="false" data-icon="emojione:handshake-medium-light-skin-tone" style="font-size: 142px;"></span>
+              <div class="select-font">나 처음 와아~</div>
+            </el-button>
+          </el-row>
         </el-col>
       </el-row>
     </el-col>
@@ -62,13 +64,13 @@ export default {
     height: 100%;
     /* opacity: 0.5; */
   }
-  .el-button {
+  .select-btn {
     width: 270px;
     height: 270px;
     background: #EBC86F !important;
     border-radius: 40px !important;
   }
-  .select-button {
+  .select-font {
     font-family: BlackHanSans;
     font-size: 36px;
   }
