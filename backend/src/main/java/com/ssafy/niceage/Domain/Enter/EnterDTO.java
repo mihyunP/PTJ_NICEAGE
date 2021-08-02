@@ -12,12 +12,12 @@ public class EnterDTO {
 	private int Id;
 	
 	@Column (name = "user_no")
-	private String UserNo;
+	private int UserNo;
 	
 	@Column (name = "senior_id")
     private int SeniorId;
 
-	public EnterDTO(int id, String userNo, int seniorId) {
+	public EnterDTO(int id, int userNo, int seniorId) {
 		super();
 		Id = id;
 		UserNo = userNo;
