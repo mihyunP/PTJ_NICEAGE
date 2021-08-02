@@ -11,18 +11,16 @@ public class EnterDTO {
 	@Column (name = "enter_id")
 	private int Id;
 	
-	@Column (name = "user_id")
-	private String UserId;
+	@Column (name = "user_no")
+	private String UserNo;
 	
 	@Column (name = "senior_id")
     private int SeniorId;
 
-	public EnterDTO(int id, String userId, int seniorId) {
+	public EnterDTO(int id, String userNo, int seniorId) {
 		super();
 		Id = id;
-		UserId = userId;
+		UserNo = userNo;
 		SeniorId = seniorId;
 	}
-	
-	
 }
