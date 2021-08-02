@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>Dementia</div>
 </template>
 
 <script>

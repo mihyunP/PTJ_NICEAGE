@@ -3,12 +3,17 @@ import Home from '@/views/home/home'
 import Login from '@/views/user/login/login'
 import Signup from '@/views/user/signup/signup'
 import MainSelect from '@/views/contents_select/main_select/mainSelect'
-import SeniorCenter from '@/views/contents/senior_center/seniorCenter'
+import SeniorCenterSelect from '@/views/contents_select/senior_center_select/senior_centerSelect'
 import FriendSelect from '@/views/contents_select/friend_select/friendSelect'
 import HealthSelect from '@/views/contents_select/health_select/healthSelect'
 import GameSelect from '@/views/contents_select/game_select/gameSelect'
 import Board from '@/views/contents/community/board'
 import Mypage from '@/views/user/mypage/myPage'
+
+import Dementia from '@/views/contents/health/dementia/dementia'
+import Stretching from '@/views/contents/health/stretching/stretching'
+
+import seniorCenter from '@/views/contents/senior_center/seniorCenter'
 
 const routes = [
   {
@@ -32,9 +37,9 @@ const routes = [
     component: MainSelect,
   },
   {
-    path: "/seniorcenter",
-    name: "SeniorCenter",
-    component: SeniorCenter,
+    path: "/seniorcenterselect",
+    name: "SeniorCenterSelect",
+    component: SeniorCenterSelect,
   },
   {
     path: "/friendselect",
@@ -60,6 +65,21 @@ const routes = [
     path: "/mypage",
     name: "Mypage",
     component: Mypage,
+  },
+  {
+    path: "/dementia",
+    name: "Dementia",
+    component: Dementia,
+  },
+  {
+    path: "/stretching",
+    name: "Stretching",
+    component: Stretching,
+  },
+  {
+    path: "/seniorcenter",
+    name: "SeniorCenter",
+    component: seniorCenter,
   },
 ];
 
