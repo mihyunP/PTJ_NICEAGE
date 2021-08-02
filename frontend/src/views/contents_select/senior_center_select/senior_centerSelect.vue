@@ -4,7 +4,8 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
-          <div class="explanation">치매 진단검사를 선택하시면 간단한 치매 진단을 하실 수 있습니다. 스트레칭 따라하기를 선택하시면 간단한 스트레칭 동작을 화면을 보시며 따라하실 수 있습니다.</div>
+          <div class="explanation">‘지도로 보기’를 선택하시면 지도에서 주변 경로당을 직접 선택하실 수 있습니다. ‘아무데나 갈래’를 선택하시면 
+자동으로 경로당에 입장할 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
         </el-col>
       </el-row>
@@ -13,14 +14,14 @@
       <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
-          <div class="question">건강관리 서비스를 선택해주세요.</div>
-          <el-button @click="clickDementia">
-            <span class="iconify" data-inline="false" data-icon="noto:woman-health-worker-light-skin-tone" style="font-size: 142px;"></span>
-            <div class="select-button">치매<br>진단검사</div>
+          <div class="question">경로당을 선택해주세요.</div>
+          <el-button @click="clickSeniorCenter">
+            <span class="iconify" data-inline="false" data-icon="emojione:world-map" style="font-size: 114px;"></span>
+            <div class="select-button">지도로 보기</div>
           </el-button>
-          <el-button @click="clickStretching">
+          <el-button @click="clickSeniorCenter">
             <span class="iconify" data-inline="false" data-icon="fxemoji:dancer" style="font-size: 142px;"></span>
-            <div class="select-button">스트레칭<br>따라하기</div>
+            <div class="select-button">아무데나 갈래</div>
           </el-button>
         </el-col>
       </el-row>
@@ -37,21 +38,16 @@ export default {
     setup() {
         const router = useRouter()
 
-        const clickDementia = () => {
+        const clickSeniorCenter = () => {
           router.push({
-            name: 'Dementia',
+            name: 'SeniorCenter',
           })
         }
         
-        const clickStretching = () => {
-          router.push({
-            name: 'Stretching',
-          })
-        }
+   
 
-        return {clickDementia, clickStretching}
+        return {clickSeniorCenter}
       }
-
 }
 
 </script>

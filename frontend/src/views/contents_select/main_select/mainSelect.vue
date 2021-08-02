@@ -16,7 +16,7 @@
           <div class="question">메뉴를 선택해 주세요.</div>
           <el-row justify="center">
             
-            <el-button @click="clickSeniorCenter">
+            <el-button @click="clickSeniorCenterSelect">
             <div class="seniorcenter-image"></div>
               <div class="select-button">경로당 서비스</div>
             </el-button>
@@ -62,15 +62,15 @@
 import { useRouter } from 'vue-router'
 
 export default {
-
+ 
   name: 'mainSelect',
 
   setup() {
     const router = useRouter()
 
-    const clickSeniorCenter = () => {
+    const clickSeniorCenterSelect = () => {
       router.push({
-        name: 'SeniorCenter',
+        name: 'SeniorCenterSelect',
       })
     }
     
@@ -104,7 +104,7 @@ export default {
       })
     }
 
-    return {clickSeniorCenter, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage}
+    return {clickSeniorCenterSelect, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage}
   }
 
 }
