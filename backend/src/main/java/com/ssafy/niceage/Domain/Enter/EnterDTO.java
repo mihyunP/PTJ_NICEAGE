@@ -15,12 +15,14 @@ public class EnterDTO {
 	private String UserId;
 	
 	@Column (name = "senior_id")
-    private String SeniorId;
-	
-	public EnterDTO(int id, String userId, String seniorId) {
+    private int SeniorId;
+
+	public EnterDTO(int id, String userId, int seniorId) {
 		super();
 		Id = id;
 		UserId = userId;
 		SeniorId = seniorId;
 	}
+	
+	
 }
