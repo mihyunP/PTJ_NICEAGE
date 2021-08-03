@@ -10,7 +10,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Enter {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "enter_id")
 	private int Id;
 	

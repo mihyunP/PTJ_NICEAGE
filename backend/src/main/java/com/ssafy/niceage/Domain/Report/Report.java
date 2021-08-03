@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Report {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "report_id")
 	private int Id;
 	

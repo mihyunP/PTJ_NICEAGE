@@ -14,11 +14,11 @@ import lombok.Data;
 @Entity
 @Data
 public class Board {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "board_id")
 	private int Id;
 	
-	@OneToMany(mappedBy = "comment")
+	@OneToMany(mappedBy = "board")
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column (name = "board_title", nullable = false, length = 45)

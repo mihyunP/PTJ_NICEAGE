@@ -10,7 +10,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Comment {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "comment_id")
 	private int Id;
 	

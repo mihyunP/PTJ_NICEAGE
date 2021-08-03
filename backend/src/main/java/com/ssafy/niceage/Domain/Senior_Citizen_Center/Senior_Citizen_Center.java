@@ -12,11 +12,11 @@ import lombok.Data;
 @Entity
 @Data
 public class Senior_Citizen_Center {
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "senior_id")
 	private int Id;
 	
-	@OneToMany(mappedBy = "enter")
+	@OneToMany(mappedBy = "senior")
 	List<Enter> enters = new ArrayList<Enter>();
 
 	@Column (name = "senior_name", nullable = false, length = 45)
