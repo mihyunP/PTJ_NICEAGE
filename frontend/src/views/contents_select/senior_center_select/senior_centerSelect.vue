@@ -15,7 +15,7 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">경로당을 선택해주세요.</div>
-          <el-button @click="clickSeniorCenter">
+          <el-button @click="clickMap">
             <span class="iconify" data-inline="false" data-icon="emojione:world-map" style="font-size: 114px;"></span>
             <div class="select-button">지도로 보기</div>
           </el-button>
@@ -38,6 +38,12 @@ export default {
     setup() {
         const router = useRouter()
 
+        const clickMap = () => {
+          router.push({
+            name: 'Map',
+          })
+        }
+
         const clickSeniorCenter = () => {
           router.push({
             name: 'SeniorCenter',
@@ -46,7 +52,7 @@ export default {
         
    
 
-        return {clickSeniorCenter}
+        return {clickMap, clickSeniorCenter}
       }
 }
 
