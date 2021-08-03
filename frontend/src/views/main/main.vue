@@ -1,9 +1,11 @@
 <template>
-  <el-container>
-    <main-header/>
-    <el-main>
-      <router-view></router-view>
-    </el-main>
+  <el-container class="main-wrapper">
+    <main-header class="main-header"/>
+    <el-container class="main-container">
+      <el-main class="main">
+        <router-view></router-view>
+      </el-main>
+    </el-container>
     <main-footer/>
   </el-container>
 </template>
@@ -16,13 +18,13 @@ export default {
  name: 'Main',
  components: {
    MainHeader,
-   MainFooter
+   MainFooter,
  } 
 }
 </script>
 
 <style>
-@import '../../common/css/common.css';
+  @import '../../common/css/common.css';
 
 
 /* @media (max-width: 700px) {
