@@ -17,14 +17,20 @@ export default {
   props: {
     msgs: {
       type: Array
+    },
+    senderObj: {
+      type: Object
+    },
+    me: {
+      type: Object
     }
-  }
+  },
 }
 </script>
 
 <style scoped>
 .container {
-  height: 1000px;
+  height: 70vh;
   background: white;
 }
 </style>
