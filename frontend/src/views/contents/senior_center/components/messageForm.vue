@@ -4,7 +4,7 @@
       <el-col :span="20">
         <el-input
         type="textarea"
-        :rows="2"
+        :rows="4"
         placeholder="채팅을 입력하세요."
         v-model="messageForm.message">
         </el-input>
@@ -13,7 +13,7 @@
         <el-button class="my-btn" type="primary" @click="submitForm">입력</el-button>
       </el-col>
     </el-row>
-</el-form>
+  </el-form>
 </template>
 
 <script>

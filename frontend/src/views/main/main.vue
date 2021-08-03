@@ -40,7 +40,7 @@ export default {
 }
 
 .main-container {
-  height: 100%;
+  height: calc(100% - 4rem) !important;
 }
 
 .main {
