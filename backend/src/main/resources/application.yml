@@ -1,0 +1,16 @@
+server:
+    address: localhost
+    port: 8080
+spring:
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: ssafy
+        url: jdbc:mysql://localhost:3306/common_project_2team?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+        username: ssafy
+    jpa:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        ddl-auto: none
+      properties:
+        hibernate:
+          format_sql: true
