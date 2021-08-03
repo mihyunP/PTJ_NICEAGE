@@ -13,6 +13,7 @@ import Mypage from '@/views/user/mypage/myPage'
 import Dementia from '@/views/contents/health/dementia/dementia'
 import Stretching from '@/views/contents/health/stretching/stretching'
 
+import Map from '@/views/map/map'
 import seniorCenter from '@/views/contents/senior_center/seniorCenter'
 
 const routes = [
@@ -80,6 +81,11 @@ const routes = [
     path: "/seniorcenter",
     name: "SeniorCenter",
     component: seniorCenter,
+  },
+  {
+    path: "/map",
+    name: "Map",
+    component: Map,
   },
 ];
 
