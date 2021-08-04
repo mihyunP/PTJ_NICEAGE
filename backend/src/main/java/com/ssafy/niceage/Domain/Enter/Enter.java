@@ -21,11 +21,4 @@ public class Enter {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "senior_id")
     private Senior_Citizen_Center senior;
-
-	public Enter(int id, User user, Senior_Citizen_Center senior) {
-		super();
-		Id = id;
-		this.user = user;
-		this.senior = senior;
-	}
 }

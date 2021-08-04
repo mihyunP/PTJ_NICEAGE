@@ -55,26 +55,4 @@ public class User {
 	
 	@Column (name = "user_emergency_number", nullable = true, length = 30)
     private String Emergency;
-	
-
-	public User() {
-		
-	}
-
-	public User(int no, List<Enter> enters, List<Board> boards, List<Comment> comments, String id, String password,
-			String name, String address, String gender, String birth, String phone, String emergency) {
-		super();
-		No = no;
-		this.enters = enters;
-		this.boards = boards;
-		this.comments = comments;
-		Id = id;
-		Password = password;
-		Name = name;
-		Address = address;
-		Gender = gender;
-		Birth = birth;
-		Phone = phone;
-		Emergency = emergency;
-	}
 }

@@ -36,8 +36,4 @@ public class Board {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn (name = "user_no")
     private User user;
-	
-	public Board() {
-		
-	}
 }

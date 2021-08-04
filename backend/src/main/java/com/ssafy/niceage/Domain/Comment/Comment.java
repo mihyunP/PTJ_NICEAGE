@@ -29,12 +29,4 @@ public class Comment {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn (name = "board_id")
     private Board board;
-
-	public Comment(int id, String contents, User user, Board board) {
-		super();
-		Id = id;
-		Contents = contents;
-		this.user = user;
-		this.board = board;
-	}
 }

@@ -37,7 +37,7 @@ public class main {
 			
 			em.persist(board);
 			
-			em.remove(user);
+			em.remove(board);
 			
 			tx.commit();
 			
