@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.Enter.Enter;
@@ -20,13 +23,13 @@ public class User {
 	@Column (name = "user_no", nullable = false)
 	private int No;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Board> boards = new ArrayList<Board>();
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column (name = "user_id", nullable = false, length = 45)

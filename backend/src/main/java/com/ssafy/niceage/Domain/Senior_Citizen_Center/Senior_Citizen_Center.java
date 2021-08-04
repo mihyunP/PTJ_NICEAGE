@@ -16,7 +16,7 @@ public class Senior_Citizen_Center {
 	@Column (name = "senior_id")
 	private int Id;
 	
-	@OneToMany(mappedBy = "senior")
+	@OneToMany(mappedBy = "senior", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();
 
 	@Column (name = "senior_name", nullable = false, length = 45)

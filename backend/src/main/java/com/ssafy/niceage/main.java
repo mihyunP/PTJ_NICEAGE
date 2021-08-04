@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
+import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.User.User;
 
 public class main {
@@ -15,22 +16,37 @@ public class main {
 		EntityManager em = emf.createEntityManager();
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
-		
-		User user = new User();
-		user.setBirth("2020-01-01");
-		user.setEmergency("010-123-1234");
-		user.setGender("F");
-		user.setId("jbhongg");
-		user.setName("홍진빈");
-		user.setPassword("12341234");
-		user.setPhone("010-1234-3433");
-		user.setAddress("asdasd");
-		
-		em.persist(user);
-		
-		tx.commit();
-		em.close();
-		
+		try{
+			
+			User user = new User();
+			user.setAddress("123124");
+			user.setBirth("2020-11-11");
+			user.setEmergency("10123");
+			user.setGender("M");
+			user.setName("홍진빈");
+			user.setId("jbhongg");
+			user.setPassword("1234");
+			user.setPhone("1234");
+			em.persist(user);
+			
+			Board board = new Board();
+			board.setTitle("asd");
+			board.setContents("1243453254235");
+			board.setDate("2020-08-04 11:22:22");
+			board.setUser(user);
+			
+			em.persist(board);
+			
+			em.remove(user);
+			
+			tx.commit();
+			
+			
+		}catch (Exception e) {
+			tx.rollback();
+		}finally {
+			em.close();
+		}
 		emf.close();
 	}
 

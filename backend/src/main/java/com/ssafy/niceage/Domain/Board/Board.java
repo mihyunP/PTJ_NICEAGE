@@ -1,10 +1,12 @@
 package com.ssafy.niceage.Domain.Board;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.User.User;
@@ -18,7 +20,7 @@ public class Board {
 	@Column (name = "board_id")
 	private int Id;
 	
-	@OneToMany(mappedBy = "board")
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column (name = "board_title", nullable = false, length = 45)
@@ -28,19 +30,14 @@ public class Board {
     private String Contents;
 	
 	@Column (name = "board_date")
-	@Temporal(TemporalType.TIMESTAMP)
-    private Date Date;
+	private String Date;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn (name = "user_no")
     private User user;
-
-	public Board(int id, String title, String contents, java.util.Date date, User user) {
-		super();
-		Id = id;
-		Title = title;
-		Contents = contents;
-		Date = date;
-		this.user = user;
+	
+	public Board() {
+		
 	}
 }
