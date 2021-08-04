@@ -14,7 +14,8 @@ import Dementia from '@/views/contents/health/dementia/dementia'
 import Stretching from '@/views/contents/health/stretching/stretching'
 
 import Map from '@/views/map/map'
-import seniorCenter from '@/views/contents/senior_center/seniorCenter'
+import SeniorCenter from '@/views/contents/senior_center/seniorCenter'
+import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 
 import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 const routes = [
@@ -81,7 +82,7 @@ const routes = [
   {
     path: "/seniorcenter",
     name: "SeniorCenter",
-    component: seniorCenter,
+    component: SeniorCenter,
   },
   {
     path: "/map",
