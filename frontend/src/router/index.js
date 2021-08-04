@@ -17,7 +17,6 @@ import Map from '@/views/map/map'
 import SeniorCenter from '@/views/contents/senior_center/seniorCenter'
 import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 
-import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 const routes = [
   {
     path: "/",
