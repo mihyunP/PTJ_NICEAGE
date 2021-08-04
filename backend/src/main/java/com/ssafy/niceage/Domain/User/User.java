@@ -6,13 +6,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.Enter.Enter;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter @Setter
 @Data
 public class User {
 	
@@ -73,5 +77,19 @@ public class User {
 		Birth = birth;
 		Phone = phone;
 		Emergency = emergency;
+	}
+	
+	public static User createUser(UserRequest request) {
+		User userInput = new User();
+		userInput.Id = request.getUserId();
+        userInput.setId(request.getUserId());
+        userInput.setPassword(request.getUserPassword());
+        userInput.setName(request.getUserName());
+        userInput.setAddress(request.getUserAddress());
+        userInput.setGender(request.getUserGender());
+        userInput.setBirth(request.getUserBirth());
+        userInput.setPhone(request.getUserPhone());
+        userInput.setEmergency(request.getUserEmergency());
+        return userInput;
 	}
 }
