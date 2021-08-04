@@ -9,11 +9,14 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.Enter.Enter;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Data
@@ -55,4 +58,18 @@ public class User {
 	
 	@Column (name = "user_emergency_number", nullable = true, length = 30)
     private String Emergency;
+	
+	public static User createUser(UserRequest request) {
+		User userInput = new User();
+		userInput.Id = request.getUserId();
+        userInput.setId(request.getUserId());
+        userInput.setPassword(request.getUserPassword());
+        userInput.setName(request.getUserName());
+        userInput.setAddress(request.getUserAddress());
+        userInput.setGender(request.getUserGender());
+        userInput.setBirth(request.getUserBirth());
+        userInput.setPhone(request.getUserPhone());
+        userInput.setEmergency(request.getUserEmergency());
+        return userInput;
+	}
 }
