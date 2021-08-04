@@ -2,8 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from '@/views/home/home'
 import Login from '@/views/user/login/login'
 import Signup from '@/views/user/signup/signup'
-<<<<<<< HEAD
-=======
 import MainSelect from '@/views/contents_select/main_select/mainSelect'
 import SeniorCenterSelect from '@/views/contents_select/senior_center_select/senior_centerSelect'
 import FriendSelect from '@/views/contents_select/friend_select/friendSelect'
@@ -11,11 +9,11 @@ import HealthSelect from '@/views/contents_select/health_select/healthSelect'
 import GameSelect from '@/views/contents_select/game_select/gameSelect'
 import Board from '@/views/contents/community/board'
 import Mypage from '@/views/user/mypage/myPage'
->>>>>>> branch 'develope' of https://lab.ssafy.com/s05-webmobile1-sub3/S05P13B202.git
 
 import Dementia from '@/views/contents/health/dementia/dementia'
 import Stretching from '@/views/contents/health/stretching/stretching'
 
+import Map from '@/views/map/map'
 import seniorCenter from '@/views/contents/senior_center/seniorCenter'
 
 const routes = [
@@ -34,8 +32,6 @@ const routes = [
     name: "Signup",
     component: Signup,
   },
-<<<<<<< HEAD
-=======
   {
     path: "/mainselect",
     name: "MainSelect",
@@ -86,7 +82,11 @@ const routes = [
     name: "SeniorCenter",
     component: seniorCenter,
   },
->>>>>>> branch 'develope' of https://lab.ssafy.com/s05-webmobile1-sub3/S05P13B202.git
+  {
+    path: "/map",
+    name: "Map",
+    component: Map,
+  },
 ];
 
 const router = createRouter({
