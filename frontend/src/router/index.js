@@ -16,6 +16,7 @@ import Stretching from '@/views/contents/health/stretching/stretching'
 import Map from '@/views/map/map'
 import seniorCenter from '@/views/contents/senior_center/seniorCenter'
 
+import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 const routes = [
   {
     path: "/",
@@ -86,6 +87,11 @@ const routes = [
     path: "/map",
     name: "Map",
     component: Map,
+  },
+  {
+    path: "/friendmatching",
+    name: "FriendMatching",
+    component: FriendMatching,
   },
 ];
 

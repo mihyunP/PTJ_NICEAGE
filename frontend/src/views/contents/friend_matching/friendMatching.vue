@@ -1,5 +1,5 @@
 <template>
-  <div></div>
+  <div>FriendMatching</div>
 </template>
 
 <script>

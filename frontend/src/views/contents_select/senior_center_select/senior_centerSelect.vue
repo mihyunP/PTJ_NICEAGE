@@ -15,6 +15,7 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">경로당을 선택해주세요.</div>
+            <el-row justify="center">
           <el-button @click="clickMap">
             <span class="iconify" data-inline="false" data-icon="emojione:world-map" style="font-size: 114px;"></span>
             <div class="select-button">지도로 보기</div>
@@ -23,6 +24,7 @@
             <span class="iconify" data-inline="false" data-icon="fxemoji:dancer" style="font-size: 142px;"></span>
             <div class="select-button">아무데나 갈래</div>
           </el-button>
+            </el-row>
         </el-col>
       </el-row>
     </el-col>
