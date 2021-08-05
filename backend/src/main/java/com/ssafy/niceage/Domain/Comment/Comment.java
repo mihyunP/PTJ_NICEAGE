@@ -15,7 +15,7 @@ import lombok.Data;
 public class Comment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "comment_id")
-	private int commentId;
+	private Long commentId;
 	
 	@Column (name = "comment_contents", nullable = false, length = 255)
     private String commentContents;
