@@ -8,6 +8,6 @@ import com.ssafy.niceage.Domain.User.User;
 import antlr.collections.List;
 
 public interface UserRepository extends JpaRepository<User, Integer>{
-	 User findByUId(String Id);
-	 User findByUIdAndUPassword(String Id, String Password);
+    User findByUserId(String Id);
+    User findByUserIdAndUserPassword(String Id, String Password);
 }
