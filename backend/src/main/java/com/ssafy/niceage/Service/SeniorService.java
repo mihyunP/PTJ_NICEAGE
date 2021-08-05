@@ -14,17 +14,13 @@ import lombok.RequiredArgsConstructor;
 public class SeniorService {
 	
 	private final SeniorRepository seniorRepository;
-	
-	/**
-	 * 회원의 주소 근처의 경로당 가져오기
-	 * @return
-	 */
-	public List<Senior_Citizen_Center> findAll() {
-		return seniorRepository.findAll();
-	}
 
 	public Senior_Citizen_Center findByseniorId(Integer id) {
 		return seniorRepository.findByseniorId(id);
+	}
+
+	public List<Senior_Citizen_Center> findByseniorAddress(String userAddress) {
+		return seniorRepository.findByseniorAddress(userAddress);
 	}
 
 }
