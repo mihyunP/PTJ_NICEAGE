@@ -12,7 +12,7 @@ import lombok.Data;
 public class Enter {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "enter_id")
-	private int enterId;
+	private Long enterId;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "user_no")
