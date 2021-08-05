@@ -15,10 +15,10 @@ import lombok.Data;
 public class Comment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "comment_id")
-	private int Id;
+	private int commentId;
 	
 	@Column (name = "comment_contents", nullable = false, length = 255)
-    private String Contents;
+    private String commentContents;
 	
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

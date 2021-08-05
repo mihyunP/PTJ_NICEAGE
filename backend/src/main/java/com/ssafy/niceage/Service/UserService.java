@@ -17,42 +17,17 @@ public class UserService {
 	private final UserRepository userRepository;
 	
 	/**
-	 * 회원가입
-	 */
-	@Transactional
-	public User create(User user) {
-		return UserRepository.create(user);
-	}
-	
-	/**
-	 * 회원 전체 리스트
-	 */
-	@Transactional
-	public List<User> findAll(){
-		return UserRepository.findAll();
-	}
-	
-	/**
-	 * 비밀번호 변경
-	 */
-	@Transactional
-	public void modifyPassword() {
-		
-	}
-	
-	/**
-	 * 회원정보 수정
-	 */
-	@Transactional
-	public void modifyUser(String userId, UserRequest request) {
-		
-	}
-	
-	/**
-	 * 회원 탈퇴
-	 */
-	@Transactional
-	public void deleteUser(String userId) {
-		
-	}
+     * 아이디로 유저객체 찾기
+     */
+    @Transactional
+    public User findById(String Id){
+        return userRepository.findByUId(Id);
+    }
+    
+    /**
+     * 로그인 시 , 아이디 비밀번호로 유저 찾기
+     */
+    public User findByIdAndPassword(String Id, String Password) {
+        return userRepository.findByUIdAndUPassword(Id, Password);
+    }
 }
