@@ -20,15 +20,5 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/v1/user")
 public class UserController {
-	private final UserService userService;
-
-	@ApiOperation(value = "회원가입", notes = "가입 성공시 ", response = BaseResponse.class)
-	@PostMapping("/join")
-	public BaseResponse join(@ApiParam(value = "사용자 객체") @RequestBody UserRequest request) {
-		BaseResponse response = null;
-		try {
-			User user = User.createUser(request);
-		}
-	}
 
 }

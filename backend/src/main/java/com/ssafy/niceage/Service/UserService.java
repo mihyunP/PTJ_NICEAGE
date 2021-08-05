@@ -20,17 +20,17 @@ public class UserService {
 	 * 회원가입
 	 */
 	@Transactional
-	public User create(User user) {
-		return UserRepository.create(user);
+	public User save(User user) {
+		return userRepository.save(user);
 	}
 	
-	/**
-	 * 회원 전체 리스트
-	 */
-	@Transactional
-	public List<User> findAll(){
-		return UserRepository.findAll();
-	}
+//	/**
+//	 * 회원 전체 리스트
+//	 */
+//	@Transactional
+//	public List<User> findAll(){
+//		return userRepository.findAll();
+//	}
 	
 	/**
 	 * 비밀번호 변경

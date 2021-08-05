@@ -19,8 +19,12 @@ public class SeniorService {
 	 * 회원의 주소 근처의 경로당 가져오기
 	 * @return
 	 */
-	public List<Senior_Citizen_Center> findByAddress(String address) {
-		return seniorRepository.findByAddress(address);
+	public List<Senior_Citizen_Center> findAll() {
+		return seniorRepository.findAll();
+	}
+
+	public Senior_Citizen_Center findByseniorId(Integer id) {
+		return seniorRepository.findByseniorId(id);
 	}
 
 }
