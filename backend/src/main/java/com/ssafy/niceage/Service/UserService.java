@@ -14,20 +14,20 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	private final UserRepository userRepository;
-	
-	/**
+    private final UserRepository userRepository;
+    
+    /**
      * 아이디로 유저객체 찾기
      */
     @Transactional
     public User findById(String Id){
-        return userRepository.findByUId(Id);
+        return userRepository.findByUserId(Id);
     }
     
     /**
      * 로그인 시 , 아이디 비밀번호로 유저 찾기
      */
     public User findByIdAndPassword(String Id, String Password) {
-        return userRepository.findByUIdAndUPassword(Id, Password);
+        return userRepository.findByUserIdAndUserPassword(Id, Password);
     }
 }
