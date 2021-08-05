@@ -23,8 +23,8 @@ public class UserService {
     public User save(User user) {
         return userRepository.save(user);
     }
-	
-	/**
+    
+    /**
      * 아이디로 유저객체 찾기
      */
     @Transactional

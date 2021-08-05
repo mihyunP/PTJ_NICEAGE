@@ -23,5 +23,7 @@ public class Senior_Citizen_Center {
     private String seniorName;
 	
 	@Column (name = "senior_address", nullable = false, length = 200)
+
     private String seniorAddress;
+
 }
