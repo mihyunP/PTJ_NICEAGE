@@ -1,5 +1,7 @@
 <template>
-  <el-container class="main-wrapper">
+  <el-container
+    v-loading="loading"
+    class="main-wrapper">
     <main-header class="main-header"/>
     <el-container class="main-container">
       <el-main class="main">
@@ -13,13 +15,24 @@
 <script>
 import MainHeader from './components/main-header.vue'
 import MainFooter from './components/main-footer.vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
 
 export default {
- name: 'Main',
- components: {
-   MainHeader,
-   MainFooter,
- } 
+  name: 'Main',
+  components: {
+    MainHeader,
+    MainFooter,
+  },
+  mounted() {
+    console.log(this.loading)
+  },
+  setup() {
+  const store = useStore()
+  const loading = computed(() => store.getters['root/getLoading'])
+
+  return { loading }
+  } 
 }
 </script>
 
