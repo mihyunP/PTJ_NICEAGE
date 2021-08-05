@@ -17,6 +17,7 @@ public class UserService {
 	private final UserRepository userRepository;
 	
 	/**
+<<<<<<< HEAD
 	 * 회원가입
 	 */
 	@Transactional
@@ -55,4 +56,18 @@ public class UserService {
 	public void deleteUser(String userId) {
 		
 	}
+	/**
+     * 아이디로 유저객체 찾기
+     */
+    @Transactional
+    public User findById(String Id){
+        return userRepository.findByUId(Id);
+    }
+    
+    /**
+     * 로그인 시 , 아이디 비밀번호로 유저 찾기
+     */
+    public User findByIdAndPassword(String Id, String Password) {
+        return userRepository.findByUIdAndUPassword(Id, Password);
+    }
 }

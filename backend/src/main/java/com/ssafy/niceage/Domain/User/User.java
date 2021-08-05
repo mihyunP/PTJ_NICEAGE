@@ -24,52 +24,52 @@ public class User {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "user_no", nullable = false)
-	private int No;
+	private int userNo;
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
-	List<Board> boards = new ArrayList<Board>();
+	private List<Board> boards = new ArrayList<Board>();
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column (name = "user_id", nullable = false, length = 45)
-	private String Id;
+	private String userId;
 	
 	@Column (name = "user_password", nullable = false, length = 45)
-    private String Password;
+    private String userPassword;
 	
 	@Column (name = "user_name", nullable = false, length = 45)
-    private String Name;
+    private String userName;
 	
 	@Column (name = "user_address", nullable = false, length = 200)
-    private String Address;
+    private String userAddress;
 	
 	@Column (name = "user_gender", nullable = false, length = 1)
-    private String Gender;
+    private String userGender;
 	
 	@Column (name = "user_birth", nullable = false)
-    private String Birth;
+    private String userBirth;
 	
 	@Column (name = "user_phone_number", nullable = false, length = 30)
-    private String Phone;
+    private String userPhone;
 	
 	@Column (name = "user_emergency_number", nullable = true, length = 30)
-    private String Emergency;
+    private String userEmergency;
 	
 	public static User createUser(UserRequest request) {
 		User userInput = new User();
-		userInput.Id = request.getUserId();
-        userInput.setId(request.getUserId());
-        userInput.setPassword(request.getUserPassword());
-        userInput.setName(request.getUserName());
-        userInput.setAddress(request.getUserAddress());
-        userInput.setGender(request.getUserGender());
-        userInput.setBirth(request.getUserBirth());
-        userInput.setPhone(request.getUserPhone());
-        userInput.setEmergency(request.getUserEmergency());
+		userInput.userId = request.getUserId();
+        userInput.setUserId(request.getUserId());
+        userInput.setUserPassword(request.getUserPassword());
+        userInput.setUserName(request.getUserName());
+        userInput.setUserAddress(request.getUserAddress());
+        userInput.setUserGender(request.getUserGender());
+        userInput.setUserBirth(request.getUserBirth());
+        userInput.setUserPhone(request.getUserPhone());
+        userInput.setUserEmergency(request.getUserEmergency());
         return userInput;
 	}
 }
