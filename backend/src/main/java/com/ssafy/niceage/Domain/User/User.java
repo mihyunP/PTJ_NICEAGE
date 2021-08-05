@@ -6,6 +6,9 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Comment.Comment;
@@ -16,7 +19,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter
 @Data
 public class User {
 	
@@ -24,13 +26,13 @@ public class User {
 	@Column (name = "user_no", nullable = false)
 	private int No;
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Board> boards = new ArrayList<Board>();
 	
-	@OneToMany(mappedBy = "user")
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Comment> comments = new ArrayList<Comment>();
 	
 	@Column (name = "user_id", nullable = false, length = 45)
@@ -56,28 +58,6 @@ public class User {
 	
 	@Column (name = "user_emergency_number", nullable = true, length = 30)
     private String Emergency;
-	
-
-	public User() {
-		
-	}
-
-	public User(int no, List<Enter> enters, List<Board> boards, List<Comment> comments, String id, String password,
-			String name, String address, String gender, String birth, String phone, String emergency) {
-		super();
-		No = no;
-		this.enters = enters;
-		this.boards = boards;
-		this.comments = comments;
-		Id = id;
-		Password = password;
-		Name = name;
-		Address = address;
-		Gender = gender;
-		Birth = birth;
-		Phone = phone;
-		Emergency = emergency;
-	}
 	
 	public static User createUser(UserRequest request) {
 		User userInput = new User();

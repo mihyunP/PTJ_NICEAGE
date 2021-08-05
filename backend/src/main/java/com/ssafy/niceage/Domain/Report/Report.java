@@ -20,14 +20,5 @@ public class Report {
     private String ReporterTargetId;
 	
 	@Column (name = "report_date")
-	@Temporal(TemporalType.TIMESTAMP)
-    private Date Date;
-
-	public Report(int id, String reporterId, String reporterTargetId, java.util.Date date) {
-		super();
-		Id = id;
-		ReporterId = reporterId;
-		ReporterTargetId = reporterTargetId;
-		Date = date;
-	}
+    private String Date;
 }

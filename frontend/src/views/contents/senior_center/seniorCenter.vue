@@ -52,7 +52,7 @@
         <el-col class="session-sidebar" :span="6">
 					<el-tabs type="card" @tab-click="handleClick">
 						<el-tab-pane label="채팅">
-							<div class="chat-container">
+							<div>
 								<MessageList :msgs="msgs" :senderObj="messageSenderObj" :me="publisher"/>
 								<MessageForm @getMyMsg="getMyMsg"/>
 							</div>
@@ -353,17 +353,19 @@ export default {
 	}
 	
 	.session-main {
-		height: 85vh;
+		height: 83vh;
 	}
 
 	.video-container {
+		margin-bottom: 10px;
 		border: 2px solid #bcbcbc;
-		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 	}
 
 	.session-sidebar {
 		padding: 5px;
 		border-radius: 32px;
+		height: 83vh;
 		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 	}
 
@@ -371,17 +373,18 @@ export default {
 		height: 3vh;
 	}
 
-	.chat-container {
+	/* .chat-container {
+		height: 100%;
 		padding: 4px;
 		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-	}
+	} */
 
-	.bottom-bar {
+	/* .bottom-bar {
 		position: absolute;
 		width: 100vw;
 		bottom: 0px;
 		height: 9vh;
-	}
+	} */
   .select-btn {
     font-family: BlackHanSans;
     font-size: 32px;
