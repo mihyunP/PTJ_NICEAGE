@@ -17,25 +17,37 @@
           <div class="question">게임을 선택해 주세요.</div>
           
             <el-row justify="center">
-          <el-button @click="clickSeniorCenter">
-            <span class="iconify" data-inline="false" data-icon="emojione:world-map" style="font-size: 114px;"></span>
+              <a href="https://baduk.hangame.com/?utm_source=baduk&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
+          <el-button>
+            <div class="baduk-image"></div>
             <div class="select-button">바둑</div>
           </el-button>
-          <el-button @click="clickSeniorCenter">
-            <span class="iconify" data-inline="false" data-icon="fxemoji:dancer" style="font-size: 142px;"></span>
+          </a>
+
+          
+          <el-button>
+            <a href="https://gostop.hangame.com/index.nhn?gameId=gostop&utm_source=gostop&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
+           <span class="iconify" data-inline="false" data-icon="emojione:flower-playing-cards" style="font-size: 115px;"></span>
             <div class="select-button">화투</div>
+            </a>
           </el-button>
+         
             </el-row>
 
            <el-row justify="center">
-          <el-button @click="clickSeniorCenter">
-            <span class="iconify" data-inline="false" data-icon="emojione:world-map" style="font-size: 114px;"></span>
+           <a href="https://janggi.hangame.com/?utm_source=janggi&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
+          <el-button>
+            <div class="janggi-image"></div>
             <div class="select-button">장기</div>
           </el-button>
-          <el-button @click="clickSeniorCenter">
-            <span class="iconify" data-inline="false" data-icon="fxemoji:dancer" style="font-size: 142px;"></span>
+             </a>
+
+             <a href="https://game1.hangame.com/sinyutnori.nhn?utm_source=sinyutnori&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
+          <el-button>
+            <div class="yutplay-image"></div>
             <div class="select-button">윷놀이</div>
           </el-button>
+             </a>
             </el-row>
 
         </el-col>
@@ -45,29 +57,17 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
-
 export default {
-  name: 'HealthSelect',
 
-    setup() {
-        const router = useRouter()
-
-        const clickSeniorCenter = () => {
-          router.push({
-            name: 'SeniorCenter',
-          })
-        }
-        
-   
-
-        return {clickSeniorCenter}
-      }
 }
 
 </script>
 
 <style scoped>
+a{
+  text-decoration-line : none;
+}
+a:visited { color: black; }
   .main-content {
     height: 100%;
   }
@@ -77,8 +77,9 @@ export default {
     /* opacity: 0.5; */
   }
   .el-button {
-    width: 160px;
-    height: 160px;
+    margin:  20px;
+    width: 200px;
+    height: 200px;
     background: #EBC86F !important;
     border-radius: 40px !important;
   }
@@ -95,6 +96,30 @@ export default {
     font-family: SangSangFlowerRoad;
     font-size: 38px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+   .baduk-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/baduk.png');
+  }
+   .janggi-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/janggi.png');
+  }
+   .yutplay-image {
+    height: 98px;
+    width: 98px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/button/yutplay.png');
   }
   .main-image {
     height: 442px;
