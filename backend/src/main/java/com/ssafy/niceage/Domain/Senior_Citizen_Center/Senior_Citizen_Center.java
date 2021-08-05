@@ -14,9 +14,7 @@ import lombok.Data;
 public class Senior_Citizen_Center {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "senior_id")
-
 	private Long seniorId;
-
 	
 	@OneToMany(mappedBy = "senior", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();

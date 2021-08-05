@@ -18,7 +18,7 @@ import lombok.Data;
 public class Board {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "board_id")
-	private int boardId;
+	private Long boardId;
 	
 	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Comment> comments = new ArrayList<Comment>();
