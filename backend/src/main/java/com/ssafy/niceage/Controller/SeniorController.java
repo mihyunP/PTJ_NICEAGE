@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.niceage.Controller.Request.SeniorRequest;
 import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_Center;
 import com.ssafy.niceage.Domain.User.User;
@@ -24,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 @Api
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/senior")
+@RequestMapping("/senior")
 @RequiredArgsConstructor
 public class SeniorController {
 	private final SeniorService seniorService;
@@ -32,15 +33,15 @@ public class SeniorController {
 	
 	@ApiOperation(value = "경로당 서비스 클릭시", response = MainResponse.class)
 	@PostMapping("/")
-	
-	public MainResponse showSenior(@RequestBody Senior_Citizen_Center senior){
+	public MainResponse showSenior(@RequestBody SeniorRequest request){
 		MainResponse response = null;
-		Senior_Citizen_Center seniorShow = seniorService.findByseniorId(30);
-//		List<Senior_Citizen_Center> seniorList = SeniorService.findAll();
-		System.out.println("여기가 잘못");
+		String userId = request.getUserId();
+		String userAddress = userService.findById(userId).getUserAddress();
+		
+		List<Senior_Citizen_Center> seniorList = seniorService.findByseniorAddress(userAddress);
 		ObjectMapper mapper = new ObjectMapper();
 		try {
-			String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(seniorShow);
+			String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(seniorList);
 			response = new MainResponse("success", jsonString);
 		} catch (JsonProcessingException e) {
 			response = new MainResponse("fail", e.getMessage());
