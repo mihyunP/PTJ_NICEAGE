@@ -1,5 +1,6 @@
 <template>
   <div class="msg-container">
+    {{ msg.username }}
     <div v-if="msg.isMe" class="box1 sb1">
       {{ msg.message }}
     </div>
@@ -18,7 +19,7 @@ export default {
     },
     isMe: {
       type: Boolean
-    }
+    },
   },
 }
 </script>
