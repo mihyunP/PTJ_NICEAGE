@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_Center;
+import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Service.SeniorService;
+import com.ssafy.niceage.Service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SeniorController {
 	private final SeniorService seniorService;
+	private final UserService userService;
 	
 	@ApiOperation(value = "경로당 서비스 클릭시", response = MainResponse.class)
 	@PostMapping("/")
