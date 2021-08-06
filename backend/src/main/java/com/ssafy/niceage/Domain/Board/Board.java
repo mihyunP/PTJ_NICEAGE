@@ -1,20 +1,33 @@
 package com.ssafy.niceage.Domain.Board;
 
+import static org.junit.Assert.assertNotNull;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.junit.Assert;
 
+import com.ssafy.niceage.Controller.Request.BoardRequest;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.User.User;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Data
+@Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Board {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "board_id")
@@ -29,10 +42,13 @@ public class Board {
 	@Column (name = "board_contents", nullable = false, length = 255)
     private String boardContents;
 	
+	@CreationTimestamp
 	@Column (name = "board_date")
-	private String boardDate;
+	private LocalDateTime boardDate;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "user_no")
-    private User user;
+    private Long userNo;
+
+		
 }
