@@ -8,9 +8,9 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.niceage.Controller.Request.SmsValidRequest;
-import com.ssafy.niceage.Domain.Sms.Sms;
-import com.ssafy.niceage.Repository.SmsRepository;
+import com.ssafy.niceage.Controller.Request.AuthValidRequest;
+import com.ssafy.niceage.Domain.Auth.Auth;
+import com.ssafy.niceage.Repository.AuthRepository;
 
 import lombok.RequiredArgsConstructor;
 import net.nurigo.java_sdk.api.Message;
@@ -19,26 +19,26 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-	 private final SmsRepository smsRepository;
+	 private final AuthRepository authRepository;
 
 	    /**
-	     * 입력된 핸드폰 번호로 인증번호 리스트 불러오기
-	     * @param phoneNumber
+	     * 입력된 휴대폰 번호의 인증내역들 불러오기
+	     * @param
 	     */
 	    @Transactional
-	    public List<Sms> findByPhoneNumber(String phoneNumber) {
-	        return smsRepository.findByPhoneNumber(phoneNumber);
+	    public List<Auth> findByPhoneNumber(String phoneNumber) {
+	        return authRepository.findByPhoneNumber(phoneNumber);
 	    }
 
 	    /**
-	     * 상태 false로 바꾸기
+	     * 인증 번호 사용불가로 바꾸기
 	     */
 	    @Transactional
-	    public void updateValid(SmsValidRequest requset) {
-	        Optional<List<Sms>> findSms = Optional.ofNullable(smsRepository.findByPhoneNumber(requset.getPhoneNumber()));
-	        if(findSms.isPresent()){
-	            for (int i = 0; i < findSms.get().size(); i++) {
-	                findSms.get().get(i).setValid(false);
+	    public void updateValid(AuthValidRequest requset) {
+	        Optional<List<Auth>> findAuth = Optional.ofNullable(authRepository.findByPhoneNumber(requset.getPhoneNumber()));
+	        if(findAuth.isPresent()){
+	            for (int i = 0; i < findAuth.get().size(); i++) {
+	            	findAuth.get().get(i).setAuthValid(false);
 	            }
 	        }else{
 	            throw new IllegalStateException("잘못된 핸드폰 번호입니다.");
@@ -46,22 +46,21 @@ public class AuthService {
 	    }
 
 	    /**
-	     * 새로운 인증번호 저장 + true 처리
+	     * 새 인증 번호 저장
 	     */
 	    @Transactional
-	    public Sms save(Sms sms) {
-	        return smsRepository.save(sms);
+	    public Auth save(Auth auth) {
+	        return authRepository.save(auth);
 	    }
 
 	    /**
-	     * 입력 인증번호와 테이블의 true 인증번호가 같은지
-	     * => 같으면 true , 다르면 false
+	     * 인증번호 일치 여부 확인
 	     */
 	    @Transactional
-	    public boolean checkNum(String smsCheckNum) {
-	        Sms sms = smsRepository.findByAuthNumber(smsCheckNum);
-	        if (sms != null){ // 동일한 인증번호 존재
-	            if(sms.isValid()){
+	    public boolean checkNum(String authNum) {
+	    	Auth auth = authRepository.findByAuthNumber(authNum);
+	        if (auth != null){ 
+	            if(auth.isAuthValid()){
 	                return true;
 	            }else {
 	                return false;
@@ -75,17 +74,17 @@ public class AuthService {
 	     * 문자보내기
 	     */
 	    @Transactional
-	    public void sendSMS(String phoneNumber, String secret) throws CoolsmsException {
+	    public void sendAuth(String phoneNumber, String cerNum) throws CoolsmsException {
 	        String api_key = "NCSVY6YWZAD13YOZ";
 	        String api_secret = "IJOI5OIVVRY9JXJFBI3R4HUA7WSOLUWK";
 
-	        Message SMS = new Message(api_key, api_secret);
+	        Message Auth = new Message(api_key, api_secret);
 	        HashMap<String, String> params = new HashMap<String, String>();
 	        params.put("to", phoneNumber);
-	        params.put("from", "01091396956"); //무조건 자기번호 (인증)
+	        params.put("from", "01091396956");
 	        params.put("type", "SMS");
-	        params.put("text", "NICEAGE 휴대폰 인증입니다.\n인증번호는 "+"["+ secret+"]" + "입니다.");
-	        params.put("app_version", "test app 1.2"); // application name and version
-	        SMS.send(params);
+	        params.put("text", "NICEAGE 휴대폰 인증입니다.\n인증번호는 "+"["+ cerNum+"]" + "입니다.");
+	        params.put("app_version", "test app 1.2");
+	        Auth.send(params);
 	    }
 }

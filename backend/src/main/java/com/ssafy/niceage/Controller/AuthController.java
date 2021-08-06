@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.niceage.Controller.Request.SmsRequest;
-import com.ssafy.niceage.Controller.Request.SmsValidRequest;
-import com.ssafy.niceage.Domain.Sms.Sms;
+import com.ssafy.niceage.Controller.Request.AuthRequest;
+import com.ssafy.niceage.Controller.Request.AuthValidRequest;
+import com.ssafy.niceage.Domain.Auth.Auth;
 import com.ssafy.niceage.Service.AuthService;
 
 import io.swagger.annotations.Api;
@@ -23,60 +23,60 @@ import lombok.RequiredArgsConstructor;
 
 @Api
 @RestController
-@RequestMapping("v1/auth")
+@RequestMapping("/auth")
 @CrossOrigin(origins = {"*"})
 @RequiredArgsConstructor
 public class AuthController {
 	private final AuthService authService;
 
-    @ApiOperation(value = "인증번호 요청", notes = "sms 인증번호 요청 클릭 시 인증번호 생성",response = BaseResponse.class)
+    @ApiOperation(value = "휴대폰 인증번호 요청", notes = "인증 버튼 클릭 시 인증번호 전송",response = MainResponse.class)
     @PostMapping
-    public BaseResponse postAuthNumber (@ApiParam(value = "휴대폰 번호") @RequestBody SmsValidRequest requset){
-        BaseResponse response = null;
+    public MainResponse postAuthNumber (@ApiParam(value = "휴대폰 번호") @RequestBody AuthValidRequest requset){
+        MainResponse response = null;
         try{
             Random random = new Random();
-            String secret = "";
+            String cerNum = "";
             for(int i= 0 ; i < 6; i++){
-                secret += Integer.toString(random.nextInt(10));
+            	cerNum += Integer.toString(random.nextInt(10));
             }
-            List<Sms> findSms = authService.findByPhoneNumber(requset.getPhoneNumber()); // 핸드폰번호로 데이터 찾기
-            if(findSms.size() > 0){ // 데이터가 있음
-                authService.updateValid(requset); // 존재하는 번호 false 처리
+            List<Auth> findAuth = authService.findByPhoneNumber(requset.getPhoneNumber());
+            if(findAuth.size() > 0){ 
+                authService.updateValid(requset);
             }
-            // 새로운 인증번호 저장 + 유효하게 처리
-            SmsRequest smsRequset = new SmsRequest();
-            smsRequset.setPhoneNumber(requset.getPhoneNumber());
-            smsRequset.setAuthNumber(secret);
-            Sms sms = Sms.createSms(smsRequset);
-            authService.save(sms);
-            authService.sendSMS(requset.getPhoneNumber(),secret); // 문자발송
-            response = new BaseResponse("success", "문자발송 성공");
+            
+            AuthRequest authRequset = new AuthRequest();
+            authRequset.setPhoneNumber(requset.getPhoneNumber());
+            authRequset.setAuthNumber(cerNum);
+            Auth auth = Auth.createAuth(authRequset);
+            authService.save(auth);
+            authService.sendAuth(requset.getPhoneNumber(),cerNum); 
+            response = new MainResponse("success", "문자발송 성공");
         }catch(Exception e){
-            response = new BaseResponse("fail", e.getMessage());
+            response = new MainResponse("fail", e.getMessage());
         }
         return response;
     }
 
-    @ApiOperation(value = "인증번호 확인", notes = "인증 클릭 시",response = BaseResponse.class)
-    @GetMapping("/{phoneNumber}/{smsCheckNum}")
-    public BaseResponse GetAuthResult(
+    @ApiOperation(value = "인증번호 일치 확인", notes = "회원가입 완료 클릭 시",response = MainResponse.class)
+    @GetMapping("/{phoneNumber}/{authNum}")
+    public MainResponse GetAuthResult(
             @ApiParam(value = "휴대폰 번호") @PathVariable String phoneNumber,
-            @ApiParam(value = "인증번호") @PathVariable String smsCheckNum){
-        BaseResponse response = null;
+            @ApiParam(value = "인증 번호") @PathVariable String authNum){
+        MainResponse response = null;
         try{
-            List<Sms> findSms = authService.findByPhoneNumber(phoneNumber); // 핸드폰번호로 데이터 찾기
-            if(findSms.size() > 0){ // 데이터가 있음
-                boolean isCheck = authService.checkNum(smsCheckNum);
+            List<Auth> findAuth = authService.findByPhoneNumber(phoneNumber);
+            if(findAuth.size() > 0){
+                boolean isCheck = authService.checkNum(authNum);
                 if(isCheck){
-                    response = new BaseResponse("success", "true"); // 일치한 번호 있음
+                    response = new MainResponse("success", "true");
                 }else{
-                    response = new BaseResponse("success", "false"); // 일치한 번호 없음
+                    response = new MainResponse("success", "false");
                 }
             }else{
-                response = new BaseResponse("success", "데이터 없음");
+                response = new MainResponse("success", "데이터 없음");
             }
         }catch(Exception e){
-            response = new BaseResponse("fail", e.getMessage());
+            response = new MainResponse("fail", e.getMessage());
         }
         return response;
     }

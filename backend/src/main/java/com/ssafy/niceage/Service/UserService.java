@@ -25,7 +25,7 @@ public class UserService {
     }
     
     /**
-     * 아이디로 유저객체 찾기
+     * 아이디로 회원 찾기
      */
     @Transactional
     public User findById(String Id){
@@ -33,14 +33,14 @@ public class UserService {
     }
     
     /**
-     * 로그인 시 , 아이디 비밀번호로 유저 찾기
+     * 로그인 시 , 아이디 비밀번호 일치 여부 확인
      */
     public User findByIdAndPassword(String Id, String Password) {
         return userRepository.findByUserIdAndUserPassword(Id, Password);
     }
     
     /**
-     * 아이디로 중복확인
+     * 아이디 중복확인
      */
     @Transactional
     public boolean checkUserId(String userId) {
@@ -52,8 +52,7 @@ public class UserService {
     }
     
     /**
-     * 하나의 번호로 하나의 유저만 가입
-     * 핸드폰번호로 유저찾기
+     * 휴대폰번호로 유저찾기
      */
     @Transactional
     public User findByUserPhone(String userPhone) {
