@@ -31,10 +31,10 @@ public class SeniorController {
 	private final SeniorService seniorService;
 	private final UserService userService;
 	
-	@ApiOperation(value = "경로당 서비스 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "경로당 서비스 클릭시", response = MainResponse.class)
 	@PostMapping("/")
-	public BaseResponse showSenior(@RequestBody SeniorRequest request){
-		BaseResponse response = null;
+	public MainResponse showSenior(@RequestBody SeniorRequest request){
+		MainResponse response = null;
 		String userId = request.getUserId();
 		String userAddress = userService.findById(userId).getUserAddress();
 		
@@ -42,9 +42,9 @@ public class SeniorController {
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(seniorList);
-			response = new BaseResponse("success", jsonString);
+			response = new MainResponse("success", jsonString);
 		} catch (JsonProcessingException e) {
-			response = new BaseResponse("fail", e.getMessage());
+			response = new MainResponse("fail", e.getMessage());
 		}
 		
 		return response;

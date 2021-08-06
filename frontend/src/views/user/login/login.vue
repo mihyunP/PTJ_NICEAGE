@@ -17,11 +17,11 @@
         </el-header>
         <el-main>
           <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
-            <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth" >
-              <el-input v-model="state.form.id" @keyup="checkValidation" autocomplete="off"></el-input>
+            <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth">
+              <el-input v-model="state.form.id" autocomplete="off" @keyup="checkValidation"></el-input>
             </el-form-item>
             <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.password" @keypress="checkValidation" autocomplete="off" show-password></el-input>
+              <el-input v-model="state.form.password" autocomplete="off" show-password @keyup="checkValidation"></el-input>
             </el-form-item>
           </el-form>
         </el-main>
@@ -57,7 +57,7 @@ export default {
       form: {
         id: '',
         password: '',
-        align: 'left'
+        align: 'top'
       },
       rules: {
         id: [
@@ -72,7 +72,7 @@ export default {
         ]
       },
       dialogVisible: computed(() => props.open),
-      formLabelWidth: '120px',
+      formLabelWidth: '100px',
       isDisabled: true,
     })
 
@@ -126,6 +126,7 @@ export default {
     left: 50%;
     background: white;
     transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.5);
   }
   .main-content {
     height: 100%;

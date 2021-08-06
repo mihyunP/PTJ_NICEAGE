@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+//vuex 조립
 import state from './state'
 import * as getters from './getters'
 import * as mutations from './mutations'

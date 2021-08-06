@@ -18,8 +18,8 @@ public class JwtService {
     
     /**
      *  토큰 생성부
-     * @param user 로그인 정보
-     * @return jwt 토큰
+     * @param  
+     * @return 
      */
     public String create(User user) {
         JwtBuilder jwtBuilder = Jwts.builder();
@@ -37,7 +37,7 @@ public class JwtService {
     
     /**
      * 토큰 검증부
-     * @param jwt
+     * @param 
      */
     public void checkTokenValid(String jwt){
         Jwts.parser().setSigningKey(signature.getBytes()).parseClaimsJws(jwt);
@@ -45,7 +45,7 @@ public class JwtService {
 
     /**
      * 토큰 정보추출부
-     * @param jwt
+     * @param 
      * @return
      */
     public Map<String, Object> getInfo(String jwt){

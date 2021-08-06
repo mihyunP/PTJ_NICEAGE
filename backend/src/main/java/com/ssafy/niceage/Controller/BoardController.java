@@ -19,17 +19,17 @@ import lombok.RequiredArgsConstructor;
 @Api
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/board")
+@RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
 	private final BoardService boardService;
 	private final UserService userService;
 	
-	@ApiOperation(value = "게시판 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
 	@GetMapping("/")
-	public BaseResponse createBoard(@RequestBody BoardRequest request) {
+	public MainResponse createBoard(@RequestBody BoardRequest request) {
 		
-		BaseResponse response = null;
+		MainResponse response = null;
 		
 		long boardWriterNo = userService.findById(request.getUserId()).getUserNo();
 		
@@ -39,29 +39,29 @@ public class BoardController {
 					.userNo(boardWriterNo)
 					.build();
 		
-		response = new BaseResponse("success", "게시글 작성 완료");
+		response = new MainResponse("success", "게시글 작성 완료");
 		
 		return response;
 		
 	}
 	
-	@ApiOperation(value = "게시판 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
 	@GetMapping("/")
-	public BaseResponse readBoard(@RequestBody UserRequest request) {
+	public MainResponse readBoard(@RequestBody UserRequest request) {
 		return null;
 		
 	}
 	
-	@ApiOperation(value = "게시판 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
 	@GetMapping("/")
-	public BaseResponse updateBoard(@RequestBody UserRequest request) {
+	public MainResponse updateBoard(@RequestBody UserRequest request) {
 		return null;
 		
 	}
 	
-	@ApiOperation(value = "게시판 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
 	@GetMapping("/")
-	public BaseResponse deleteBoard(@RequestBody UserRequest request) {
+	public MainResponse deleteBoard(@RequestBody UserRequest request) {
 		return null;
 	
 	}
