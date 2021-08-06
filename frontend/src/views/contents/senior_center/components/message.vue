@@ -1,5 +1,9 @@
 <template>
   <div class="msg-container">
+    <div v-if="!msg.isMe" class="user-left">
+      {{ msg.username }}
+    </div>
+    <br>
     <div v-if="msg.isMe" class="box1 sb1">
       {{ msg.message }}
     </div>
@@ -26,29 +30,32 @@ export default {
 <style scoped>
   .msg-container {
     position: relative;
-    height: 100px;
+    height: 120px;
+  }
+  .user-left {
+    position:absolute;
+    left:20px;
   }
   .box1 {
     margin: auto;
-    margin-bottom: 10px;
     background: #F3F3F3;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
     font-weight: 900;
     color: black;
-    font-family: arial;
+    font-size: 20px;
     position:absolute;
     right:20px;
   }
   .box2 {
     margin: auto;
-    margin-bottom: 10px;
+    margin-top: 5px;
     background: #F3F3F3;
-    padding: 20px;
+    padding: 30px;
     text-align: center;
-    font-weight: 900;
     color: black;
-    font-family: arial;
+    font-size: 20px;
+    color: black;
     position:absolute;
     left:20px;
   }

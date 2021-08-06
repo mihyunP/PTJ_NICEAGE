@@ -1,6 +1,6 @@
 <template>
 	<div class="room-container" id="main-container">
-		<div id="join" v-if="!session">
+		<!-- <div id="join" v-if="!session">
 			<div id="join-dialog" class="jumbotron vertical-center">
 				<h1>Join a video session</h1>
 				<div class="form-group">
@@ -17,126 +17,60 @@
 					</p>
 				</div>
 			</div>
-		</div>
+		</div> -->
 
 		<div class="section" v-if="session">
       <el-row class="session-main">
         <el-col class="video-container" :span="18">
 					<el-row id="session-title" justify="space-between">
-						<div>{{ mySessionId }}</div>
+						<!-- <div>{{ mySessionId }}</div> -->
+						<div>00경로당</div>
 						<div>119 신고기능 추가예정</div>
 					</el-row>
-					<!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"> -->
-          <!-- <el-row id="session-header" justify="space-between">
-						<el-col :span="5">
-						</el-col>
-						<el-col :span="5">
-							<el-button>
-								<span class="iconify" data-inline="false" data-icon="twemoji:ambulance" style="font-size: 40px;"></span>
-								<span style="font-size: 25px;">119에 신고하기</span>
-							</el-button>
-						</el-col>
-          </el-row> -->
-          <!-- <div id="main-video">
-            <user-video :stream-manager="mainStreamManager"/>
-          </div> -->
 					<el-row>
 						<el-col :span="8">
-							<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+							<UserVideo :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 						</el-col>
 						<el-col v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :span="8">
-							<user-video :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+							<UserVideo :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 						</el-col>
 					</el-row>
         </el-col>
         <el-col class="session-sidebar" :span="6">
-					<el-tabs type="card" @tab-click="handleClick">
-						<el-tab-pane label="채팅">
-							<div>
-								<MessageList :msgs="msgs" :senderObj="messageSenderObj" :me="publisher"/>
-								<MessageForm @getMyMsg="getMyMsg"/>
-							</div>
-						</el-tab-pane>
-						<el-tab-pane label="다른방 정보">
-							<el-table
-								:data="tableData"
-								stripe
-								style="width: 100%">
-								<el-table-column
-									prop="name"
-									label="방번호"
-									width="180">
-								</el-table-column>
-								<el-table-column
-									prop="number"
-									label="인원수">
-								</el-table-column>
-							</el-table>
-						</el-tab-pane>
-					</el-tabs>
+					<SideBar
+						@handleClick="handleClick"
+						@getMyMsg="getMyMsg"
+						:msgs="msgs"/>
         </el-col>
       </el-row>
-			<el-row class="bottom-bar" justify="center" align="middle">
-				<el-col :span="6">
-					<el-button class="select-btn" round @click="muteAudio">
-						<div v-if="isAudioMuted">
-							<span class="iconify" data-inline="false" data-icon="ant-design:audio-muted-outlined" style="color: #E25353; font-size: 48px;"></span>
-							소리 켜기
-						</div>
-						<div v-else>
-							<span class="iconify" data-inline="false" data-icon="ant-design:audio-filled" style="color: #2ec02e; font-size: 48px;"></span>
-							<span>소리 끄기</span>
-						</div>
-					</el-button>
-				</el-col>
-				<el-col :span="6">
-					<el-button class="select-btn" round @click="muteVideo">
-						<div v-if="isVideoMuted">
-							<span class="iconify" data-inline="false" data-icon="bx:bxs-video-off" style="color: #e25353; font-size: 48px;"></span>
-							<span>비디오 켜기</span>
-						</div>
-						<div v-else>
-							<span class="iconify" data-inline="false" data-icon="bx:bxs-video" style="color: #2ec02e; font-size: 48px;"></span>
-							<span>비디오 끄기</span>
-						</div>
-					</el-button>
-				</el-col>
-				<el-col :span="6">
-					<el-button class="select-btn" round>
-						<span class="iconify" data-inline="false" data-icon="ant-design:camera-filled" style="color: #61acf1; font-size: 48px;"></span>
-						<span>사진찍기</span>
-					</el-button>
-				</el-col>
-				<el-col :span="6">
-					<el-button class="select-btn" round @click="leaveSession">
-						<span class="iconify" data-inline="false" data-icon="icomoon-free:exit" style="color: #e25353; font-size: 48px;"></span>
-						나가기
-					</el-button>
-				</el-col>
-			</el-row>
+			<BottomBar
+				:isAudioMuted="isAudioMuted"
+				:isVideoMuted="isVideoMuted"
+				@muteAudio="muteAudio"
+				@muteVideo="muteVideo"
+				@leaveSession="leaveSession"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from './components/UserVideo';
-import MessageForm from './components/messageForm';
-import MessageList from './components/messageList';
+import SideBar from './components/sideBar';
+import BottomBar from './components/bottomBar';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-// const OPENVIDU_SERVER_URL = "https://i5b202.p.ssafy.io";
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://ec2-3-14-133-141.us-east-2.compute.amazonaws.com";
-// const OPENVIDU_SERVER_SECRET = "ssafy";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
 	name: 'App',
 	components: {
 		UserVideo,
-    MessageForm,
-    MessageList
+		BottomBar,
+		SideBar
 	},
 	data () {
 		return {
@@ -146,28 +80,20 @@ export default {
 			publisher: undefined,
 			subscribers: [],
 			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			// myUserName: '양현승' + Math.floor(Math.random() * 100),
+			myUserName: '양현승',
       msgs: [],
 			messageSenderObj: undefined,
 			isVideoMuted: false,
 			isAudioMuted: false,
-			inChat: true,
 			activeName: 'first',
-			tableData: [{
-				name: '2번방',
-				address: '3/10'
-			}, {
-				name: '3번방',
-				number: '0/10'
-			}, {
-				name: '4번방',
-				number: '0/10'
-			}, {
-				name: '5번방',
-				number: '0/10'
-			}]
 		}
 	},
+
+	mounted() {
+		this.joinSession()
+	},
+
 	methods: {
 		handleClick(tab, event) {
 			console.log(tab, event);
@@ -222,12 +148,14 @@ export default {
 				// console.log('11', this.publisher)
 				// console.log("사용자이름: ",this.publisher.stream.connection.data)
 				// console.log("커넥션아이디: ",this.publisher.stream.connection.connectionId)
-				// console.log("커넥션아이디: ", event.from.connectionId)
+				// console.log("커넥션아이디: ", event.from)
 				// console.log('123',JSON.parse(event.from.data).clientData)
 				if (event.from.connectionId == this.publisher.stream.connection.connectionId) {
 					isMe = true
 				}
-        tmp.push({message: event.data, isMe: isMe})
+				const { clientData } = JSON.parse(event.from.data)
+				console.log('메시지:', event)
+        tmp.push({message: event.data, isMe: isMe, username: clientData})
 				this.msgs = tmp
 				this.messageSenderObj = event.from
       })
@@ -273,22 +201,13 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 			window.removeEventListener('beforeunload', this.leaveSession);
+			this.leave()
 		},
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
 		},
-		/**
-		 * --------------------------
-		 * SERVER-SIDE RESPONSIBILITY
-		 * --------------------------
-		 * These methods retrieve the mandatory user token from OpenVidu Server.
-		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-		 *   3) The Connection.token must be consumed in Session.connect() method
-		 */
+
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
@@ -334,6 +253,18 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+	},
+	setup() {
+		const router = useRouter()
+
+		const leave = () => {
+			router.push({
+				name: 'SeniorCenterSelect'
+			})
+		}
+
+		return { leave }
+
 	}
 }
 </script>
@@ -358,7 +289,7 @@ export default {
 
 	.video-container {
 		margin-bottom: 10px;
-		border: 2px solid #bcbcbc;
+		border: 1px solid #bcbcbc;
 		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 	}
 
@@ -379,17 +310,14 @@ export default {
 		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 	} */
 
-	/* .bottom-bar {
-		position: absolute;
-		width: 100vw;
-		bottom: 0px;
-		height: 9vh;
-	} */
+	.bottom-bar {
+		margin-top: 15px;
+	}
   .select-btn {
     font-family: BlackHanSans;
     font-size: 32px;
     /* background: 61ACF1 !important; */
     border-radius: 40px !important;
-		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
+		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 </style>

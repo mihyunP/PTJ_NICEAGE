@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 .list-container {
-  height: 60vh;
+  height: 65vh;
   background: white;
 }
 </style>
