@@ -29,16 +29,16 @@ import lombok.RequiredArgsConstructor;
 @Api
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/v1/login")
+@RequestMapping("/login")
 @RequiredArgsConstructor
 public class LoginController {
 	private final JwtService jwtService;
     private final UserService userService;
     
     public static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-    @ApiOperation(value = "로그인", notes = "토큰이 유요한가, 로그인이 되는가에 대한 데이터가 반환됨",response = ResponseEntity.class)
+    @ApiOperation(value = "로그인",response = ResponseEntity.class)
     @PostMapping
-    public ResponseEntity<Map<String, Object>> login(@ApiParam(value = "사용자 객체") @RequestBody UserRequest userRequest,
+    public ResponseEntity<Map<String, Object>> login(@ApiParam(value = "회원 정보") @RequestBody UserRequest userRequest,
                                                      HttpServletResponse response,
                                                      HttpSession session){
         Map<String, Object> resultMap = new HashMap<>();

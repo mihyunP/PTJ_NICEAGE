@@ -26,20 +26,20 @@ import lombok.RequiredArgsConstructor;
 public class SeniorController {
 	private final SeniorService seniorService;
 	
-	@ApiOperation(value = "경로당 서비스 클릭시", response = BaseResponse.class)
+	@ApiOperation(value = "경로당 서비스 클릭시", response = MainResponse.class)
 	@PostMapping("/")
 	
-	public BaseResponse showSenior(@RequestBody Senior_Citizen_Center senior){
-		BaseResponse response = null;
+	public MainResponse showSenior(@RequestBody Senior_Citizen_Center senior){
+		MainResponse response = null;
 		Senior_Citizen_Center seniorShow = seniorService.findByseniorId(30);
 //		List<Senior_Citizen_Center> seniorList = SeniorService.findAll();
 		System.out.println("여기가 잘못");
 		ObjectMapper mapper = new ObjectMapper();
 		try {
 			String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(seniorShow);
-			response = new BaseResponse("success", jsonString);
+			response = new MainResponse("success", jsonString);
 		} catch (JsonProcessingException e) {
-			response = new BaseResponse("fail", e.getMessage());
+			response = new MainResponse("fail", e.getMessage());
 		}
 		
 		return response;
