@@ -13,6 +13,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.junit.Assert;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ssafy.niceage.Controller.Request.BoardRequest;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.User.User;
@@ -46,9 +47,10 @@ public class Board {
 	@Column (name = "board_date")
 	private LocalDateTime boardDate;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "user_no")
-    private Long userNo;
+    private User user;
 
 		
 }

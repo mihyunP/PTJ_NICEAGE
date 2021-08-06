@@ -31,14 +31,6 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
 	List<Enter> enters = new ArrayList<Enter>();
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
-	private List<Board> boards = new ArrayList<Board>();
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval =true)
-	List<Comment> comments = new ArrayList<Comment>();
-	
 	@Column (name = "user_id", nullable = false, length = 45)
 	private String userId;
 	

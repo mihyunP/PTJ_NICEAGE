@@ -22,48 +22,48 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/board")
 @RequiredArgsConstructor
 public class BoardController {
-	private final BoardService boardService;
-	private final UserService userService;
-	
-	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
-	@GetMapping("/")
-	public MainResponse createBoard(@RequestBody BoardRequest request) {
-		
-		MainResponse response = null;
-		
-		long boardWriterNo = userService.findById(request.getUserId()).getUserNo();
-		
-		Board board = Board.builder()
-					.boardTitle(request.getBoardTitle())
-					.boardContents(request.getBoardContents())
-					.userNo(boardWriterNo)
-					.build();
-		
-		response = new MainResponse("success", "게시글 작성 완료");
-		
-		return response;
-		
-	}
-	
-	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
-	@GetMapping("/")
-	public MainResponse readBoard(@RequestBody UserRequest request) {
-		return null;
-		
-	}
-	
-	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
-	@GetMapping("/")
-	public MainResponse updateBoard(@RequestBody UserRequest request) {
-		return null;
-		
-	}
-	
-	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
-	@GetMapping("/")
-	public MainResponse deleteBoard(@RequestBody UserRequest request) {
-		return null;
-	
-	}
+//	private final BoardService boardService;
+//	private final UserService userService;
+//	
+//	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
+//	@GetMapping("/")
+//	public MainResponse createBoard(@RequestBody BoardRequest request) {
+//		
+//		MainResponse response = null;
+//		
+//		long boardWriterNo = userService.findById(request.getUserId()).getUserNo();
+//		
+//		Board board = Board.builder()
+//					.boardTitle(request.getBoardTitle())
+//					.boardContents(request.getBoardContents())
+//					.userNo(boardWriterNo)
+//					.build();
+//		
+//		response = new MainResponse("success", "게시글 작성 완료");
+//		
+//		return response;
+//		
+//	}
+//	
+//	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
+//	@GetMapping("/")
+//	public MainResponse readBoard(@RequestBody UserRequest request) {
+//		return null;
+//		
+//	}
+//	
+//	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
+//	@GetMapping("/")
+//	public MainResponse updateBoard(@RequestBody UserRequest request) {
+//		return null;
+//		
+//	}
+//	
+//	@ApiOperation(value = "게시판 클릭시", response = MainResponse.class)
+//	@GetMapping("/")
+//	public MainResponse deleteBoard(@RequestBody UserRequest request) {
+//		return null;
+//	
+//	}
 	
 }
