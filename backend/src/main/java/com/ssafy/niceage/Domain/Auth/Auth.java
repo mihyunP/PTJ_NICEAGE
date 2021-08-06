@@ -15,15 +15,16 @@ import lombok.Data;
 public class Auth {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "auth_id")
     private Long authId;
 
-    @Column(nullable = false)
+    @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    @Column
+    @Column(name = "auth_number")
     private String authNumber;
 
-    @Column
+    @Column(name = "auth_valid")
     private boolean authValid;
 
     public static Auth createAuth(AuthRequest authRequset) {
