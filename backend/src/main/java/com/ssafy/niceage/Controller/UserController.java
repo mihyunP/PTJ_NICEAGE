@@ -76,4 +76,23 @@ public class UserController {
         }
         return response;
     }
+    
+    @ApiOperation(value = "아이디,휴대폰 번호에 해당하는 유저 찾기", notes = "찾으면 success, 못찾으면 fail", response = MainResponse.class)
+    @GetMapping("/{userId}/{userPhone}")
+    public MainResponse findUserByIdAndPhone(@ApiParam(value = "사용자 아이디") @PathVariable String userId,
+                                             @ApiParam(value = "사용자 핸드폰 번호") @PathVariable String userPhone){
+    	MainResponse response = null;
+        try{
+            User findUser = userService.findByUserIdAndUserPhone(userId, userPhone);
+            if(findUser == null){
+                response = new MainResponse("fail",null);
+            }else{
+                response = new MainResponse("success", findUser);
+            }
+        }
+        catch(Exception e){
+            response = new MainResponse("fail",e.getMessage());
+        }
+        return response;
+    }
 }

@@ -58,4 +58,12 @@ public class UserService {
     public User findByUserPhone(String userPhone) {
         return userRepository.findByUserPhone(userPhone);
     }
+    
+    /**
+     * 아이디, 핸드폰번호로 유저 찾기
+     */
+    @Transactional
+    public User findByUserIdAndUserPhone(String userId, String userPhone) {
+        return userRepository.findByUserIdAndUserPhone(userId, userPhone);
+    }
 }
