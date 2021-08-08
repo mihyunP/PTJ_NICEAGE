@@ -13,8 +13,8 @@
 <br>
 <br>
 <!-- 전 페이지로 돌아가기 시작 -->
-<el-row>
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;"></span>
+<el-row @click="$router.go(-1)">
+            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
             <span class="previouspage">전 페이지로 돌아가기</span>
 </el-row>
 <!-- 전 페이지로 돌아가기 끝 -->
@@ -28,38 +28,64 @@
 
          <div v-if="page==1">
           <el-container class="dementia-container">
-          <ul>
-          <!-- <el-row justify="left"> -->
-              <li>
-                <input id="check1" type="checkbox" name="chk_1" value="1" title="증상 체크">
-                <label for="check1">전화번호나 사람 이름을 기억하기 힘들다.</label>
-              </li>
-              <li>
-                <input id="check2" type="checkbox" name="chk_2" value="1" title="증상 체크">
-                <label for="check2">어떤 일이 언제 일어났는지 기억하지 못할 때가 있다.</label>
-              </li>
-              <li>
-                <input id="check3" type="checkbox" name="chk_3" value="1" title="증상 체크">
-                <label for="check3">책을 읽을 때 같은 문장을 여러번 읽어야 이해가 된다.</label>
-              </li>
-              <li>
-                <input id="check4" type="checkbox" name="chk_4" value="1" title="증상 체크">
-                <label for="check4">물건을 어디에 두고 나중에 어디에 두었는지 몰라 찾게된다.</label>
-              </li>
-              <li>
-                <input id="check5" type="checkbox" name="chk_5" value="1" title="증상 체크">
-                <label for="check5">반복되는 일상 생활에 변화가 생겼을 때 금방 적응하기가 힘들다.</label>
-              </li>
-              <li>
-                <input id="check6" type="checkbox" name="chk_6" value="1" title="증상 체크">
-                <label for="check6">본인에게 중요한 사항을 잊을 때가 있다(배우자 생일, 결혼기념일 등).</label>
-              </li>
-              <li>
-                <input id="check7" type="checkbox" name="chk_7" value="1" title="증상 체크">
-                <label for="check7">다른 사람에게 같은 이야기를 반복할 때가 있다.</label>
-              </li>   
-          <!-- </el-row> -->
-          </ul> 
+              <table>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check1" type="checkbox" name="chk_1" value="1" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check1">전화번호나 사람 이름을 기억하기 힘들다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check2" type="checkbox" name="chk_2" value="2" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                  <label for="check2">어떤 일이 언제 일어났는지 기억하지 못할 때가 있다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check3" type="checkbox" name="chk_3" value="3" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check3">책을 읽을 때 같은 문장을 여러번 읽어야 이해가 된다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check4" type="checkbox" name="chk_4" value="4" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                  <label for="check4">물건을 어디에 두고 나중에 어디에 두었는지 몰라 찾게된다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check5" type="checkbox" name="chk_5" value="5" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check5">반복되는 일상 생활에 변화가 생겼을 때 금방 적응하기가 힘들다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check6" type="checkbox" name="chk_6" value="6" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                  <label for="check6">본인에게 중요한 사항을 잊을 때가 있다(배우자 생일, 결혼기념일 등).</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                  <input id="check7" type="checkbox" name="chk_7" value="7" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check7">다른 사람에게 같은 이야기를 반복할 때가 있다.</label>
+                  </td>
+                </tr>
+              </table>
           </el-container>
           
           <el-row justify="center">
@@ -72,40 +98,65 @@
 
       <div v-else-if="page==2">
          <el-container class="dementia-container">
-          <ul>
-          <el-row justify="left">
-            <li>
-              <input id="check8" type="checkbox" name="chk_8" value="1" title="증상 체크">
-              <label for="check8">어떤 일을 해놓고도 잊어버려 다시 반복할 때가 있다.</label>
-            </li>
-            <li>
-              <input id="check9" type="checkbox" name="chk_9" value="1" title="증상 체크">
-              <label for="check9">약속을 해놓고 잊을 때가 있다.</label>
-            </li>
-            <li>
-              <input id="check10" type="checkbox" name="chk_10" value="1" title="증상 체크">
-              <label for="check10">이야기 도중 방금 자기가 무슨 이야기를 하고 있었는 지 잊을 때가 있다.</label>
-            </li>
-            <li>
-              <input id="check11" type="checkbox" name="chk_11" value="1" title="증상 체크">
-              <label for="check11">약 먹는 시간을 놓지기도 한다.</label>
-            </li>
-            <li>
-              <input id="check12" type="checkbox" name="chk_12" value="1" title="증상 체크">
-              <label for="check12">여러가지 물건을 사러 갔다가 한두 가지를 빠뜨리기도 한다.</label>
-            </li>
-            <li>
-              <input id="check13" type="checkbox" name="chk_13" value="1" title="증상 체크">
-              <label for="check13">가스 불을 끄는 것을 잊어버린 적이 있다. 또는 음식을 태운 적이 있다.</label>
-            </li>
-            <li>
-              <input id="check14" type="checkbox" name="chk_14" value="1" title="증상 체크">
-              <label for="check14">남에게 같은 질문을 반복한다.</label>
-            </li>
-              </el-row>
-          </ul> 
-          </el-container>
-          
+            <table>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check8" type="checkbox" name="chk_8" value="8" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                   <label for="check8">어떤 일을 해놓고도 잊어버려 다시 반복할 때가 있다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check9" type="checkbox" name="chk_9" value="9" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                   <label for="check9">약속을 해놓고 잊을 때가 있다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                   <input id="check10" type="checkbox" name="chk_10" value="10" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                       <label for="check10">이야기 도중 방금 자기가 무슨 이야기를 하고 있었는 지 잊을 때가 있다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check11" type="checkbox" name="chk_11" value="11" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                  <label for="check11">약 먹는 시간을 놓지기도 한다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check12" type="checkbox" name="chk_12" value="12" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check12">여러가지 물건을 사러 갔다가 한두 가지를 빠뜨리기도 한다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                   <input id="check13" type="checkbox" name="chk_13" value="13" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                   <label for="check13">가스 불을 끄는 것을 잊어버린 적이 있다. 또는 음식을 태운 적이 있다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                  <input id="check14" type="checkbox" name="chk_14" value="14" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check14">남에게 같은 질문을 반복한다.</label>
+                  </td>
+                </tr>
+              </table>
+          </el-container>  
           <el-row justify="center">
             <el-button @click="page+=1">
               <div class="bottom-button">다음</div>
@@ -115,43 +166,69 @@
 
       <div v-else-if="page==3">
          <el-container class="dementia-container">
-          <ul>
-          <el-row justify="left">    
-        <li>
-          <input id="check15" type="checkbox" name="chk_15" value="1" title="증상 체크">
-          <label for="check15">물건을 두고 다니거나 가지고 갈 물건을 놓고 간다.</label>
-        </li>
-        <li>
-          <input id="check16" type="checkbox" name="chk_16" value="1" title="증상 체크">
-          <label for="check16">어떤 일을 해놓고도 했는지 안 했는지 몰라 다시 확인해야 한다.</label>
-        </li>
-        <li>
-          <input id="check17" type="checkbox" name="chk_17" value="1" title="증상 체크">
-          <label for="check17">하고싶은 말이나 표현이 금방 떠오르지 않는다.</label>
-        </li>
-        <li>
-          <input id="check18" type="checkbox" name="chk_18" value="1" title="증상 체크">
-          <label for="check18">물건 이름이 금방 생각나지 않는다.</label>
-        </li>
-        <li>
-          <input id="check19" type="checkbox" name="chk_19" value="1" title="증상 체크">
-          <label for="check19">개인적인 편지나 사무적인 편지를 쓰기 힘들다.</label>
-        </li>
-        <li>
-          <input id="check20" type="checkbox" name="chk_20" value="1" title="증상 체크">
-          <label for="check20">신문이나 잡지를 읽을 때 이야기 줄거리를 파악하지 못한다.</label>
-        </li>
-       <li>
-          <input id="check21" type="checkbox" name="chk_21" value="1" title="증상 체크">
-          <label for="check21">과거에 쓰던 기구 사용이 서툴러졌다.</label>
-        </li>
-          </el-row>
-          </ul> 
+            <table>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check15" type="checkbox" name="chk_15" value="15" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check15">물건을 두고 다니거나 가지고 갈 물건을 놓고 간다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check16" type="checkbox" name="chk_16" value="16" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                  <label for="check16">어떤 일을 해놓고도 했는지 안 했는지 몰라 다시 확인해야 한다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check17" type="checkbox" name="chk_17" value="17" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check17">하고싶은 말이나 표현이 금방 떠오르지 않는다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check18" type="checkbox" name="chk_18" value="18" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                 <label for="check18">물건 이름이 금방 생각나지 않는다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check19" type="checkbox" name="chk_19" value="19" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check19">개인적인 편지나 사무적인 편지를 쓰기 힘들다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                    <input id="check20" type="checkbox" name="chk_20" value="20" title="증상 체크" v-model="selectedValues">
+                  </td> 
+                  <td align="left" colspan="7">
+                   <label for="check20">신문이나 잡지를 읽을 때 이야기 줄거리를 파악하지 못한다.</label>
+                  </td>
+                </tr>
+                <tr>
+                  <td align="left" colspan="1">
+                  <input id="check21" type="checkbox" name="chk_21" value="21" title="증상 체크" v-model="selectedValues">
+                  </td>
+                  <td align="left" colspan="7">
+                    <label for="check21">과거에 쓰던 기구 사용이 서툴러졌다.</label>
+                  </td>
+                </tr>
+              </table>
           </el-container>
           
           <el-row justify="center">
             <el-button @click="page+=1">
-              <div class="bottom-button">제출하기</div>
+              <div class="bottom-button" @click="submit()">제출하기</div>
             </el-button>
           </el-row>
       </div>
@@ -164,12 +241,36 @@
 </template>
 
 <script>
+  // import { useRouter } from 'vue-router'
+  
   export default {
+    name: 'Dementia',
+
     data () {
       return {
        page : 1,
+       selectedValues : []
       };
-    }
+    },
+    
+    methods: {
+      submit(){
+        
+        // console.log(this.selectedValues.length)
+        // return this.selectedValues.length
+        // const router = useRouter()
+        if (this.selectedValues.length < 10) {
+          console.log("under10");
+            this.$router.push({
+            name: 'DementiaResult1',
+          })
+        }else{
+            this.$router.push({
+            name: 'DementiaResult2',
+          })
+        }
+      } 
+    },
   };
 </script>
 
@@ -181,6 +282,7 @@
   label{
     font-family: BlackHanSans;
     font-size: 30px;
+    text-align: left;
   }
   ul{
     list-style: none;

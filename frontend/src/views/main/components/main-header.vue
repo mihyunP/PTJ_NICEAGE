@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row justify="space-between">
-      <h1>내 나이가 어때서</h1>
+      <h1  @click="$router.push('/mainselect')">내 나이가 어때서</h1> <!-- mainselect page로 돌아가기 -->
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-submenu index="2">
           <template #title>메뉴</template>
