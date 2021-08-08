@@ -14,14 +14,12 @@ import lombok.Data;
 public class Senior_Citizen_Center {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "senior_id")
-	private int Id;
-	
-	@OneToMany(mappedBy = "senior", cascade = CascadeType.ALL, orphanRemoval =true)
-	List<Enter> enters = new ArrayList<Enter>();
+	private Long seniorId;
 
 	@Column (name = "senior_name", nullable = false, length = 45)
-    private String Name;
+    private String seniorName;
 	
 	@Column (name = "senior_address", nullable = false, length = 200)
-    private String Address;
+    private String seniorAddress;
+
 }

@@ -11,14 +11,14 @@ import lombok.Data;
 public class Report {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "report_id")
-	private int Id;
+	private Long reportId;
 	
 	@Column (name = "reporter_id", nullable = false, length = 45)
-	private String ReporterId;
+	private String reporterId;
 	
 	@Column (name = "reporter_target_id", nullable = false, length = 45)
-    private String ReporterTargetId;
+    private String reporterTargetId;
 	
 	@Column (name = "report_date")
-    private String Date;
+    private String roportDate;
 }

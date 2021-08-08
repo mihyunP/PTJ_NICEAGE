@@ -5,6 +5,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.User.User;
 
@@ -15,18 +16,18 @@ import lombok.Data;
 public class Comment {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "comment_id")
-	private int Id;
+	private Long commentId;
 	
 	@Column (name = "comment_contents", nullable = false, length = 255)
-    private String Contents;
+    private String commentContents;
 	
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "user_no")
     private User user;
 	
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JsonBackReference
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "board_id")
     private Board board;
 }

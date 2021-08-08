@@ -5,9 +5,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel(value = "클라이언트에서 보내는 User 객체 정보", description = "회원가입할 때 요청이 들어옴")
+@ApiModel(value = "회원 정보")
 public class UserRequest {
-	@ApiModelProperty(value = "ID")
+	@ApiModelProperty(value = "Id")
 	private String userId;
 	
 	@ApiModelProperty(value = "Password")

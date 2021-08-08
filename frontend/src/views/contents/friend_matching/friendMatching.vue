@@ -368,6 +368,10 @@ export default {
 		height: 3vh;
 	}
 
+	.bottom-bar {
+		margin-top: 15px;
+	}
+
   .select-btn {
     font-family: BlackHanSans;
     font-size: 32px;

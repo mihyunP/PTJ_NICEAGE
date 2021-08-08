@@ -1,5 +1,7 @@
 package com.ssafy.niceage.Service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -17,42 +19,79 @@ public class UserService {
 	private final UserRepository userRepository;
 	
 	/**
-	 * 회원가입
-	 */
-	@Transactional
-	public User create(User user) {
-		return UserRepository.create(user);
-	}
-	
-	/**
-	 * 회원 전체 리스트
-	 */
-	@Transactional
-	public List<User> findAll(){
-		return UserRepository.findAll();
-	}
-	
-	/**
-	 * 비밀번호 변경
-	 */
-	@Transactional
-	public void modifyPassword() {
-		
-	}
-	
-	/**
-	 * 회원정보 수정
-	 */
-	@Transactional
-	public void modifyUser(String userId, UserRequest request) {
-		
-	}
-	
-	/**
-	 * 회원 탈퇴
-	 */
-	@Transactional
-	public void deleteUser(String userId) {
-		
-	}
+     * 회원가입
+     */
+    @Transactional
+    public User save(User user) {
+        return userRepository.save(user);
+    }
+    
+    /**
+     * 아이디로 회원 찾기
+     */
+    @Transactional
+    public User findById(String Id){
+        return userRepository.findByUserId(Id);
+    }
+    
+    /**
+     * 로그인 시 , 아이디 비밀번호 일치 여부 확인
+     */
+    public User findByIdAndPassword(String Id, String Password) {
+        return userRepository.findByUserIdAndUserPassword(Id, Password);
+    }
+    
+    /**
+     * 아이디 중복확인
+     */
+    @Transactional
+    public boolean checkUserId(String userId) {
+        if(userRepository.findByUserId(userId)==null){ 
+            return false;
+        }else{
+            return true;
+        }
+    }
+    
+    /**
+     * 휴대폰번호로 회원찾기
+     */
+    @Transactional
+    public User findByUserPhone(String userPhone) {
+        return userRepository.findByUserPhone(userPhone);
+    }
+    
+    /**
+     * 아이디, 핸드폰번호로 회원 찾기
+     */
+    @Transactional
+    public User findByUserIdAndUserPhone(String userId, String userPhone) {
+        return userRepository.findByUserIdAndUserPhone(userId, userPhone);
+    }
+    
+    /**
+     * 회원 수정
+     */
+    @Transactional
+    public void updateUser(String userId, UserRequest request) {
+        Optional<User> findUser = Optional.ofNullable(userRepository.findByUserId(userId));
+        if(findUser.isPresent()) {
+            findUser.get().setUserName(request.getUserName());
+            findUser.get().setUserPhone(request.getUserPhone());
+        }
+        else{
+            throw new IllegalStateException("잘못된 유저 아이디입니다.");
+        }
+    }
+    
+    /**
+     * 회원 삭제
+     */
+    @Transactional
+    public void deleteUser(String userId) {
+        Optional<User> deleteUser = Optional.ofNullable(userRepository.findByUserId(userId));
+        if(deleteUser.isPresent()){ 
+            userRepository.delete(deleteUser.get());
+        }
+    }
 }
