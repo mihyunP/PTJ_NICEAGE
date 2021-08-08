@@ -1,5 +1,7 @@
 package com.ssafy.niceage.Service;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class UserService {
      */
     @Transactional
     public boolean checkUserId(String userId) {
-        if(userRepository.findByUserId(userId)==null){ // null이면 중복X
+        if(userRepository.findByUserId(userId)==null){ 
             return false;
         }else{
             return true;
@@ -52,7 +54,7 @@ public class UserService {
     }
     
     /**
-     * 휴대폰번호로 유저찾기
+     * 휴대폰번호로 회원찾기
      */
     @Transactional
     public User findByUserPhone(String userPhone) {
@@ -60,10 +62,36 @@ public class UserService {
     }
     
     /**
-     * 아이디, 핸드폰번호로 유저 찾기
+     * 아이디, 핸드폰번호로 회원 찾기
      */
     @Transactional
     public User findByUserIdAndUserPhone(String userId, String userPhone) {
         return userRepository.findByUserIdAndUserPhone(userId, userPhone);
+    }
+    
+    /**
+     * 회원 수정
+     */
+    @Transactional
+    public void updateUser(String userId, UserRequest request) {
+        Optional<User> findUser = Optional.ofNullable(userRepository.findByUserId(userId));
+        if(findUser.isPresent()) {
+            findUser.get().setUserName(request.getUserName());
+            findUser.get().setUserPhone(request.getUserPhone());
+        }
+        else{
+            throw new IllegalStateException("잘못된 유저 아이디입니다.");
+        }
+    }
+    
+    /**
+     * 회원 삭제
+     */
+    @Transactional
+    public void deleteUser(String userId) {
+        Optional<User> deleteUser = Optional.ofNullable(userRepository.findByUserId(userId));
+        if(deleteUser.isPresent()){ 
+            userRepository.delete(deleteUser.get());
+        }
     }
 }
