@@ -63,10 +63,10 @@ public class BoardService {
 		return boardRepository.findAll();
 	}
 
-//	public Board update(BoardDTO boardDto) {
-//		Board board = boardDto.toEntity();
-//		return boardRepository.save(board);
-//		
-//	}
+	public Board update(BoardDTO boardDto) {
+		Board board = boardDto.toEntity();
+		return boardRepository.save(board);
+		
+	}
 
 }
