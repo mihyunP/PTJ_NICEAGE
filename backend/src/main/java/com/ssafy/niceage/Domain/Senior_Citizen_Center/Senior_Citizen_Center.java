@@ -1,16 +1,12 @@
 package com.ssafy.niceage.Domain.Senior_Citizen_Center;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.*;
 
-import com.ssafy.niceage.Domain.Enter.Enter;
-
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
 @Entity
-@Data
+@Getter
 public class Senior_Citizen_Center {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "senior_id")
@@ -22,4 +18,12 @@ public class Senior_Citizen_Center {
 	@Column (name = "senior_address", nullable = false, length = 200)
     private String seniorAddress;
 
+	@Builder
+	public Senior_Citizen_Center(Long seniorId, String seniorName, String seniorAddress) {
+		this.seniorId = seniorId;
+		this.seniorName = seniorName;
+		this.seniorAddress = seniorAddress;
+	}
+
+	
 }
