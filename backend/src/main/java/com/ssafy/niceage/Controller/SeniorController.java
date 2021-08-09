@@ -39,11 +39,9 @@ public class SeniorController {
 		String userAddress = userService.findById(userId).getUserAddress();
 		
 		List<Senior_Citizen_Center> seniorList = seniorService.findByseniorAddress(userAddress);
-		ObjectMapper mapper = new ObjectMapper();
 		try {
-			String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(seniorList);
-			response = new MainResponse("success", jsonString);
-		} catch (JsonProcessingException e) {
+			response = new MainResponse("success", seniorList);
+		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
 		

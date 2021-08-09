@@ -1,35 +1,35 @@
 package com.ssafy.niceage.Domain.Board;
 
-import static org.junit.Assert.assertNotNull;
-
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.print.attribute.standard.DateTimeAtCreation;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import org.junit.Assert;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.ssafy.niceage.Controller.Request.BoardRequest;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.User.User;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public class Board implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "board_id")
 	private Long boardId;
@@ -43,14 +43,26 @@ public class Board {
 	@Column (name = "board_contents", nullable = false, length = 255)
     private String boardContents;
 	
-	@CreationTimestamp
+	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 	@Column (name = "board_date")
-	private LocalDateTime boardDate;
+	private Date boardDate;
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn (name = "user_no")
     private User user;
 
-		
+	@Builder
+	public Board(Long boardId, String boardTitle, String boardContents, User user) {
+		this.boardId = boardId;
+		this.boardTitle = boardTitle;
+		this.boardContents = boardContents;
+		this.user = user;
+	}
+	
+	@PrePersist //
+	private void onCreate() {
+        this.boardDate = new Date();
+    }
+
 }
