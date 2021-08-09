@@ -44,7 +44,7 @@ public class Board implements Serializable{
     private String boardContents;
 	
 	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
-	@Column (name = "board_date")
+	@Column (name = "board_date", updatable=false)
 	private Date boardDate;
 	
 	@JsonBackReference

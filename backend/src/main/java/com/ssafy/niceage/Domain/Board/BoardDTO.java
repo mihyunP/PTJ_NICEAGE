@@ -24,10 +24,6 @@ public class BoardDTO {
 	private Date boardDate;
 	private User user;
 	
-	public class BoardWrite {
-		
-	}
-	
 	@Builder
 	public BoardDTO(BoardRequest request, User user) {
 		this.boardId = request.getBoardId();
