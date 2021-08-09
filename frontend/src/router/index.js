@@ -17,6 +17,9 @@ import Map from '@/views/map/map'
 import SeniorCenter from '@/views/contents/senior_center/seniorCenter'
 import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 
+import DementiaResult1 from '@/views/contents/health/dementia/dementia_result1'
+import DementiaResult2 from '@/views/contents/health/dementia/dementia_result2'
+
 const routes = [
   {
     path: "/",
@@ -92,6 +95,16 @@ const routes = [
     path: "/friendmatching",
     name: "FriendMatching",
     component: FriendMatching,
+  },
+  {
+    path: "/dementiaresult1",
+    name: "DementiaResult1",
+    component: DementiaResult1,
+  },
+  {
+    path: "/dementiaresult2",
+    name: "DementiaResult2",
+    component: DementiaResult2,
   },
 ];
 
