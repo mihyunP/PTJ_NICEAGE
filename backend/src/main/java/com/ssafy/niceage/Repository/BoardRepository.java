@@ -9,7 +9,5 @@ import com.ssafy.niceage.Domain.User.User;
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	Board findByBoardId(Long boardId);
-
-	void deleteByBoardId(Long boardId);
 	
 }
