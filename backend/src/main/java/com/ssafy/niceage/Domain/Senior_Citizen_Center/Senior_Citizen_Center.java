@@ -2,12 +2,17 @@ package com.ssafy.niceage.Domain.Senior_Citizen_Center;
 
 import javax.persistence.*;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Senior_Citizen_Center {
+
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column (name = "senior_id")
 	private Long seniorId;
