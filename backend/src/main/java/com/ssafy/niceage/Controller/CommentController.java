@@ -37,7 +37,7 @@ public class CommentController {
 
 	@ApiOperation(value = "댓글 작성", response = MainResponse.class)
 	@PostMapping("/create")
-	public MainResponse createBoard(@RequestBody CommentRequest request) {
+	public MainResponse createComment(@RequestBody CommentRequest request) {
 
 		MainResponse response = null;
 
@@ -57,7 +57,7 @@ public class CommentController {
 	
 	@ApiOperation(value = "댓글 수정", response = MainResponse.class)
 	@PutMapping("/update")
-	public MainResponse updateBoard(@RequestBody CommentRequest request) {
+	public MainResponse updateComment(@RequestBody CommentRequest request) {
 
 		MainResponse response = null;
 
@@ -78,14 +78,14 @@ public class CommentController {
 	
 	@ApiOperation(value = "댓글 삭제", response = MainResponse.class)
 	@DeleteMapping("/delete/{userId}/{boardId}/{commentId}")
-	public MainResponse deleteBoard(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId, Long commentId) {
+	public MainResponse deleteComment(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId, Long commentId) {
 		
 		MainResponse response = null;
 
 		try {
 			User user = userService.findById(userId);
 			Board board = boardService.findById(boardId);
-			Comment comment = commentService.findById(commentId);
+			Comment comment = commentService.findByCommentId(commentId);
 			// 현재 로그인한 회원이 작성한 글이 맞는지 체크
 			boolean isAbleDelete = commentService.isAbleDelete(user.getUserNo(), comment.getUser().getUserNo(), commentId);
 			if (isAbleDelete) {

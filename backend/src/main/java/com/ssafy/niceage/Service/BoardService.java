@@ -44,7 +44,7 @@ public class BoardService {
 
 	public boolean isAbleDelete(Long userNo, Long boardWriterNo, Long boardId) {
 		if (userNo == boardWriterNo) {
-			boardRepository.deleteByBoardId(boardId);
+			boardRepository.deleteById(boardId);
 			return true;
 		} else {
 			return false;
