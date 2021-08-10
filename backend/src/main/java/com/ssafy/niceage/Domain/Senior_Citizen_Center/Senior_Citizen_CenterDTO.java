@@ -33,6 +33,16 @@ public class Senior_Citizen_CenterDTO {
 		this.seniorAddress = seniorAddress;
 	}
 	
+	@Builder
+	public Senior_Citizen_CenterDTO(Senior_Citizen_Center senior) {
+		Assert.assertNotNull("seniorName must not be null", senior.getSeniorName());
+		Assert.assertNotNull("seniorAddress must not be null", senior.getSeniorAddress());
+		
+		this.seniorId = senior.getSeniorId();
+		this.seniorName = senior.getSeniorName();
+		this.seniorAddress = senior.getSeniorAddress();
+	}
+	
 	public Senior_Citizen_Center toEntity() {
 		return Senior_Citizen_Center.builder()
 				.seniorId(this.seniorId)

@@ -39,45 +39,5 @@ public class EnterService {
 		return enterRepository.findByUser(user);
 	}
 
-	/**
-	 * 경로당 서비스 클릭시 응답으로 경로당 리스트와 자주가는 경로당을 한번에 보내주기 위한 자료구조 merge
-	 * @param frequentSenior : userid에 해당하는 enter정보
-	 * @param seniorList
-	 * @return 
-	 */
-	public List<Senior_Citizen_Center> frequentSeniorList(List<Enter> frequentSenior) {
-		Map<Long, Long> map = new HashMap<>();
-		Long[] enterArr = new Long[frequentSenior.size()];
-		for (int i = 0; i < enterArr.length; i++) {
-			enterArr[i] = frequentSenior.get(i).getSenior().getSeniorId();
-		}
-		
-		Arrays.sort(enterArr);
-		
-		long count = 1;
-		for (int i = 1; i < enterArr.length; i++) {			
-			if (enterArr[i - 1] == enterArr[i]) {
-				count++;
-			} else {
-				map.put(enterArr[i - 1], count);
-				count = 1;
-			}
-			if (i == (enterArr.length - 1)) {
-				map.put(enterArr[i], count);
-			}
-		}
-		
-		List<Map.Entry<Long, Long>> mapList = new LinkedList<>(map.entrySet());
-		mapList.sort(Map.Entry.comparingByValue());
-		
-		List<Senior_Citizen_Center> resultList = new LinkedList<>();
-		for (int i = mapList.size() - 1; i >= 0; i--) {
-			long seniorId = mapList.get(i).getKey();
-			Senior_Citizen_Center senior = seniorRepository.findBySeniorId(seniorId);
-			resultList.add(senior);
-		}
-		
-		return resultList;
-	}
 
 }

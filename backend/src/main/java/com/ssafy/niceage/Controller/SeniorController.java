@@ -1,6 +1,7 @@
 package com.ssafy.niceage.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,11 +43,9 @@ public class SeniorController {
 		MainResponse response = null;
 		
 		try {
-			ObjectMapper objectMapper = new ObjectMapper();
 			User user = userService.findById(userId);
 			List<Senior_Citizen_Center> seniorList = seniorService.findBySeniorAddress(user.getUserAddress());
-			String Json = objectMapper.writeValueAsString(seniorList);
-			response = new MainResponse("success", Json);
+			response = new MainResponse("success", seniorList);
 			System.out.println(response);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
@@ -85,9 +84,11 @@ public class SeniorController {
 		try {
 			User user = userService.findById(userId);
 			List<Enter> frequentSenior = enterService.findByUser(user);
-			List<Senior_Citizen_Center> seniorList = enterService.frequentSeniorList(frequentSenior);
-//			List<Senior_Citizen_Center> seniorList = seniorService.frequentSeniorList(frequentSenior);
-			response = new MainResponse("success", seniorList);
+			List<Senior_Citizen_Center> seniorList = seniorService.frequentSeniorList(frequentSenior);
+			List<Senior_Citizen_CenterDTO> collect = seniorList.stream()
+						.map(m-> new Senior_Citizen_CenterDTO(m))
+						.collect(Collectors.toList());
+			response = new MainResponse("success", collect);
 			System.out.println(response);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
