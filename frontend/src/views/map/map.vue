@@ -4,12 +4,17 @@
      <el-scrollbar height="650px">
          
 <div id="range" class="demo">
-  <p class="n" v-bind:key="n"  v-for="n in 100">{{ n }} </p>
+    
+  <p class="n" v-bind:key="n"  v-for="n in 23">{{ n }} </p>
 </div>
 </el-scrollbar>
+<div @click="$router.go(-1)">
+            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+            <span class="previouspage">전 페이지로 돌아가기</span>
+</div>
     </el-col>
     <el-col :span="17">
-<div id="map"></div>``
+<div id="map"></div>
     </el-col>
     </el-row>
 </template>
@@ -68,20 +73,50 @@ export default {
                 map: map,
                 position: coords,
                 // position: markerPosition, 
-                image: markerImage // 마커이미지 설정 
+                image: markerImage, // 마커이미지 설정
+                clickable: true 
             });
             console.log("c"+coords);
             console.log("m"+markerPosition);
 
             
-            // 마커가 지도 위에 표시되도록 설정합니다
+            // 마커가 지도 위에 표시되도록 설정합니다.
             marker.setMap(map);
 
+//
             // 인포윈도우로 장소에 대한 설명을 표시합니다
-            var infowindow = new  window.kakao.maps.InfoWindow({
-                content: '<div style="width:150px;text-align:center;padding:6px 0;">종로 경로당</div>'
+            // var infowindow = new  window.kakao.maps.InfoWindow({
+            //     content: '<div style="width:150px;text-align:center;padding:6px 0;">종로 경로당</div>'
+            // });
+            // infowindow.open(map, marker);
+//
+            // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
+            var iwContent = '<div style="padding:5px;">종로 경로당</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+
+            // 인포윈도우를 생성합니다
+            var infowindow = new window.kakao.maps.InfoWindow({
+                content : iwContent
             });
-            infowindow.open(map, marker);
+
+            // 마커에 마우스오버 이벤트를 등록합니다
+            window.kakao.maps.event.addListener(marker, 'mouseover', function() {
+            // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+                infowindow.open(map, marker);
+            });
+
+            // 마커에 마우스아웃 이벤트를 등록합니다
+            window.kakao.maps.event.addListener(marker, 'mouseout', function() {
+                // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+                infowindow.close();
+            });
+           
+           
+        // 마커에 클릭이벤트를 등록합니다
+        window.kakao.maps.event.addListener(marker, 'click', function() {
+        // 마커 위에 인포윈도우를 표시합니다
+        window.open(map, marker);
+        });
+        
 
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
             map.setCenter(coords);
