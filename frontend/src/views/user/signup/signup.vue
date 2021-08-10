@@ -343,7 +343,8 @@ export default {
   .signup-container {
     margin-top: 20px;
     margin-bottom: 20px;
-    background: white;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 40px !important;
   }
   .main-content {
     height: 100%;

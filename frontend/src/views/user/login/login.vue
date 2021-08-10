@@ -96,14 +96,13 @@ export default {
           console.log('submit')
           store.commit('root/loadingOn')
           store.dispatch('root/requestLogin', state.form)
-          .then(function (result) {
-            console.log('123123', result.data)
+          .then(result => {
             const token = result.data.auth_token
             localStorage.setItem('access_token', token)
             store.commit('root/updateToken', token)
             // 내일 얘기하고 Home으로 바꾸자
             router.push({
-              name: 'MainSelect'
+              name: 'Home'
             })
           })
           .then(() => {
@@ -145,6 +144,7 @@ export default {
     background: white;
     transform: translate(-50%, -50%);
     background: rgba(255, 255, 255, 0.5);
+    border-radius: 40px !important;
   }
   .main-content {
     height: 100%;
