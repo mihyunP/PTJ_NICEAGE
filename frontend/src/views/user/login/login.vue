@@ -9,6 +9,18 @@
         </el-col>
       </el-row>
     </el-col>
+    <el-popover
+      placement="top-start"
+      :width="230"
+      trigger="hover"
+      content="뒤로 가려면 화살표를 클릭해주세요."
+    >
+      <template #reference>
+        <el-button class="back-btn" @click="$router.go(-1)">
+          <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 100px;" ></span>
+        </el-button>
+      </template>
+    </el-popover>
     <el-col class="right-content" :span="12">
       <el-container class="login-container">
         <el-header>
@@ -16,12 +28,12 @@
           <div>사진</div>
         </el-header>
         <el-main>
-          <el-form :model="state.form" :rules="state.rules" ref="loginForm" :label-position="state.form.align">
-            <el-form-item prop="id" label="아이디" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.id" autocomplete="off" @keyup="checkValidation"></el-input>
+          <el-form :model="state.form" :rules="state.rules" ref="loginForm" label-position="top">
+            <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth">
+              <el-input v-model="state.form.userId" autocomplete="off" @keyup="checkValidation"></el-input>
             </el-form-item>
-            <el-form-item prop="password" label="비밀번호" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.password" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+            <el-form-item prop="userPassword" label="비밀번호" :label-width="state.formLabelWidth">
+              <el-input v-model="state.form.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
             </el-form-item>
           </el-form>
         </el-main>
@@ -37,6 +49,7 @@
 // import { useRouter } from 'vue-router'
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
   name: 'Login',
 
@@ -46,6 +59,7 @@ export default {
   // }
   setup(props) {
     const store = useStore()
+    const router = useRouter()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
     const loginForm = ref(null)
     /*
@@ -55,16 +69,15 @@ export default {
     */
     const state = reactive({
       form: {
-        id: '',
-        password: '',
-        align: 'top'
+        userId: '',
+        userPassword: '',
       },
       rules: {
-        id: [
+        userId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
           { max: 16, message: '최대 16자까지 입력 가능합니다.', trigger: 'blur' }
         ],
-        password: [
+        userPassword: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
           { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
@@ -82,11 +95,15 @@ export default {
         if (valid) {
           console.log('submit')
           store.commit('root/loadingOn')
-          store.dispatch('root/requestLogin', { id: state.form.id, password: state.form.password })
-          .then(function (result) {
-            const token = result.data.accessToken
+          store.dispatch('root/requestLogin', state.form)
+          .then(result => {
+            const token = result.data.auth_token
             localStorage.setItem('access_token', token)
             store.commit('root/updateToken', token)
+            // 내일 얘기하고 Home으로 바꾸자
+            router.push({
+              name: 'Home'
+            })
           })
           .then(() => {
             store.commit('root/loadingOff')
@@ -127,6 +144,7 @@ export default {
     background: white;
     transform: translate(-50%, -50%);
     background: rgba(255, 255, 255, 0.5);
+    border-radius: 40px !important;
   }
   .main-content {
     height: 100%;
@@ -170,5 +188,10 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
+  }
+  .back-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
   }
 </style>

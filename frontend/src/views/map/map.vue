@@ -1,44 +1,117 @@
 <template>
-  <div id="app">
-    <div id="map"></div>
-  </div>
+      <el-row class="map-container">
+      <el-col :span="7">
+     <el-scrollbar height="650px">
+         
+<div id="range" class="demo">
+  <p class="n" v-bind:key="n"  v-for="n in 100">{{ n }} </p>
+</div>
+</el-scrollbar>
+    </el-col>
+    <el-col :span="17">
+<div id="map"></div>``
+    </el-col>
+    </el-row>
 </template>
 
 <script>
 export default {
+    
     mounted() {
         if (window.kakao && window.kakao.maps) {
+             console.log(window.kakao);
             this.initMap();
         } else {
             const script = document.createElement('script');
-            /* global kakao */
-            script.onload = () => kakao.maps.load(this.initMap);
-            script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7c87159e377575ded609810fe7d11d0a';
+            
+            script.onload = () => window.kakao.maps.load(this.initMap);
+            script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7c87159e377575ded609810fe7d11d0a&libraries=services';
             document.head.appendChild(script);
         }
     },
     methods: {
         initMap() {
-            var container = document.getElementById('map'); // 지도를 표시할 div 
-            var options = {
-              center: new kakao.maps.LatLng(36.35111, 127.38500), // 지도의 중심좌표
-              level: 3 // 지도의 확대 레벨
-            };
+             console.log(1+" "+window.kakao);
+           var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = {
+        center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+        level: 3 // 지도의 확대 레벨
+    };  
 
-            var map = new kakao.maps.Map(container, options);
-            map.setMapTypeId(kakao.maps.MapTypeId.normal); // 지도 타입 선택 ex. terrain, HYBRID
+    // 지도를 생성합니다    
+    var map = new  window.kakao.maps.Map(mapContainer, mapOption); 
 
-            // 마커가 표시될 위치입니다 
-            var markerPosition  = new kakao.maps.LatLng(36.35111, 127.38500); 
 
-            // 마커를 생성합니다
-            var marker = new kakao.maps.Marker({
-                position: markerPosition
+    // 다른 이미지로 마커 생성하기
+    var imageSrc = "https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png", // 마커이미지의 주소입니다
+    imageSize = new window.kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+    imageOption = {offset: new window.kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+
+   // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+    var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        markerPosition = new window.kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+
+    // 주소-좌표 변환 객체를 생성합니다
+    var geocoder = new  window.kakao.maps.services.Geocoder();
+
+    // 주소로 좌표를 검색합니다
+    geocoder.addressSearch('서울특별시 종로구 재동 54-1번지', function(result, status) {
+
+        // 정상적으로 검색이 완료됐으면 
+        if (status ===  window.kakao.maps.services.Status.OK) {
+
+            var coords = new  window.kakao.maps.LatLng(result[0].y,result[0].x);
+
+            // 결과값으로 받은 위치를 마커로 표시합니다
+            var marker = new  window.kakao.maps.Marker({
+                map: map,
+                position: coords,
+                // position: markerPosition, 
+                image: markerImage // 마커이미지 설정 
             });
+            console.log("c"+coords);
+            console.log("m"+markerPosition);
 
+            
             // 마커가 지도 위에 표시되도록 설정합니다
             marker.setMap(map);
-            
+
+            // 인포윈도우로 장소에 대한 설명을 표시합니다
+            var infowindow = new  window.kakao.maps.InfoWindow({
+                content: '<div style="width:150px;text-align:center;padding:6px 0;">종로 경로당</div>'
+            });
+            infowindow.open(map, marker);
+
+            // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+            map.setCenter(coords);
+        } 
+    });    
+         
+
+        // var map = new window.kakao.maps.Map(container, options);
+        // map.setMapTypeId(window.kakao.maps.MapTypeId.HYBRID);
+
+
+
+        // 다른 이미지로 마커 생성하기
+        // var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
+        // imageSize = new window.kakao.maps.Size(64, 69), // 마커이미지의 크기입니다
+        // imageOption = {offset: new window.kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+      
+        // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+        // var markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+        //     markerPosition = new window.kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+
+        // 마커를 생성합니다
+        // var marker = new window.kakao.maps.Marker({
+        //     position: markerPosition, 
+        //     image: markerImage // 마커이미지 설정 
+        // });
+
+        // 마커가 지도 위에 표시되도록 설정합니다
+        // marker.setMap(map);
+
 
         }
     }
@@ -49,5 +122,8 @@ export default {
 #map {
     width: 100%;
     height: 100%;
+}
+.map-container{
+    height:  100%;
 }
 </style>

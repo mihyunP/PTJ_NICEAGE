@@ -15,7 +15,7 @@ public class SeniorService {
 	
 	private final SeniorRepository seniorRepository;
 
-	public Senior_Citizen_Center findByseniorId(Integer id) {
+	public Senior_Citizen_Center findByseniorId(Long id) {
 		return seniorRepository.findByseniorId(id);
 	}
 
