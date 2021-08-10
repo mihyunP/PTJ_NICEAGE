@@ -33,3 +33,22 @@ export function requestConfirmAuthNum ({ state }, param) {
   const url = `/auth/${param.phoneNumber}/${param.authNum}`
   return axios.get(url)
 }
+
+export function requestOverlapped ({ state }, param) {
+  console.log('requestOverlapped', state, param)
+  const url = `/user/check/${param.userId}`
+  return axios.get(url)
+}
+
+export function requestCheckUser ({ state }, param) {
+  console.log('requestCheckUser', state, param)
+  const url = `/user/${param.userId}/${param.userPhone}`
+  return axios.get(url)
+}
+
+export function requestChangeUserInfo ({ state }, payload) {
+  console.log('requestChangeUserInfo', state, payload)
+  const url = `/user/${payload.userId}`
+  const body = payload
+  return axios.put(url, body)
+}

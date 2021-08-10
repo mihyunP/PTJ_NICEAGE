@@ -237,13 +237,21 @@ export default {
     }
 
     const clickOverlap = function() {
-      const userId = state.signupForm.id
+      const userId = state.signupForm.userId
+      store.commit('root/loadingOn')
       store.dispatch('root/requestOverlapped', {userId: userId})
-      .then(() => {
-        alert("이미 존재하는 아이디입니다.")
+      .then((res) => {
+        console.log(res)
+        store.commit('root/loadingOff')
+        if (res.data.data) {
+          alert("이미 존재하는 아이디입니다.")
+        } else {
+          alert("사용가능한 아이디입니다.")
+        }
       })
-      .catch(() => {
-        alert("사용가능한 아이디입니다.")
+      .catch((err) => {
+        store.commit('root/loadingOff')
+        alert(err)
       })
     }
 
@@ -302,13 +310,16 @@ export default {
         authValid: true,
         phoneNumber: state.signupForm.userPhone
       }
+      store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
       .then(res => {
         console.log(res)
+        store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
+        store.commit('root/loadingOff')
+        alert('인증번호 오류가 발생했습니다.')
       })
     }
 
@@ -317,15 +328,21 @@ export default {
         phoneNumber: state.signupForm.userPhone,
         authNum: state.signupForm.authenticationNumber
       }
+      store.commit('root/loadingOn')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data)
-        state.isAuthNumConfirmed = true
-        checkValidation()
-        alert('인증되셨습니다.')
+        console.log(res.data.data)
+        store.commit('root/loadingOff')
+        if (res.data.data == "true") {
+          state.isAuthNumConfirmed = true
+          checkValidation()
+          alert('인증되셨습니다.')
+        } else {
+          alert('인증에 실패했습니다. 다시 인증해주세요.')
+        }
       })
       .catch(err => {
-        alert('인증에 실패했습니다. 다시 인증해주세요.')
+        store.commit('root/loadingOff')
         console.log(err)
       })
     }

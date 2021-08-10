@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from '@/views/home/home'
 import Login from '@/views/user/login/login'
 import Signup from '@/views/user/signup/signup'
+import Password from '@/views/user/password/password'
+import Password2 from '@/views/user/password/password2'
 import MainSelect from '@/views/contents_select/main_select/mainSelect'
 import SeniorCenterSelect from '@/views/contents_select/senior_center_select/senior_centerSelect'
 import FriendSelect from '@/views/contents_select/friend_select/friendSelect'
@@ -35,6 +37,16 @@ const routes = [
     path: "/signup",
     name: "Signup",
     component: Signup,
+  },
+  {
+    path: "/password",
+    name: "Password",
+    component: Password,
+  },
+  {
+    path: "/password/2",
+    name: "Password2",
+    component: Password2,
   },
   {
     path: "/mainselect",
