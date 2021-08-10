@@ -7,6 +7,18 @@
           <div class="explanation">원하시는 게임을 클릭하시면 
 해당 게임 페이지로 가실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- 전 페이지로 돌아가기 시작 -->
+<el-row @click="$router.go(-1)">
+            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+            <span class="previouspage">전 페이지로 돌아가기</span>
+</el-row>
+<!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
@@ -25,13 +37,14 @@
           </a>
 
           
-          <el-button>
+          
             <a href="https://gostop.hangame.com/index.nhn?gameId=gostop&utm_source=gostop&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
+           <el-button>
            <span class="iconify" data-inline="false" data-icon="emojione:flower-playing-cards" style="font-size: 115px;"></span>
             <div class="select-button">화투</div>
-            </a>
+           
           </el-button>
-         
+          </a>
             </el-row>
 
            <el-row justify="center">
@@ -64,13 +77,13 @@ export default {
 </script>
 
 <style scoped>
-a{
+/* a{
   text-decoration-line : none;
 }
 a:visited { color: black; }
   .main-content {
     height: 100%;
-  }
+  } */
   .right-content {
     background: rgba(173, 203, 176, 0.7);
     height: 100%;

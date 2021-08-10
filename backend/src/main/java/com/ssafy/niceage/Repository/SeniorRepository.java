@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 
 import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_Center;
 
-public interface SeniorRepository extends JpaRepository<Senior_Citizen_Center, Integer>{
+public interface SeniorRepository extends JpaRepository<Senior_Citizen_Center, Long>{
 
-	Senior_Citizen_Center findByseniorId(Integer id);
+	Senior_Citizen_Center findByseniorId(Long id);
 
 	@Query("SELECT s FROM Senior_Citizen_Center s WHERE s.seniorAddress like %:userAddress%")
 	List<Senior_Citizen_Center> findByseniorAddress(@Param("userAddress") String userAddress);
