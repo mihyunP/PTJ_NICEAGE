@@ -96,7 +96,42 @@ export default {
         name: 'Signup',
       })
     }
-    return {state, clickLogin, clickSignup}
+    const clickSeniorCenterSelect = () => {
+      router.push({
+        name: 'SeniorCenterSelect',
+      })
+    }
+    
+    const clickFriendSelect = () => {
+      router.push({
+        name: 'FriendSelect',
+      })
+    }
+
+      const clickHealthSelect = () => {
+      router.push({
+        name: 'HealthSelect',
+      })
+    }
+
+    const clickGameSelect = () => {
+      router.push({
+        name: 'GameSelect',
+      })
+    }
+    
+    const clickBoard = () => {
+      router.push({
+        name: 'Board',
+      })
+    }
+
+    const clickMypage = () => {
+      router.push({
+        name: 'Mypage',
+      })
+    }
+    return {state, clickLogin, clickSignup, clickSeniorCenterSelect, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage}
   }
 }
 </script>
