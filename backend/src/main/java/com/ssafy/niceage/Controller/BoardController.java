@@ -1,6 +1,7 @@
 package com.ssafy.niceage.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,13 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.niceage.Controller.Request.BoardRequest;
-import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
-import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_Center;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Service.BoardService;
 import com.ssafy.niceage.Service.UserService;
@@ -45,6 +42,9 @@ public class BoardController {
 
 		try {
 			List<Board> boardList = boardService.findAll();
+			List<BoardDTO> collect = boardList.stream()
+                    .map(m-> new BoardDTO(m))
+                    .collect(Collectors.toList());
 			response = new MainResponse("success", boardList);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
@@ -81,8 +81,8 @@ public class BoardController {
 		try {
 			User user = userService.findById(userId);
 			Board board = boardService.findById(boardId);
-			boolean isCheck = boardService.checkUserId(user.getUserNo(), board.getUser().getUserNo());
-			response = new MainResponse("success", isCheck);
+			BoardDTO boardDto = new BoardDTO(board);
+			response = new MainResponse("success", boardDto);
 		} catch (Exception e) {
 			response = new MainResponse("게시글을 불러오지 못 했습니다", e.getMessage());
 		}
@@ -111,7 +111,7 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "게시판 글 삭제", response = MainResponse.class)
-	@DeleteMapping("/delete/{userId}")
+	@DeleteMapping("/delete/{userId}/{boardId}")
 	public MainResponse deleteBoard(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId) {
 		
 		MainResponse response = null;
@@ -120,8 +120,7 @@ public class BoardController {
 			User user = userService.findById(userId);
 			Board board = boardService.findById(boardId);
 			// 현재 로그인한 회원이 작성한 글이 맞는지 체크
-			boolean isCheck = boardService.checkUserId(user.getUserNo(), board.getUser().getUserNo());
-			boolean isAbleDelete = boardService.deleteBoard(isCheck, boardId);
+			boolean isAbleDelete = boardService.isAbleDelete(user.getUserNo(), board.getUser().getUserNo(), boardId);
 			if (isAbleDelete) {
 				response = new MainResponse("success", "게시글이 삭제되었습니다.");
 			} else {

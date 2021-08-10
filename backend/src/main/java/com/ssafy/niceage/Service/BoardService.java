@@ -6,11 +6,8 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.ssafy.niceage.Controller.MainResponse;
-import com.ssafy.niceage.Controller.Request.BoardRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
-import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -31,32 +28,8 @@ public class BoardService {
 		return boardRepository.save(board);
 	}
 
-	/**
-	 * 게시글을 읽는데 내가 쓴 게시글인지 다른 사람이 쓴 게시글인지 true, false로 return
-	 * @param boardDto
-	 * @param user
-	 * @return true : 내가 작성한 게시글 / false : 다른 사람이 작성한 게시글
-	 */
-	public boolean checkUserId(Long userNo, Long boardWriterNo) {
-		if (userNo == boardWriterNo) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
 	public Board findById(Long boardId) {
 		return boardRepository.findByBoardId(boardId);
-	}
-
-	public boolean deleteBoard(boolean isCheck, Long boardId) {
-		if (isCheck) {
-			boardRepository.deleteByBoardId(boardId);
-			return true;
-		} else {
-			return false;
-		}
 	}
 
 	public List<Board> findAll() {
@@ -67,6 +40,15 @@ public class BoardService {
 		Board board = boardDto.toEntity();
 		return boardRepository.save(board);
 		
+	}
+
+	public boolean isAbleDelete(Long userNo, Long boardWriterNo, Long boardId) {
+		if (userNo == boardWriterNo) {
+			boardRepository.deleteByBoardId(boardId);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
