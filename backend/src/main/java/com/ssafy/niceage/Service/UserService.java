@@ -10,8 +10,9 @@ import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Repository.UserRepository;
 
-import antlr.collections.List;
 import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -93,5 +94,13 @@ public class UserService {
         if(deleteUser.isPresent()){ 
             userRepository.delete(deleteUser.get());
         }
+    }
+    
+    /**
+     * 회원 전체 리스트 반환
+     */
+    @Transactional
+    public List<User> findAll() {
+        return userRepository.findAll();
     }
 }

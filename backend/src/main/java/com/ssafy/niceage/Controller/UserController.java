@@ -1,5 +1,8 @@
 package com.ssafy.niceage.Controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.niceage.Controller.Request.ReportRequest;
 import com.ssafy.niceage.Controller.Request.UserRequest;
+import com.ssafy.niceage.Domain.Report.Report;
+import com.ssafy.niceage.Domain.Report.ReportDTO;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Domain.User.UserDTO;
+import com.ssafy.niceage.Service.ReportService;
 import com.ssafy.niceage.Service.UserService;
 
 import io.swagger.annotations.Api;
@@ -28,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserController {
 	private final UserService userService;
+	private final ReportService reportService;
 	
 	@ApiOperation(value = "회원가입", response = MainResponse.class)
     @PostMapping("/join")
@@ -138,6 +146,56 @@ public class UserController {
             userService.deleteUser(userId); // 유저정보 삭제
             response = new MainResponse("success", "삭제 성공");
         } catch (IllegalStateException e) {
+            response = new MainResponse("fail", e.getMessage());
+        }
+        return response;
+    }
+    
+    @ApiOperation(value = "모든 회원 목록 불러오기", notes = "모든 회원정보를 반환", response = MainResponse.class)
+    @GetMapping
+    public MainResponse findUsers(){
+    	MainResponse response = null;
+        try{
+            List<User> findUsers = userService.findAll();
+            List<UserDTO> collect = findUsers.stream()
+                    .map(m-> new UserDTO(m))
+                    .collect(Collectors.toList());
+            response = new MainResponse("success", collect);
+        }
+        catch(Exception e){
+            response = new MainResponse("fail", e.getMessage());
+        }
+        return response;
+    }
+    
+	@ApiOperation(value = "신고", response = MainResponse.class)
+    @PostMapping("/report")
+    public MainResponse report(@ApiParam(value = "회원 정보") @RequestBody ReportRequest request){
+
+        MainResponse response = null;
+        try{
+        	Report report = Report.receiptReport(request);
+
+        	reportService.save(report);
+            response = new MainResponse("success", "가입 완료");
+        }catch(IllegalStateException e){
+            response = new MainResponse("fail",e.getMessage());
+        }
+        return response;
+    }
+	
+    @ApiOperation(value = "모든 신고 목록 불러오기", notes = "모든 신고정보를 반환", response = MainResponse.class)
+    @GetMapping("/report/all")
+    public MainResponse findReports(){
+    	MainResponse response = null;
+        try{
+            List<Report> findReports = reportService.findAll();
+            List<ReportDTO> collect = findReports.stream()
+                    .map(m-> new ReportDTO(m))
+                    .collect(Collectors.toList());
+            response = new MainResponse("success", collect);
+        }
+        catch(Exception e){
             response = new MainResponse("fail", e.getMessage());
         }
         return response;
