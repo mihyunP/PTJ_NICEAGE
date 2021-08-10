@@ -43,8 +43,8 @@ public class BoardController {
 
 		MainResponse response = null;
 
-		List<Board> boardList = boardService.findAll();
 		try {
+			List<Board> boardList = boardService.findAll();
 			response = new MainResponse("success", boardList);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());

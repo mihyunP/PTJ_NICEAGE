@@ -25,7 +25,6 @@ public class Senior_Citizen_CenterDTO {
 	 */
 	@Builder
 	public Senior_Citizen_CenterDTO(Long seniorId, String seniorName, String seniorAddress) {
-		Assert.assertNotNull("seniorId must not be null", seniorId);
 		Assert.assertNotNull("seniorName must not be null", seniorName);
 		Assert.assertNotNull("seniorAddress must not be null", seniorAddress);
 		
