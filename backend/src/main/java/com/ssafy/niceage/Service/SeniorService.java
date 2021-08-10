@@ -72,6 +72,8 @@ public class SeniorService {
 			long seniorId = mapList.get(i).getKey();
 			Senior_Citizen_Center senior = seniorRepository.findBySeniorId(seniorId);
 			resultList.add(senior);
+			// 리스트를 10개까지만 저장해서 반환
+			if (i == mapList.size() - 10) break;
 		}
 		
 		return resultList;

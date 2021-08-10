@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.niceage.Controller.Request.EnterRequest;
 import com.ssafy.niceage.Controller.Request.SeniorRequest;
 import com.ssafy.niceage.Domain.Enter.EnterDTO;
 import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_Center;
@@ -31,7 +32,7 @@ public class EnterController {
 	
 	@ApiOperation(value = "특정 경로당을 클릭시", response = MainResponse.class)
 	@PostMapping("/enter")
-	public MainResponse enterSenior(@RequestBody SeniorRequest request){
+	public MainResponse enterSenior(@RequestBody EnterRequest request){
 		MainResponse response = null;
 		
 		
