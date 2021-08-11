@@ -3,6 +3,8 @@
       <el-col :span="7">
      <el-scrollbar height="650px">
          
+           <div v-if="dialogVisible"> aaa
+           </div>
 <div id="range" class="demo">
     
   <!-- <div class="n" v-bind:key="seniorName"  v-for=""(seniorName,seniorAddress) in SeniorCenterInfo">{{ seniorName }} : {{ seniorAddress }}</p> -->
@@ -32,12 +34,13 @@
             </span>
         </template>
         </el-dialog>
+      
 </template>
 
 <script>
 export default {
       data() {
-      return {
+      return {  
         dialogVisible: true,
         SeniorCenterInfo : [],
       };
