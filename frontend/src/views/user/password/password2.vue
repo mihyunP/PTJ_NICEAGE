@@ -4,7 +4,7 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
-          <div class="explanation">회원가입 때 입력했던 아이디와 비밀번호를 입력해주세요.</div>
+          <div class="explanation">새로운 비밀번호를 입력해주세요.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
         </el-col>
       </el-row>
@@ -24,28 +24,23 @@
     <el-col class="right-content" :span="12">
       <el-container class="login-container">
         <el-header>
-          <div class="info-font">로그인</div>
-          <div>사진</div>
+          <div class="info-font">비밀번호 찾기</div>
         </el-header>
         <el-main>
-          <el-form :model="state.form" :rules="state.rules" ref="loginForm" label-position="top">
-            <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.userId" autocomplete="off" @keyup="checkValidation"></el-input>
+          <el-form :model="state.newPasswordForm" :rules="state.rules" ref="newPasswordForm" label-position="top">
+            <el-form-item prop="userPassword" label="비밀번호를 만들어주세요." :label-width="state.formLabelWidth">
+              <el-input v-model="state.newPasswordForm.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
             </el-form-item>
-            <el-form-item prop="userPassword" label="비밀번호" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+            <el-form-item prop="userPasswordConfirmation" label="위의 비밀번호를 다시 입력해주세요." :label-width="state.formLabelWidth">
+              <el-input v-model="state.newPasswordForm.userPasswordConfirmation" autocomplete="off" show-password @keyup="checkValidation"></el-input>
             </el-form-item>
           </el-form>
         </el-main>
         <div class="info-font">다 입력 하셨나요?</div>
         <el-row justify="center">
-          <el-button class="select-btn" @click="clickLogin" :disabled="state.isDisabled">
+          <el-button class="select-btn" @click="clickChangePasword" :disabled="state.isDisabled">
             <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
             <div class="select-font">다 입력했어~</div>
-          </el-button>
-          <el-button class="select-btn" @click="$router.push('/password')">
-          <span class="iconify" data-inline="false" data-icon="emojione:person-gesturing-no" style="font-size: 80px;"></span>
-            <div class="select-font">잊어버렸어~</div>
           </el-button>
         </el-row>
           <!-- <el-button type="primary" :disabled="state.isDisabled" @click="clickLogin">로그인</el-button> -->
@@ -56,69 +51,68 @@
 
 <script>
 // import { useRouter } from 'vue-router'
-import { reactive, computed, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 export default {
-  name: 'Login',
+  name: 'Password2',
 
   // setup() {
   //   const router = useRouter()
 
   // }
-  setup(props) {
+  setup() {
     const store = useStore()
     const router = useRouter()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
-    const loginForm = ref(null)
+    const newPasswordForm = ref(null)
     /*
       // Element UI Validator
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
     const state = reactive({
-      form: {
-        userId: '',
+      newPasswordForm: {
         userPassword: '',
+        userPasswordConfirmation: '',
       },
       rules: {
-        userId: [
-          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16자까지 입력 가능합니다.', trigger: 'blur' }
-        ],
         userPassword: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
           { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
-          // { validator: 16, message: '비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.', trigger: 'blur' }
-        ]
+        ],
+        userPasswordConfirmation: [
+          { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
+          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
+          { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
+        ],
       },
-      dialogVisible: computed(() => props.open),
       formLabelWidth: '100px',
       isDisabled: true,
     })
 
-    const clickLogin = function () {
+    const clickChangePassword = function () {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
-      loginForm.value.validate((valid) => {
+      newPasswordForm.value.validate((valid) => {
         if (valid) {
+          console.log('submit')
           store.commit('root/loadingOn')
-          store.dispatch('root/requestLogin', state.form)
+          store.dispatch('root/requestChangeUserInfo', state.newPasswordForm)
           .then(result => {
-            console.log(result)
             store.commit('root/loadingOff')
-            const token = result.data.auth_token
-            if (token) {
-              localStorage.setItem('access_token', token)
-              store.commit('root/updateToken', token)
+            if (result.data.status == "success") {
+              alert('비밀번호가 변경되었습니다!!')
               router.push({
-                name: 'Home'
-              })
+              name: 'Login'
+            })
             } else {
-              alert('아이디와 비밀번호를 다시 입력해주세요.')
+              alert('변경할 비밀번호를 다시 입력해주세요.')
             }
+            state.newPasswordForm.userPassword = ''
+            state.newPasswordForm.userPasswordConfirmation = ''
           })
-          .catch((err) => {
+          .catch(function (err) {
             store.commit('root/loadingOff')
             alert(err)
           })
@@ -129,8 +123,7 @@ export default {
     }
 
     const checkValidation = function () {
-      // loginForm 부분이 이해가 안됨
-      loginForm.value.validate((valid) => {
+      newPasswordForm.value.validate((valid) => {
         if (valid) {
           state.isDisabled = false
         } else {
@@ -139,7 +132,7 @@ export default {
       })
     }
 
-    return { loginForm, state, clickLogin, checkValidation}
+    return { newPasswordForm, state, clickChangePassword, checkValidation }
   }
 }
 

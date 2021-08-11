@@ -28,7 +28,11 @@ public class CommentService {
 		
 	}
 
+<<<<<<< HEAD
 	public Comment findById(Long commentId) {
+=======
+	public Comment findByCommentId(Long commentId) {
+>>>>>>> develope
 		return commentRepository.findByCommentId(commentId);
 	}
 

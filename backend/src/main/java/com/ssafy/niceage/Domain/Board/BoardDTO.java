@@ -48,6 +48,7 @@ public class BoardDTO {
 		this.user = user;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Assert.assertNotNull null값이 입력되면 안되는 컬럼들을 위한 안전장치
 	 * 
@@ -68,6 +69,8 @@ public class BoardDTO {
 		this.user = user;
 	}
 
+=======
+>>>>>>> develope
 	@Builder
 	public BoardDTO(Board board) {
 		Assert.assertNotNull("boardTitle must not be null", board.getBoardTitle());
