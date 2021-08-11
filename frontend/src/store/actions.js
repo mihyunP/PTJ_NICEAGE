@@ -34,6 +34,12 @@ export function requestConfirmAuthNum ({ state }, param) {
   return axios.get(url)
 }
 
+export function requestSeniorCenterInfo ({ state }, param) {
+  console.log('requestSeniorCenterInfo', state, param)
+  const url = `/senior/show/{param.userId}`
+  return axios.get(url)
+}
+
 export function requestOverlapped ({ state }, param) {
   console.log('requestOverlapped', state, param)
   const url = `/user/check/${param.userId}`

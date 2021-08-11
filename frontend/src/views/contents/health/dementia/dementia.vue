@@ -284,12 +284,6 @@
     font-size: 30px;
     text-align: left;
   }
-  ul{
-    list-style: none;
-  }
-  li{
-    text-align: left;
-  }
   .dementia-container {
     /* width : 100%; */
     height: 670px;
@@ -310,7 +304,6 @@
     font-family: BlackHanSans;
     font-size: 30px;
   }
-
   .main-content {
     height: 100%;
   }

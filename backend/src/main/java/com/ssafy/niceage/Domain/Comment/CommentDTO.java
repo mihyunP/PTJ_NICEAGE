@@ -13,7 +13,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+<<<<<<< HEAD
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+=======
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+>>>>>>> develope
 @ApiModel(value = "댓글 DTO")
 public class CommentDTO {
 	private Long commentId;
@@ -24,6 +28,11 @@ public class CommentDTO {
     @Builder
 	public CommentDTO(Comment comment) {
 		Assert.assertNotNull("commentContents must not be null", comment.getCommentContents());
+<<<<<<< HEAD
+		Assert.assertNotNull("user must not be null", comment.getUser());
+		Assert.assertNotNull("board must not be null", comment.getBoard());
+=======
+>>>>>>> develope
 		
 		this.commentId = comment.getCommentId();
 		this.commentContents = comment.getCommentContents();
@@ -37,7 +46,10 @@ public class CommentDTO {
     	Assert.assertNotNull("user must not be null", user);
     	Assert.assertNotNull("board must not be null", board);
     	
+<<<<<<< HEAD
+=======
     	this.commentId = request.getCommentId();
+>>>>>>> develope
     	this.commentContents = request.getCommentContents();
     	this.user = user;
     	this.board = board;
