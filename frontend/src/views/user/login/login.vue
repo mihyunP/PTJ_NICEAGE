@@ -110,7 +110,9 @@ export default {
             const token = result.data.auth_token
             if (token) {
               localStorage.setItem('access_token', token)
+              localStorage.setItem('my_id', result.data.user.userId)
               store.commit('root/updateToken', token)
+              store.commit('root/updateMyId', result.data.user.userId)
               router.push({
                 name: 'Home'
               })

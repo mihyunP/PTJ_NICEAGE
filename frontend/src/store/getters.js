@@ -9,3 +9,7 @@ export function getIsLoggedIn (state) {
     return false
   }
 }
+
+export function getMyId (state) {
+  return state.myId
+}

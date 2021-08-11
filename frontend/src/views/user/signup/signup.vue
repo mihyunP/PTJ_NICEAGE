@@ -113,9 +113,13 @@
                 </el-form-item>
               </el-form>
             </el-main>
-            <el-footer>
-              <el-button type="primary" :disabled="state.isDisabled" @click="clickSignup">회원가입</el-button>
-            </el-footer>
+            <div class="info-font">다 입력 하셨나요?</div>
+            <el-row justify="center">
+              <el-button class="select-btn" @click="clickSignup" :disabled="state.isDisabled">
+                <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 100px;"></span>
+                <div class="select-font">다 입력했어~</div>
+              </el-button>
+            </el-row>
           </el-container>
         </el-col>
       </el-row>
@@ -373,8 +377,8 @@ export default {
     /* opacity: 0.5; */
   }
   .select-btn {
-    width: 270px;
-    height: 270px;
+    width: 200px;
+    height: 200px;
     background: #EBC86F !important;
     border-radius: 40px !important;
   }
@@ -383,7 +387,7 @@ export default {
     font-size: 36px;
   }
   .info-font {
-    text-align: start;
+    text-align: center;
     font-family: SangSangFlowerRoad;
     font-size: 36px;
     color: rgba(248, 141, 141, 1);  

@@ -3,5 +3,6 @@
 
 export default {
   accessToken: localStorage.getItem('access_token') || '',
-  loading: false
+  loading: false,
+  myId: localStorage.getItem('my_id') || ''
 }

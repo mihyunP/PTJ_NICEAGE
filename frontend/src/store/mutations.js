@@ -12,3 +12,11 @@ export function loadingOn (state) {
 export function loadingOff (state) {
   state.loading = false
 }
+
+export function updateMyId(state, userId) {
+  state.myId = userId
+}
+
+export function deleteMyId(state) {
+  state.myId = ''
+}

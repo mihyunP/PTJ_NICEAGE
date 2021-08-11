@@ -58,3 +58,15 @@ export function requestChangeUserInfo ({ state }, payload) {
   const body = payload
   return axios.put(url, body)
 }
+
+export function requestMyDetail({ state }, myId) {
+  console.log('requestMyDetail', state, myId)
+  const url = `/user/${myId}`
+  return axios.get(url)
+}
+
+export function requestDeleteAccount({ state }, myId) {
+  console.log('requestDeleteAccount', state, myId)
+  const url = `/user/${myId}`
+  return axios.delete(url)
+}
