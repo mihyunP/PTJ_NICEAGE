@@ -36,7 +36,7 @@ export function requestConfirmAuthNum ({ state }, param) {
 
 export function requestSeniorCenterInfo ({ state }, param) {
   console.log('requestSeniorCenterInfo', state, param)
-  const url = `/senior/show/{param.userId}`
+  const url = `/senior/show/${param.userId}`
   return axios.get(url)
 }
 

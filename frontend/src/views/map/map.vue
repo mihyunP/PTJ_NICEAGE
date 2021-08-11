@@ -37,6 +37,7 @@
 
 <script>
 import { reactive, onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
     name: 'Map',
     // data() {
@@ -47,9 +48,10 @@ export default {
     // },
 
     setup() {
+        const store = useStore()
         const state = reactive({
             dialogVisible: false,
-            SeniorCenterInfo : [],            
+            SeniorCenterInfo : {},            
         })
 
         const clickDialogVisible = () => {
@@ -143,6 +145,12 @@ export default {
         }
 
         onMounted(() => {
+            const userId = store.getters['root/getMyId']
+            store.dispatch('root/requestSeniorCenterInfo', {userId : userId})
+            .then(result => {
+                console.log(result);
+                state.SeniorCenterInfo = result.data.data;
+            })
             if (window.kakao && window.kakao.maps) {
                 console.log(window.kakao);
                 initMap();
