@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ApiModel(value = "게시판 DTO")
 public class BoardDTO {
 	private Long boardId;
@@ -62,8 +62,8 @@ public class BoardDTO {
 		if (board.getComments() != null) {
 			List<CommentDTO> commentList = new ArrayList<>();
 			for (Comment comment : board.getComments()) {
-				CommentDTO commentDTO = new CommentDTO(comment);
-				commentList.add(commentDTO);
+				CommentDTO commentDto = new CommentDTO(comment);
+				commentList.add(commentDto);
 			}
 			this.commentsDto = commentList;
 		}
@@ -77,5 +77,40 @@ public class BoardDTO {
 				.user(this.user)
 				.build();
 	}
-
+	
+	/**
+	 * 게시글 읽기에서 불필요한 정보를 제외한 편의성 클래스
+	 */
+	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	@ApiModel(value = "게시글 읽기에 response에 담을 DTO")
+	public class BoardResponseDTO {
+		private Long boardId;
+		private String boardTitle;
+		private String boardContents;
+		private Date boardDate;
+		private User user;
+		private List<CommentDTO.CommentResponseDTO> commentsDto;
+		
+		public BoardResponseDTO(Board board) {
+			this.boardId = board.getBoardId();
+			this.boardTitle = board.getBoardTitle();
+			this.boardContents = board.getBoardContents();
+			this.boardDate = board.getBoardDate();
+			this.user = board.getUser();
+			if (board.getComments() != null) {
+				List<CommentDTO.CommentResponseDTO> commentList = new ArrayList<>();
+				// CommentDTO 클래스의 inner클래스의 객체를 생성하는 과정
+				for (Comment comment : board.getComments()) {
+					CommentDTO commentDto = new CommentDTO();
+					CommentDTO.CommentResponseDTO commentResponseDto = commentDto.new CommentResponseDTO(comment.getCommentId(), 
+									comment.getCommentContents(), 
+									comment.getUser().getUserName());
+					commentList.add(commentResponseDto);
+				}
+				this.commentsDto = commentList;
+			}
+		}
+		
+	}
 }

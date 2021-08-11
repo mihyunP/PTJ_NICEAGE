@@ -13,7 +13,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ApiModel(value = "댓글 DTO")
 public class CommentDTO {
 	private Long commentId;
@@ -50,6 +50,25 @@ public class CommentDTO {
     			.user(this.user)
     			.board(this.board)
     			.build();
+    }
+    
+    /**
+     * 게시글 읽기에서 댓글 list를 반환하기 위한 편의성 클래스
+     */
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PROTECTED)
+    @ApiModel(value = "response에 담을 댓글 DTO")
+    public class CommentResponseDTO {
+    	private Long commentId;
+        private String commentContents;
+        private String userName;
+        
+    	public CommentResponseDTO(Long commentId, String commentContents, String userName) {
+    		this.commentId = commentId;
+    		this.commentContents = commentContents;
+    		this.userName = userName;
+    	}
+           
     }
 
 
