@@ -81,8 +81,10 @@ public class BoardController {
 		try {
 			User user = userService.findById(userId);
 			Board board = boardService.findById(boardId);
-			BoardDTO boardDto = new BoardDTO(board);
-			response = new MainResponse("success", boardDto);
+			// BoardDTO 클래스의 inner클래스의 객체를 생성하는 과정
+			BoardDTO boardDto = new BoardDTO();
+			BoardDTO.BoardResponseDTO boardResponseDto = boardDto.new BoardResponseDTO(board);
+			response = new MainResponse("success", boardResponseDto);
 		} catch (Exception e) {
 			response = new MainResponse("게시글을 불러오지 못 했습니다", e.getMessage());
 		}
