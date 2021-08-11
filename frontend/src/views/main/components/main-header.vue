@@ -30,6 +30,8 @@ export default {
 
     const clickLogout = () => {
       localStorage.removeItem('access_token')
+      localStorage.removeItem('my_id')
+      store.commit('root/deleteMyId')
       store.commit('root/deleteToken')
       router.push({
         name: 'Home'
