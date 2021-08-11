@@ -48,6 +48,27 @@ public class BoardDTO {
 		this.user = user;
 	}
 
+
+	/**
+	 * Assert.assertNotNull null값이 입력되면 안되는 컬럼들을 위한 안전장치
+	 * 
+	 * @param request
+	 * @param user
+	 */
+	@Builder
+	public BoardDTO(BoardRequest request, User user, List<CommentDTO> commentsDto) {
+		Assert.assertNotNull("boardTitle must not be null", request.getBoardTitle());
+		Assert.assertNotNull("boardContents must not be null", request.getBoardContents());
+		Assert.assertNotNull("user must not be null", user);
+
+		this.boardId = request.getBoardId();
+		this.commentsDto = commentsDto;
+		this.boardTitle = request.getBoardTitle();
+		this.boardContents = request.getBoardContents();
+		this.boardDate = request.getBoardDate();
+		this.user = user;
+	}
+
 	@Builder
 	public BoardDTO(Board board) {
 		Assert.assertNotNull("boardTitle must not be null", board.getBoardTitle());
@@ -70,12 +91,11 @@ public class BoardDTO {
 	}
 
 	public Board toEntity() {
-		return Board.builder()
-				.boardId(this.boardId)
-				.boardTitle(this.boardTitle)
-				.boardContents(this.boardContents)
-				.user(this.user)
-				.build();
+		return Board.builder().
+				boardId(this.boardId).
+				boardTitle(this.boardTitle).
+				boardContents(this.boardContents)
+				.user(this.user).build();
 	}
 	
 	/**

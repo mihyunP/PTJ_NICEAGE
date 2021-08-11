@@ -24,6 +24,8 @@ public class CommentDTO {
     @Builder
 	public CommentDTO(Comment comment) {
 		Assert.assertNotNull("commentContents must not be null", comment.getCommentContents());
+		Assert.assertNotNull("user must not be null", comment.getUser());
+		Assert.assertNotNull("board must not be null", comment.getBoard());
 		
 		this.commentId = comment.getCommentId();
 		this.commentContents = comment.getCommentContents();

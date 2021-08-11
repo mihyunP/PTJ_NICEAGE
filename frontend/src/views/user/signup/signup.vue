@@ -113,9 +113,13 @@
                 </el-form-item>
               </el-form>
             </el-main>
-            <el-footer>
-              <el-button type="primary" :disabled="state.isDisabled" @click="clickSignup">회원가입</el-button>
-            </el-footer>
+            <div class="info-font">다 입력 하셨나요?</div>
+            <el-row justify="center">
+              <el-button class="select-btn" @click="clickSignup" :disabled="state.isDisabled">
+                <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 100px;"></span>
+                <div class="select-font">다 입력했어~</div>
+              </el-button>
+            </el-row>
           </el-container>
         </el-col>
       </el-row>
@@ -237,13 +241,21 @@ export default {
     }
 
     const clickOverlap = function() {
-      const userId = state.signupForm.id
+      const userId = state.signupForm.userId
+      store.commit('root/loadingOn')
       store.dispatch('root/requestOverlapped', {userId: userId})
-      .then(() => {
-        alert("이미 존재하는 아이디입니다.")
+      .then((res) => {
+        console.log(res)
+        store.commit('root/loadingOff')
+        if (res.data.data) {
+          alert("이미 존재하는 아이디입니다.")
+        } else {
+          alert("사용가능한 아이디입니다.")
+        }
       })
-      .catch(() => {
-        alert("사용가능한 아이디입니다.")
+      .catch((err) => {
+        store.commit('root/loadingOff')
+        alert(err)
       })
     }
 
@@ -302,13 +314,16 @@ export default {
         authValid: true,
         phoneNumber: state.signupForm.userPhone
       }
+      store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
       .then(res => {
         console.log(res)
+        store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
-      .catch(err => {
-        console.log(err)
+      .catch(() => {
+        store.commit('root/loadingOff')
+        alert('인증번호 오류가 발생했습니다.')
       })
     }
 
@@ -317,15 +332,21 @@ export default {
         phoneNumber: state.signupForm.userPhone,
         authNum: state.signupForm.authenticationNumber
       }
+      store.commit('root/loadingOn')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data)
-        state.isAuthNumConfirmed = true
-        checkValidation()
-        alert('인증되셨습니다.')
+        console.log(res.data.data)
+        store.commit('root/loadingOff')
+        if (res.data.data == "true") {
+          state.isAuthNumConfirmed = true
+          checkValidation()
+          alert('인증되셨습니다.')
+        } else {
+          alert('인증에 실패했습니다. 다시 인증해주세요.')
+        }
       })
       .catch(err => {
-        alert('인증에 실패했습니다. 다시 인증해주세요.')
+        store.commit('root/loadingOff')
         console.log(err)
       })
     }
@@ -356,8 +377,8 @@ export default {
     /* opacity: 0.5; */
   }
   .select-btn {
-    width: 270px;
-    height: 270px;
+    width: 200px;
+    height: 200px;
     background: #EBC86F !important;
     border-radius: 40px !important;
   }
@@ -366,7 +387,7 @@ export default {
     font-size: 36px;
   }
   .info-font {
-    text-align: start;
+    text-align: center;
     font-family: SangSangFlowerRoad;
     font-size: 36px;
     color: rgba(248, 141, 141, 1);  
