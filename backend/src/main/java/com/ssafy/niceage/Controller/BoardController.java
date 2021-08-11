@@ -1,5 +1,6 @@
 package com.ssafy.niceage.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class BoardController {
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
-		
+
 		return response;
 	}
 
