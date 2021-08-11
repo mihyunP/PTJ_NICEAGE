@@ -5,7 +5,7 @@
          
 <div id="range" class="demo">
     
-  <p class="n" v-bind:key="n"  v-for="n in 23">{{ n }} </p>
+  <!-- <div class="n" v-bind:key="seniorName"  v-for=""(seniorName,seniorAddress) in SeniorCenterInfo">{{ seniorName }} : {{ seniorAddress }}</p> -->
 </div>
 </el-scrollbar>
 <div @click="$router.go(-1)">
@@ -14,15 +14,38 @@
 </div>
     </el-col>
     <el-col :span="17">
-<div id="map"></div>
+<div id="map" style="z-index:0"></div>
     </el-col>
     </el-row>
+
+    <!--모달창 -->
+        <el-dialog style="z-index:100"
+        title="Tips"
+        v-model="dialogVisible"
+        width="30%"
+        :before-close="handleClose">
+        <span>This is a message</span>
+        <template #footer>
+            <span class="dialog-footer">
+            <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+            </span>
+        </template>
+        </el-dialog>
 </template>
 
 <script>
 export default {
-    
+      data() {
+      return {
+        dialogVisible: true,
+        SeniorCenterInfo : [],
+      };
+    },
+
     mounted() {
+        this.$store.dispatch('root/requestSeniorCenterInfo');
+        
         if (window.kakao && window.kakao.maps) {
              console.log(window.kakao);
             this.initMap();
@@ -113,13 +136,14 @@ export default {
            
         // 마커에 클릭이벤트를 등록합니다
         window.kakao.maps.event.addListener(marker, 'click', function() {
-        // 마커 위에 인포윈도우를 표시합니다
-        window.open(map, marker);
+         this.dialogVisible= true;
+         console.log( this.dialogVisible);
         });
         
 
             // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
             map.setCenter(coords);
+            
         } 
     });    
          

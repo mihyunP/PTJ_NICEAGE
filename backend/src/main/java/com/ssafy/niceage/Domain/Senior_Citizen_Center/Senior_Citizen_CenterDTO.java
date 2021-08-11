@@ -25,13 +25,22 @@ public class Senior_Citizen_CenterDTO {
 	 */
 	@Builder
 	public Senior_Citizen_CenterDTO(Long seniorId, String seniorName, String seniorAddress) {
-		Assert.assertNotNull("seniorId must not be null", seniorId);
 		Assert.assertNotNull("seniorName must not be null", seniorName);
 		Assert.assertNotNull("seniorAddress must not be null", seniorAddress);
 		
 		this.seniorId = seniorId;
 		this.seniorName = seniorName;
 		this.seniorAddress = seniorAddress;
+	}
+	
+	@Builder
+	public Senior_Citizen_CenterDTO(Senior_Citizen_Center senior) {
+		Assert.assertNotNull("seniorName must not be null", senior.getSeniorName());
+		Assert.assertNotNull("seniorAddress must not be null", senior.getSeniorAddress());
+		
+		this.seniorId = senior.getSeniorId();
+		this.seniorName = senior.getSeniorName();
+		this.seniorAddress = senior.getSeniorAddress();
 	}
 	
 	public Senior_Citizen_Center toEntity() {
