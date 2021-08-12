@@ -4,6 +4,7 @@
       <h1  @click="$router.push('/mainselect')">내 나이가 어때서</h1> <!-- mainselect page로 돌아가기 -->
       <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
         <el-menu-item index="1" v-if="state.isLoggedIn" @click="clickLogout">로그아웃</el-menu-item>
+        <el-menu-item index="2" v-if="state.myId =='ssafy'" @click="clickAdmin">Admin</el-menu-item>
         <!-- <el-submenu index="2">
           <template #title>메뉴</template>
           <el-menu-item index="2-1" @click="clickLogout">로그아웃</el-menu-item>
@@ -25,7 +26,8 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
-      isLoggedIn: computed(() => store.getters['root/getIsLoggedIn'])
+      isLoggedIn: computed(() => store.getters['root/getIsLoggedIn']),
+      myId: computed(() => store.getters['root/getMyId'])
     })
 
     const clickLogout = () => {
@@ -38,7 +40,13 @@ export default {
       })
     }
 
-    return { state, clickLogout, useStore }
+    const clickAdmin = () => {
+      router.push({
+        name: 'Admin'
+      })
+    }
+
+    return { state, clickLogout, useStore, clickAdmin }
   }
 }
 </script>
