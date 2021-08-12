@@ -40,6 +40,12 @@ export function requestSeniorCenterInfo ({ state }, param) {
   return axios.get(url)
 }
 
+export function requestFrequenceSeniorCenterInfo ({ state }, param) {
+  console.log('requestFrequenceSeniorCenterInfo', state, param)
+  const url = `/senior/frequence/${param.userId}`
+  return axios.get(url)
+}
+
 export function requestOverlapped ({ state }, param) {
   console.log('requestOverlapped', state, param)
   const url = `/user/check/${param.userId}`
@@ -69,4 +75,11 @@ export function requestDeleteAccount({ state }, myId) {
   console.log('requestDeleteAccount', state, myId)
   const url = `/user/${myId}`
   return axios.delete(url)
+}
+
+export function requestEnter ({ state }, payload) {
+  console.log('requestEnter', state, payload)
+  const url = `/enter/enter`
+  let body = payload
+  return axios.post(url, body)
 }

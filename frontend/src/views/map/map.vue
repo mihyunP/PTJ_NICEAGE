@@ -1,20 +1,27 @@
 <template>
     <el-row class="map-container">
         <el-col :span="7">
+            <el-row style="positon:fixed left : 50px, top:100px">
+       <el-checkbox v-model="checked1">전체 보기</el-checkbox>
+       <el-checkbox v-model="checked2">자주가는 순</el-checkbox>
+       <el-checkbox v-model="checked3">인원 많은 순</el-checkbox>
+</el-row>
             <el-scrollbar height="650px">
                 <!-- <div v-if="!state.dialogVisible">{{ state.dialogVisible }}</div> -->
                 <!-- <div v-if="!state.dialogVisible">{{ state.SeniorCenterInfo[0].seniorId }}</div> -->
 
-                    <table>
+                    
+                    <table v-if="checked1">
                         <thead></thead>
                         <tbody>
-                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo">
+                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="dialogVisible = true">
                     <td>
                         <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
                     </td>
                     <td>
-                                {{ s.seniorName }}<br>
-                                {{ s.seniorAddress }}
+                            이름 : {{ s.seniorName }}<br>
+                            주소 : {{ s.seniorAddress }}<br>
+                            현재 인원 : 
                     </td>
                     </tr>
                         </tbody>
@@ -23,6 +30,21 @@
                         <span class="previouspage">전 페이지로 돌아가기</span>
                         </div>
                     </table>
+
+                    <table v-if="checked2">
+                        <tr>
+                            <td>자주가는 순
+                            </td>   
+                        </tr>
+                    </table>
+
+                    <table v-if="checked3">
+                          <tr>
+                            <td>인원수 많은 순
+                            </td>   
+                        </tr>
+                    </table>
+
          
             </el-scrollbar>
               
@@ -34,11 +56,12 @@
 
     <!--모달창 -->
     <el-dialog style="z-index:100"
-    title="{{}}방정보"
+    :title="state.ClickedSeniorCenter.seniorName"
     v-model="state.dialogVisible"
     width="30%"
     :before-close="handleClose">
     <span>This is a message</span>
+    <button @click="clickEnter">입장</button>
     <template #footer>
         <span class="dialog-footer">
         <el-button @click="state.dialogVisible = false">Cancel</el-button>
@@ -50,8 +73,9 @@
 </template>
 
 <script>
-import { reactive, onMounted } from 'vue'
+import { reactive, onMounted, ref } from 'vue' // defineComponent
 import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 export default {
     name: 'Map',
     // data() {
@@ -62,12 +86,24 @@ export default {
     // },
 
     setup() {
+        const router = useRouter()
         const store = useStore()
         const state = reactive({
             
             dialogVisible: false,
-            SeniorCenterInfo : [],            
+            SeniorCenterInfo : [], 
+            ClickedSeniorCenter : {},
+            enterInfo :{
+                seniorId : 0,
+                userId : '',
+            },
+
         })
+
+         const checked1 = ref(true);
+        const checked2 = ref(false);
+        const checked3 = ref(false);
+
 
         const clickDialogVisible = () => {
             state.dialogVisible = !state.dialogVisible
@@ -79,7 +115,7 @@ export default {
             console.log(1+" "+window.kakao);
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
             mapOption = {
-                center: new window.kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표 <= 로그인한 사용자의 위도, 경도를 파라미터로 전달함
+                center: new window.kakao.maps.LatLng(33.450701, 126.570667),
                 level: 3 // 지도의 확대 레벨
             };  
 
@@ -106,13 +142,13 @@ export default {
             // console.log(state.SeniorCenterInfo[i].seniorAddress);
             // console.log(state.SeniorCenterInfo[i].seniorName);
             // 주소로 좌표를 검색합니다
-            // var j=0;
-            console.log("bf"+i);
-            let address = state.SeniorCenterInfo[i].seniorAddress;
-            let name = state.SeniorCenterInfo[i].seniorName;
+
+            let address = state.SeniorCenterInfo[i].seniorAddress; // i번방에 들어있는 경로당 주소
+            let name = state.SeniorCenterInfo[i].seniorName; // i번방에 들어있는 경로당 이름
+            let roomInfo = state.SeniorCenterInfo[i]; // 
             geocoder.addressSearch(address, function(result, status) {
-            console.log("af"+i);
-                console.log(name);
+
+                // console.log(name);
                 // 정상적으로 검색이 완료됐으면 
                 if (status ===  window.kakao.maps.services.Status.OK) {
 
@@ -136,7 +172,7 @@ export default {
                     
                     
 
-                    // 인포윈도우를 생성합니다
+                    // 인포윈도우를 생성 합니다
                     var infowindow = new window.kakao.maps.InfoWindow({
                         content : `<div style="width:150px;text-align:center;padding:6px 0;">${name}</div>`, // 백틱(`)
                         // content : iwContent
@@ -157,8 +193,7 @@ export default {
                     window.kakao.maps.event.addListener(marker, 'click', function() {
                         marker.fa.addEventListener("click", function() {
                             state.dialogVisible = true
-                            // 클릭한 노인정 SeniorName 출력
-                            
+                            state.ClickedSeniorCenter = roomInfo;
                     })
                     });
                 
@@ -168,6 +203,22 @@ export default {
             });
         }
         }
+
+        const clickEnter = () => {
+            state.enterInfo.userId = store.getters['root/getMyId']
+            state.enterInfo.seniorId = state.ClickedSeniorCenter.seniorId
+            console.log(state.enterInfo)
+            store.dispatch('root/requestEnter', state.enterInfo)
+            .then(result => {
+            console.log(result)
+            })
+             .then(() => {
+            router.push({
+              name: 'SeniorCenter'
+            })
+          })
+        }
+
         onMounted(() => {
             const userId = store.getters['root/getMyId']
             store.dispatch('root/requestSeniorCenterInfo', {userId : userId})
@@ -175,7 +226,7 @@ export default {
                 // console.log(result);
                 state.SeniorCenterInfo = result.data.data;
                 console.log("p"+" "+state.SeniorCenterInfo);
-                      if (window.kakao && window.kakao.maps) {
+                    if (window.kakao && window.kakao.maps) {
                 console.log(window.kakao);
                 console.log("len"+" "+state.SeniorCenterInfo.length);
                 initMap();
@@ -187,6 +238,7 @@ export default {
                 document.head.appendChild(script);
             }
             })
+  
             // if (window.kakao && window.kakao.maps) {
             //     console.log(window.kakao);
             //     console.log("len"+" "+state.SeniorCenterInfo.length);
@@ -200,7 +252,7 @@ export default {
             // }        
         })
 
-          return{state, clickDialogVisible,initMap}
+        return{checked1, checked2, checked3, state, clickDialogVisible,clickEnter,initMap}
     },
 
     // mounted() {
