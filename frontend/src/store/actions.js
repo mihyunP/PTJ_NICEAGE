@@ -70,3 +70,15 @@ export function requestDeleteAccount({ state }, myId) {
   const url = `/user/${myId}`
   return axios.delete(url)
 }
+
+export function requestUserList({ state }) {
+  console.log('requestUserList', state)
+  const url = `/user`
+  return axios.get(url)
+}
+
+export function requestReportList({ state }) {
+  console.log('requestReportList', state)
+  const url = `/user/report/all`
+  return axios.get(url)
+}

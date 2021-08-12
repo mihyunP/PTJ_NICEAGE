@@ -129,6 +129,7 @@ export default {
                     });
                     // 마커에 클릭이벤트를 등록합니다
                     window.kakao.maps.event.addListener(marker, 'click', function() {
+                        console.log(marker)
                         marker.fa.addEventListener("click", function() {
                             state.dialogVisible = true
                             
