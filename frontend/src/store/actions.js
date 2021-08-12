@@ -93,5 +93,4 @@ export function requestEnter ({ state }, payload) {
   const url = `/enter/enter`
   let body = payload
   return axios.post(url, body)
-
 }
