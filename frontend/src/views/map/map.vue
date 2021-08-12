@@ -55,20 +55,10 @@
     </el-row>
 
     <!--모달창 -->
-    <el-dialog style="z-index:100"
-    :title="state.ClickedSeniorCenter.seniorName"
-    v-model="state.dialogVisible"
-    width="30%"
-    :before-close="handleClose">
-    <span>This is a message</span>
-    <button @click="clickEnter">입장</button>
-    <template #footer>
-        <span class="dialog-footer">
-        <el-button @click="state.dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
-        </span>
-    </template>
-    </el-dialog>
+    <SeniorCenterModal
+    :centerInfo="state.ClickedSeniorCenter"
+    :visible="state.dialogVisible"
+    />
 
 </template>
 
@@ -76,6 +66,7 @@
 import { reactive, onMounted, ref } from 'vue' // defineComponent
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import SeniorCenterModal from './components/seniorCenterModal'
 export default {
     name: 'Map',
     // data() {
@@ -84,7 +75,9 @@ export default {
     //         SeniorCenterInfo : [],
     //     };
     // },
-
+    components: {
+        SeniorCenterModal
+    },
     setup() {
         const router = useRouter()
         const store = useStore()
