@@ -77,6 +77,18 @@ export function requestDeleteAccount({ state }, myId) {
   return axios.delete(url)
 }
 
+export function requestUserList({ state }) {
+  console.log('requestUserList', state)
+  const url = `/user`
+  return axios.get(url)
+}
+
+export function requestReportList({ state }) {
+  console.log('requestReportList', state)
+  const url = `/user/report/all`
+  return axios.get(url)
+}
+
 export function requestEnter ({ state }, payload) {
   console.log('requestEnter', state, payload)
   const url = `/enter/enter`

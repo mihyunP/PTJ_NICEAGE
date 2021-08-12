@@ -79,13 +79,13 @@ export default {
       rules: {
         userPassword: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
+          { min: 8, message: '최소 8글자를 입력해야 합니다.', trigger: 'blur' },
+          { max: 15, message: '최대 15글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
         userPasswordConfirmation: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
+          { min: 8, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
+          { max: 15, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
       },
       formLabelWidth: '100px',

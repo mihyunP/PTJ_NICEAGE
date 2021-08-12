@@ -44,10 +44,10 @@
                   <el-input v-model="state.signupForm.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
                 </el-form-item>
                 <el-form-item prop="userPasswordConfirmation" label="위의 비밀번호를 다시 입력해주세요." :label-width="state.formLabelWidth">
-                  <el-input v-model="state.signupForm.userPasswordConfirmation" autocomplete="off" show-password></el-input>
+                  <el-input v-model="state.signupForm.userPasswordConfirmation" autocomplete="off" show-password @keyup="checkValidation"></el-input>
                 </el-form-item>
                 <el-form-item prop="userName" label="성함을 입력해주세요." :label-width="state.formLabelWidth" >
-                  <el-input v-model="state.signupForm.userName" autocomplete="off"></el-input>
+                  <el-input v-model="state.signupForm.userName" autocomplete="off" @keyup="checkValidation"></el-input>
                 </el-form-item>
                 <el-form-item prop="userGender" label="성별을 선택해주세요.">
                   <el-row justify="start">
@@ -168,16 +168,17 @@ export default {
       rules: {
         userId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16자까지 입력 가능합니다.', trigger: 'blur' }
+          { min: 4, message: '최소 4글자를 입력해야 합니다.', trigger: 'blur' },
+          { max: 15, message: '최대 15자까지 입력 가능합니다.', trigger: 'blur' }
         ],
         userPassword: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
+          { min: 8, message: '최소 8글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
         userPasswordConfirmation: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
+          { min: 8, message: '최소 8글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
         userName: [
@@ -277,7 +278,7 @@ export default {
 
     const checkValidation = function () {
       signupForm.value.validate((valid) => {
-        if (valid && state.isAuthNumConfirmed) {
+        if (valid) {
           state.isDisabled = false
         } else {
           state.isDisabled = true

@@ -82,7 +82,7 @@ export default {
     const router = useRouter()
 
     const state = reactive({
-      isLoggedIn: computed(() => store.getters['root/getIsLoggedIn'])
+      isLoggedIn: computed(() => store.getters['root/getIsLoggedIn']),
     })
 
     const clickLogin = () => {
