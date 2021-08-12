@@ -17,21 +17,25 @@ public class CommentService {
 	
 	private final CommentRepository commentRepository;
 
+	@Transactional
 	public Comment save(CommentDTO commentDto) {
 		Comment comment = commentDto.toEntity();
 		return commentRepository.save(comment);
 	}
 
+	@Transactional
 	public Comment update(CommentDTO commentDto) {
 		Comment comment = commentDto.toEntity();
 		return commentRepository.save(comment);
 		
 	}
 
+	@Transactional
 	public Comment findByCommentId(Long commentId) {
 		return commentRepository.findByCommentId(commentId);
 	}
 
+	@Transactional
 	public boolean isAbleDelete(Long userNo, Long commentWriterNo, Long commentId) {
 		if (userNo == commentWriterNo) {
 			commentRepository.deleteById(commentId);

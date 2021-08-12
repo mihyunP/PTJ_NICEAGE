@@ -2,6 +2,8 @@ package com.ssafy.niceage.Service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.niceage.Domain.Enter.Enter;
@@ -19,6 +21,7 @@ public class EnterService {
 	private final EnterRepository enterRepository;
 	private final SeniorRepository seniorRepository;
 	
+	@Transactional
 	public void save(EnterDTO enterDto) {
 		Enter enter = enterDto.toEntity();
 		enterRepository.save(enter);
@@ -29,6 +32,7 @@ public class EnterService {
 	 * @param user
 	 * @return
 	 */
+	@Transactional
 	public List<Enter> findByUser(User user) {
 		return enterRepository.findByUser(user);
 	}

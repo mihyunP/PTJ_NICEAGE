@@ -34,11 +34,11 @@ public class DementiaController {
 		try {
 			User user = userService.findById(userId);
 			UserDTO userDto = new UserDTO(user);
-			String phoneNum = dementiaService.checkDementia(userDto, result);
-			if (phoneNum != null) {
-				response = new MainResponse("success", "치매가 아닙니다.");				
+			boolean sendMessage = dementiaService.checkDementia(userDto, result);
+			if (sendMessage) {
+				response = new MainResponse("success", "치매판정을 받았습니다. 보호자 혹은 본인 핸드폰으로 문자를 확인해 주세요.");				
 			} else {
-				response = new MainResponse("success", phoneNum);				
+				response = new MainResponse("success", "치매가 아닙니다.");				
 			}
 		} catch (Exception e) {
 			response = new MainResponse("게시글을 불러오지 못 했습니다", e.getMessage());
