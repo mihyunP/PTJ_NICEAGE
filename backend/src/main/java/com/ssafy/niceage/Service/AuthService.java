@@ -75,13 +75,13 @@ public class AuthService {
 	     */
 	    @Transactional
 	    public void sendAuth(String phoneNumber, String cerNum) throws CoolsmsException {
-	        String api_key = "NCSVY6YWZAD13YOZ";
-	        String api_secret = "IJOI5OIVVRY9JXJFBI3R4HUA7WSOLUWK";
+	        String api_key = "NCSD8AKDVFYWT8DH";
+	        String api_secret = "GUS1EXEIK3Q24XAVVUJW2J6TEOCFGXHJ";
 
 	        Message Auth = new Message(api_key, api_secret);
 	        HashMap<String, String> params = new HashMap<String, String>();
 	        params.put("to", phoneNumber);
-	        params.put("from", "01091396956");
+	        params.put("from", "01053561553");
 	        params.put("type", "SMS");
 	        params.put("text", "NICEAGE 휴대폰 인증입니다.\n인증번호는 "+"["+ cerNum+"]" + "입니다.");
 	        params.put("app_version", "test app 1.2");

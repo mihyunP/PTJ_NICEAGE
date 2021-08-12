@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import com.ssafy.niceage.Domain.Enter.Enter;
@@ -20,10 +22,12 @@ public class SeniorService {
 	
 	private final SeniorRepository seniorRepository;
 
+	@Transactional
 	public Senior_Citizen_Center findBySeniorId(Long seniorId) {
 		return seniorRepository.findBySeniorId(seniorId);
 	}
 
+	@Transactional
 	public List<Senior_Citizen_Center> findBySeniorAddress(String address) {
 		String[] arr = address.split(" ");
 		String userAddress = new String();
@@ -42,6 +46,7 @@ public class SeniorService {
 	 * @param frequentSenior
 	 * @return
 	 */
+	@Transactional
 	public List<Senior_Citizen_Center> frequentSeniorList(List<Enter> frequentSenior) {
 		Map<Long, Long> map = new HashMap<>();
 		Long[] enterArr = new Long[frequentSenior.size()];
