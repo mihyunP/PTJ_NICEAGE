@@ -87,6 +87,7 @@ export function requestReportList({ state }) {
   console.log('requestReportList', state)
   const url = `/user/report/all`
   return axios.get(url)
+}
 
 export function requestEnter ({ state }, payload) {
   console.log('requestEnter', state, payload)
