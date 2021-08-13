@@ -22,7 +22,7 @@
                     </tr>
                         </tbody>
                     </table>
-                          <div @click="$router.go(-1)">
+                        <div @click="$router.go(-1)">
                         <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
                         <span class="previouspage">전 페이지로 돌아가기</span>
                         </div>
@@ -31,7 +31,7 @@
 
                 <el-tab-pane label="자주 가는 순">
                     <el-scrollbar height="650px">
-                      <table>
+                    <table>
                         <thead></thead>
                         <tbody>
                     <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="state.dialogVisible=true">
@@ -55,8 +55,8 @@
 
                 <el-tab-pane label="인원수 많은 순">
                     <el-scrollbar height="650px">
-                     <table v-if="checked3">
-                          <tr>
+                    <table v-if="checked3">
+                        <tr>
                             <td>인원수 많은 순
                             </td>   
                         </tr>
@@ -69,9 +69,7 @@
                 </el-tab-pane>
                 </el-tabs>
 
-                   
-        
-              
+
         </el-col>
         <el-col :span="17">
             <div id="map" style="z-index:0"></div>
@@ -269,11 +267,11 @@ export default {
             .then(result => {
             console.log(result)
             })
-             .then(() => {
-            router.push({
-              name: 'SeniorCenter' // 해당 노인정으로 보내기
+            .then(() => {
+                router.push({
+                name: 'SeniorCenter' // 해당 노인정으로 보내기
+                })
             })
-          })
         }
 
         onMounted(() => {
