@@ -24,7 +24,7 @@
         <el-col class="video-container" :span="18">
 					<el-row id="session-title" justify="space-between">
 						<!-- <div>{{ mySessionId }}</div> -->
-						<div>00경로당</div>
+						<div>{{myCenterName}}</div>
 						<div>119 신고기능 추가예정</div>
 					</el-row>
 					<el-row>
@@ -72,6 +72,17 @@ export default {
 		BottomBar,
 		SideBar
 	},
+	props: {
+		mySessionId: {
+			type: String
+		},
+		myUserName: {
+			type: String
+		},
+		myCenterName: {
+			type: String
+		}
+	},
 	data () {
 		return {
 			OV: undefined,
@@ -79,9 +90,6 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			mySessionId: 'SessionA',
-			// myUserName: '양현승' + Math.floor(Math.random() * 100),
-			myUserName: '양현승',
       msgs: [],
 			messageSenderObj: undefined,
 			isVideoMuted: false,
@@ -92,6 +100,7 @@ export default {
 
 	mounted() {
 		this.joinSession()
+		console.log('12312312341241587342y379852hjkfedhnf', this.myCenterName)
 	},
 
 	methods: {

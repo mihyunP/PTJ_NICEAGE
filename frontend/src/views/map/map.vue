@@ -79,20 +79,12 @@
     </el-row>
 
     <!--모달창 -->
-    <el-dialog style="z-index:100"
-    :title="state.ClickedSeniorCenter.seniorName"
-    v-model="state.dialogVisible"
-    width="30%"
-    :before-close="handleClose">
-    <span>This is a message</span>
-    <button @click="clickEnter">입장</button>
-    <template #footer>
-        <span class="dialog-footer">
-        <el-button @click="state.dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
-        </span>
-    </template>
-    </el-dialog>
+    <SeniorCenterModal
+    :centerInfo="state.ClickedSeniorCenter"
+    :visible="state.dialogVisible"
+    @closeCenterDialog="onCloseCenterDialog"
+    :personnelList="state.personnelList"
+    />
 
 </template>
 
@@ -100,6 +92,11 @@
 import { reactive, onMounted} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import SeniorCenterModal from './components/seniorCenterModal'
+import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
     name: 'Map',
     // data() {
@@ -108,7 +105,9 @@ export default {
     //         SeniorCenterInfo : [],
     //     };
     // },
-
+    components: {
+        SeniorCenterModal
+    },
     setup() {
         const router = useRouter()
         const store = useStore()
@@ -122,7 +121,7 @@ export default {
                 seniorId : 0,
                 userId : '',
             },
-
+            personnelList: [],
         })
 
 
@@ -218,8 +217,8 @@ export default {
                     window.kakao.maps.event.addListener(marker, 'click', function() {
                         console.log(marker)
                         marker.fa.addEventListener("click", function() {
-                            state.dialogVisible = true
                             state.ClickedSeniorCenter = roomInfo;
+                            getNumOfPeople()
                     })
                     });
                 
@@ -228,6 +227,38 @@ export default {
                 } 
             });
         }
+        }
+
+        const getNumOfPeople = () => {
+            const personnelListTmp = [0, 0, 0, 0, 0]
+            store.commit('root/loadingOn')
+            axios
+                .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,{
+                    auth: {
+                        username: 'OPENVIDUAPP',
+                        password: OPENVIDU_SERVER_SECRET
+                    }
+                })
+                .then(res => {
+                    store.commit('root/loadingOff')
+                    console.log(res.data)
+                    const sessions = res.data.content
+                    const sessionId = String(state.ClickedSeniorCenter.seniorId)
+                    sessions.forEach(session => {
+                        const split_str = session.id.split('-')
+                        if (sessionId == split_str[0]) {
+                            const index = parseInt(split_str[1])
+                            personnelListTmp[index] = session.connections.numberOfElements
+                        }
+                    }); 
+                    state.personnelList = personnelListTmp
+                    console.log(state.personnelList)
+                    state.dialogVisible = true
+                })
+                .catch((err) => {
+                    store.commit('root/loadingOff')
+                    console.log('여기로 와야되느네', err)
+                })
         }
 
         const clickEnter = () => {
@@ -296,8 +327,12 @@ export default {
             //     document.head.appendChild(script);
             // }        
         })
+        const onCloseCenterDialog = () => {
+            state.dialogVisible = false
+        }
 
-        return{state, clickDialogVisible,clickEnter,initMap}
+        return{state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog }
+
     },
 
     // mounted() {
