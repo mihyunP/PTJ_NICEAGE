@@ -84,12 +84,13 @@ export default {
       rules: {
         userId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16자까지 입력 가능합니다.', trigger: 'blur' }
+          { min: 4, message: '최소 4글자를 입력해야합니다.', trigger: 'blur' },
+          { max: 15, message: '최대 15자까지 입력 가능합니다.', trigger: 'blur' }
         ],
         userPassword: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
-          { min: 9, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
-          { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
+          { min: 8, message: '최소 8글자를 입력해야 합니다.', trigger: 'blur' },
+          { max: 15, message: '최대 15글자까지 입력 가능합니다.', trigger: 'blur' },
           // { validator: 16, message: '비밀번호는 영문, 숫자, 특수문자가 조합되어야 합니다.', trigger: 'blur' }
         ]
       },

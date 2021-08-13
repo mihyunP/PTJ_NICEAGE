@@ -22,6 +22,8 @@ import FriendMatching from '@/views/contents/friend_matching/friendMatching'
 import DementiaResult1 from '@/views/contents/health/dementia/dementia_result1'
 import DementiaResult2 from '@/views/contents/health/dementia/dementia_result2'
 
+import Admin from '@/views/admin/admin'
+
 const routes = [
   {
     path: "/",
@@ -117,6 +119,11 @@ const routes = [
     path: "/dementiaresult2",
     name: "DementiaResult2",
     component: DementiaResult2,
+  },
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 

@@ -36,7 +36,13 @@ export function requestConfirmAuthNum ({ state }, param) {
 
 export function requestSeniorCenterInfo ({ state }, param) {
   console.log('requestSeniorCenterInfo', state, param)
-  const url = `/senior/show/{param.userId}`
+  const url = `/senior/show/${param.userId}`
+  return axios.get(url)
+}
+
+export function requestFrequenceSeniorCenterInfo ({ state }, param) {
+  console.log('requestFrequenceSeniorCenterInfo', state, param)
+  const url = `/senior/frequence/${param.userId}`
   return axios.get(url)
 }
 
@@ -69,4 +75,23 @@ export function requestDeleteAccount({ state }, myId) {
   console.log('requestDeleteAccount', state, myId)
   const url = `/user/${myId}`
   return axios.delete(url)
+}
+
+export function requestUserList({ state }) {
+  console.log('requestUserList', state)
+  const url = `/user`
+  return axios.get(url)
+}
+
+export function requestReportList({ state }) {
+  console.log('requestReportList', state)
+  const url = `/user/report/all`
+  return axios.get(url)
+}
+
+export function requestEnter ({ state }, payload) {
+  console.log('requestEnter', state, payload)
+  const url = `/enter/enter`
+  let body = payload
+  return axios.post(url, body)
 }
