@@ -4,29 +4,28 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
-          <div class="explanation">원하시는 게임을 클릭하시면 
-해당 게임 페이지로 가실 수 있습니다.</div>
+          <div class="explanation">원하시는 게임을 클릭하시면 해당 게임 페이지로 가실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
           <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+          <br>
+          <br>
+          <br>
+          <br>
+          <br>
+          <!-- 전 페이지로 돌아가기 시작 -->
+          <el-row @click="$router.go(-1)">
+                      <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+                      <span class="previouspage">전 페이지로 돌아가기</span>
+          </el-row>
+          <!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
 
-      <el-col class="right-content" :span="12">
+    <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
-          <div class="question">게임을 선택해 주세요.</div>
+           <div class="question">게임을 선택해 주세요.</div>
           
             <el-row justify="center">
               <a href="https://baduk.hangame.com/?utm_source=baduk&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
@@ -62,7 +61,6 @@
           </el-button>
              </a>
             </el-row>
-
         </el-col>
       </el-row>
     </el-col>
@@ -71,45 +69,49 @@
 
 <script>
 export default {
-
+ 
 }
-
 </script>
 
 <style scoped>
-/* a{
-  text-decoration-line : none;
-}
-a:visited { color: black; }
   .main-content {
     height: 100%;
-  } */
+  }
   .right-content {
     background: rgba(173, 203, 176, 0.7);
     height: 100%;
     /* opacity: 0.5; */
   }
   .el-button {
-    margin:  20px;
-    width: 200px;
-    height: 200px;
+    width: 250px;
+    height: 250px;
+    margin : 10px;
     background: #EBC86F !important;
-    border-radius: 40px !important;
+    border-radius: 25px !important;
   }
   .select-button {
     font-family: BlackHanSans;
-    font-size: 36px;
+    font-size: 21px;
   }
   .question {
     font-family: SangSangFlowerRoad;
-    font-size: 68px;
+    font-size: 88px;
     color: rgba(248, 141, 141, 1);
   }
   .explanation {
     font-family: SangSangFlowerRoad;
-    font-size: 38px;
+    font-size: 48px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
+  .main-image {
+    height: 442px;
+    width: 700px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/main.png');
+  }
+
    .baduk-image {
     height: 98px;
     width: 98px;
@@ -133,13 +135,5 @@ a:visited { color: black; }
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/button/yutplay.png');
-  }
-  .main-image {
-    height: 442px;
-    width: 700px;
-    margin: 0 auto;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('../../../assets/images/main.png');
   }
 </style>
