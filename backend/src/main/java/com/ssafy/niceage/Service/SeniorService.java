@@ -18,16 +18,15 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class SeniorService {
 	
 	private final SeniorRepository seniorRepository;
 
-	@Transactional
 	public Senior_Citizen_Center findBySeniorId(Long seniorId) {
 		return seniorRepository.findBySeniorId(seniorId);
 	}
 
-	@Transactional
 	public List<Senior_Citizen_Center> findBySeniorAddress(String address) {
 		String[] arr = address.split(" ");
 		String userAddress = new String();
@@ -46,7 +45,6 @@ public class SeniorService {
 	 * @param frequentSenior
 	 * @return
 	 */
-	@Transactional
 	public List<Senior_Citizen_Center> frequentSeniorList(List<Enter> frequentSenior) {
 		Map<Long, Long> map = new HashMap<>();
 		Long[] enterArr = new Long[frequentSenior.size()];

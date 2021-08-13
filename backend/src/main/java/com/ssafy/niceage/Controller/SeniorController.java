@@ -45,7 +45,6 @@ public class SeniorController {
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
-		
 		return response;
 	}
 	
@@ -66,7 +65,6 @@ public class SeniorController {
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
-		
 		return response;
 	}
 }
