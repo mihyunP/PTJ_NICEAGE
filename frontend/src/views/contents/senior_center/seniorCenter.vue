@@ -100,7 +100,6 @@ export default {
 
 	mounted() {
 		this.joinSession()
-		console.log('12312312341241587342y379852hjkfedhnf', this.myCenterName)
 	},
 
 	methods: {
@@ -225,7 +224,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
-						customSessionId: sessionId,
+						customSessionId: sessionId
 					}), {
 						auth: {
 							username: 'OPENVIDUAPP',
