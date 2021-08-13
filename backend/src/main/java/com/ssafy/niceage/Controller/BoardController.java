@@ -43,9 +43,6 @@ public class BoardController {
 
 		try {
 			List<Board> boardList = boardService.findAll();
-			List<BoardDTO> collect = boardList.stream()
-                    .map(m-> new BoardDTO(m))
-                    .collect(Collectors.toList());
 			response = new MainResponse("success", boardList);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
@@ -75,7 +72,7 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "게시판 글 읽기", response = MainResponse.class)
-	@GetMapping("/read/{userId}")
+	@GetMapping("/read/{userId}/{boardId}")
 	public MainResponse readBoard(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId) {
 		MainResponse response = null;
 

@@ -27,7 +27,7 @@ public class DementiaController {
 	
 	@ApiOperation(value = "치매진단결과 제출시", response = MainResponse.class)
 	@GetMapping("/dementia/{userId}/{result}")
-	public MainResponse dementiaResult(@ApiParam(value = "아이디")@PathVariable String userId, int result) {
+	public MainResponse dementiaResult(@ApiParam(value = "아이디")@PathVariable String userId, Integer result) {
 
 		MainResponse response = null;
 
