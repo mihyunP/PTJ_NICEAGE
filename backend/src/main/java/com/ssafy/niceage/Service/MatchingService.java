@@ -32,6 +32,7 @@ public class MatchingService {
 	private List<MatchStatus> statusList = new ArrayList<>();
 	private Map<Long, MatchSuccess> result = new HashMap<>();
 	private long[] matchUserNo = new long[10000];
+	private long[] timeIndex = new long[10000];
 
 	public class ObjectForReturn {
 		long roomNum;
@@ -94,7 +95,7 @@ public class MatchingService {
 
 	}
 
-	public ObjectForReturn findList (MatchingRequest request) {
+	public Long findList (MatchingRequest request) {
 		
 		User user = userRepository.findByUserId(request.getUserId());
 		long userNo = user.getUserNo();
@@ -104,9 +105,10 @@ public class MatchingService {
 			
 			User user1;
 			User user2;
+			int i = 1;
 			@Override
 			public void run() {
-				System.out.println("실행중임");
+				System.out.println("실행중임"+"["+userNo+"]");
 				
 				// 친구매칭을 클릭한 사람 수 만큼 실시간으로 등록된 매칭정보 객체리스트를 탐색
 				// 같은 분류의 매칭을 한 사람을 찾을 시 정보를 저장하고 리스트를 삭제한다.
@@ -180,29 +182,49 @@ public class MatchingService {
 				}
 				
 				if (count == 2) {
-					statusList.remove(index1);
-					statusList.remove(index2);
-					matchInfoList.remove(index1);
-					matchInfoList.remove(index2);					
+					if (index1 > index2) {
+						statusList.remove(index1);
+						statusList.remove(index2);
+						matchInfoList.remove(index1);
+						matchInfoList.remove(index2);											
+					} else {
+						statusList.remove(index2);
+						statusList.remove(index1);
+						matchInfoList.remove(index2);											
+						matchInfoList.remove(index1);
+					}
+					timer.cancel();
 				}
 				
+				if (i == 10) {
+					timer.cancel();
+				}
+				i++;
+				timeIndex[(int) userNo]++;
 				System.out.println("size"+matchInfoList.size());
 			} // @Override method : run() 종료
 		}; // TimerTask 종료 시점
 		
 		// 총 실행 10번 후 작업이 종료된다. 5초에 한 번씩 작업을 진행
-		for (int i = 0; i < 10; i++) {
-			timer.schedule(task, 5000);
+		timer.schedule(task, 2000, 2000);
+
+		try {
+			Thread.sleep((timeIndex[(int) userNo] + 2) * 2000);
 			// 매칭이 됐다면 반환객체만들고 매칭여부를 알리는 배열 값을 0으로 바꿔주고 타이머 종료후 리턴
 			if (matchUserNo[(int) userNo] != 0) {
-				long key = userNo * (long)Math.pow(10, 4) + matchUserNo[(int) userNo];
-				ObjectForReturn returnObject = new ObjectForReturn(key, result.get(key));
+				long roomNum = 0;
+				if (userNo < matchUserNo[(int) userNo]) {
+					roomNum = userNo * (long)Math.pow(10, 4) + matchUserNo[(int) userNo];
+				} else {
+					roomNum = matchUserNo[(int) userNo] * (long)Math.pow(10, 4) + userNo;
+				}
 				System.out.println("userNo"+userNo);
 				matchUserNo[(int) userNo] = 0;
-				timer.cancel();
-				return returnObject;
+				timeIndex[(int) userNo] = 0;
+				return roomNum;
 			}
-			timer.cancel();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 
 		return null;
