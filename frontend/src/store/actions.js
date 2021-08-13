@@ -95,3 +95,9 @@ export function requestEnter ({ state }, payload) {
   let body = payload
   return axios.post(url, body)
 }
+
+  export function requestDementiaResult ({ state }, param) {
+    console.log('requestDementiaResult', state, param)
+    const url = `/dementia/dementia/${param.userId}/${param.result}`
+    return axios.get(url)
+  }
