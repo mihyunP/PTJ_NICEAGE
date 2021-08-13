@@ -120,11 +120,8 @@ import MessageForm from './components/messageForm';
 import MessageList from './components/messageList';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-// const OPENVIDU_SERVER_URL = "https://i5b202.p.ssafy.io";
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-// const OPENVIDU_SERVER_URL = "https://ec2-3-14-133-141.us-east-2.compute.amazonaws.com";
-// const OPENVIDU_SERVER_SECRET = "ssafy";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
+const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
 	name: 'App',
 	components: {
