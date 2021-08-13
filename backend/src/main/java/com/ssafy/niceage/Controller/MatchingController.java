@@ -30,9 +30,9 @@ public class MatchingController {
 		try {
 			// 로그인 아이디로 회원객체 먼저 가져오기
 			matchingService.addList(request);
-			MatchingService.ObjectForReturn matchResult = matchingService.findList(request);
+			long roomNumber = matchingService.findList(request);
 			
-			response = new MainResponse("success", "매칭성공");
+			response = new MainResponse("success", roomNumber);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
