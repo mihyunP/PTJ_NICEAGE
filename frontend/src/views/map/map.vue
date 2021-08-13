@@ -1,20 +1,16 @@
 <template>
     <el-row class="map-container">
         <el-col :span="7">
-            <el-row style="positon:fixed left : 50px, top:100px">
-       <el-checkbox v-model="checked1">전체 보기</el-checkbox>
-       <el-checkbox v-model="checked2">자주가는 순</el-checkbox>
-       <el-checkbox v-model="checked3">인원 많은 순</el-checkbox>
-</el-row>
-            <el-scrollbar height="650px">
+            
+                <el-tabs type="border-card">
+                <el-tab-pane label="전체 보기">
+                    <el-scrollbar height="650px">
                 <!-- <div v-if="!state.dialogVisible">{{ state.dialogVisible }}</div> -->
-                <!-- <div v-if="!state.dialogVisible">{{ state.SeniorCenterInfo[0].seniorId }}</div> -->
-
-                    
-                    <table v-if="checked1">
+                <!-- <div v-if="!state.dialogVisible">{{ state.SeniorCenterInfo[0].seniorId }}</div> --> 
+                    <table>
                         <thead></thead>
                         <tbody>
-                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="dialogVisible = true">
+                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="state.dialogVisible=true">
                     <td>
                         <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
                     </td>
@@ -25,28 +21,56 @@
                     </td>
                     </tr>
                         </tbody>
-                         <div @click="$router.go(-1)">
+                    </table>
+                          <div @click="$router.go(-1)">
                         <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
                         <span class="previouspage">전 페이지로 돌아가기</span>
                         </div>
-                    </table>
+            </el-scrollbar>
+                </el-tab-pane>
 
-                    <table v-if="checked2">
-                        <tr>
-                            <td>자주가는 순
-                            </td>   
-                        </tr>
+                <el-tab-pane label="자주 가는 순">
+                    <el-scrollbar height="650px">
+                      <table>
+                        <thead></thead>
+                        <tbody>
+                    <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="state.dialogVisible=true">
+                    <td>
+                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
+                    </td>
+                    <td>
+                            이름 : {{ s.seniorName }}<br>
+                            주소 : {{ s.seniorAddress }}<br>
+                            현재 인원 : 
+                    </td>
+                    </tr>
+                        </tbody>
                     </table>
+                    <div @click="$router.go(-1)">
+                        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+                        <span class="previouspage">전 페이지로 돌아가기</span>
+                        </div>
+            </el-scrollbar>
+                </el-tab-pane>
 
-                    <table v-if="checked3">
+                <el-tab-pane label="인원수 많은 순">
+                    <el-scrollbar height="650px">
+                     <table v-if="checked3">
                           <tr>
                             <td>인원수 많은 순
                             </td>   
                         </tr>
                     </table>
-
-         
+                                        <div @click="$router.go(-1)">
+                        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+                        <span class="previouspage">전 페이지로 돌아가기</span>
+                        </div>
             </el-scrollbar>
+                </el-tab-pane>
+                </el-tabs>
+
+                   
+        
               
         </el-col>
         <el-col :span="17">
@@ -65,7 +89,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, ref } from 'vue' // defineComponent
+import { reactive, onMounted} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import SeniorCenterModal from './components/seniorCenterModal'
@@ -91,6 +115,7 @@ export default {
             
             dialogVisible: false,
             SeniorCenterInfo : [], 
+            FrequenceSeniorCenterInfo : [],
             ClickedSeniorCenter : {},
             enterInfo :{
                 seniorId : 0,
@@ -99,9 +124,7 @@ export default {
             personnelList: [],
         })
 
-         const checked1 = ref(true);
-        const checked2 = ref(false);
-        const checked3 = ref(false);
+
 
 
         const clickDialogVisible = () => {
@@ -133,8 +156,7 @@ export default {
 
             // 주소-좌표 변환 객체를 생성합니다
             var geocoder = new  window.kakao.maps.services.Geocoder();
-            
-            
+
             // 반복문 시작
             for (var i = 0; i < state.SeniorCenterInfo.length; i++) {
             //  console.log(state.SeniorCenterInfo.length);
@@ -144,7 +166,10 @@ export default {
 
             let address = state.SeniorCenterInfo[i].seniorAddress; // i번방에 들어있는 경로당 주소
             let name = state.SeniorCenterInfo[i].seniorName; // i번방에 들어있는 경로당 이름
-            let roomInfo = state.SeniorCenterInfo[i]; // 
+            let roomInfo = state.SeniorCenterInfo[i];
+            
+
+            
             geocoder.addressSearch(address, function(result, status) {
 
                 // console.log(name);
@@ -246,7 +271,7 @@ export default {
             })
              .then(() => {
             router.push({
-              name: 'SeniorCenter'
+              name: 'SeniorCenter' // 해당 노인정으로 보내기
             })
           })
         }
@@ -257,7 +282,7 @@ export default {
             .then(result => {
                 // console.log(result);
                 state.SeniorCenterInfo = result.data.data;
-                console.log("p"+" "+state.SeniorCenterInfo);
+                console.log("sci"+" "+state.SeniorCenterInfo);
                     if (window.kakao && window.kakao.maps) {
                 console.log(window.kakao);
                 console.log("len"+" "+state.SeniorCenterInfo.length);
@@ -269,6 +294,25 @@ export default {
                 script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7c87159e377575ded609810fe7d11d0a&libraries=services';
                 document.head.appendChild(script);
             }
+            })
+
+
+            store.dispatch('root/requestFrequenceSeniorCenterInfo', {userId : userId})
+            .then(result => {
+                // console.log(result);
+                state.FrequenceSeniorCenterInfo = result.data.data;
+                console.log("fsci"+" "+state.FrequenceSeniorCenterInfo);
+            //     if (window.kakao && window.kakao.maps) {
+            //     console.log(window.kakao);
+            //     console.log("len"+" "+state.FrequenceSeniorCenterInfo.length);
+            //     initMap();
+            //      } else {
+            //     const script = document.createElement('script');
+                
+            //     script.onload = () => window.kakao.maps.load(initMap);
+            //     script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=7c87159e377575ded609810fe7d11d0a&libraries=services';
+            //     document.head.appendChild(script);
+            // }
             })
   
             // if (window.kakao && window.kakao.maps) {
@@ -287,7 +331,8 @@ export default {
             state.dialogVisible = false
         }
 
-        return{checked1, checked2, checked3, state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog }
+        return{state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog }
+
     },
 
     // mounted() {

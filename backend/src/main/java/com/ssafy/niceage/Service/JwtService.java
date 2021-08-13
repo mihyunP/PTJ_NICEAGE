@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
 @Service
+@Transactional
 public class JwtService {
 	public static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 	

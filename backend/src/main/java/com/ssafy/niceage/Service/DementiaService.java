@@ -18,7 +18,6 @@ public class DementiaService {
 	/**
 	 * 치매 진단결과 문자보내기
 	 */
-	@Transactional
 	public boolean checkDementia(UserDTO userDto, int result) {
 		if (result >= 10) {
 			String api_key = "NCSD8AKDVFYWT8DH";
@@ -26,7 +25,12 @@ public class DementiaService {
 
 			Message Auth = new Message(api_key, api_secret);
 			HashMap<String, String> params = new HashMap<String, String>();
-			params.put("to", userDto.getUserPhone());
+			// 보호자 번호가 있다면 그 번호로, 없다면 본인 번호로 문자 발송
+			if (userDto.getUserEmergency().isEmpty()) {
+				params.put("to", userDto.getUserPhone());
+			} else {
+				params.put("to", userDto.getUserEmergency());
+			}
 			params.put("from", "01053561553");
 			params.put("type", "SMS");
 			params.put("text", userDto.getUserName() + "님은 치매 초기 증상으로 보입니다.");
