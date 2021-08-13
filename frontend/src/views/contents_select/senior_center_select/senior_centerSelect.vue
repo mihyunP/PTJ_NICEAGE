@@ -10,8 +10,7 @@
         </el-col>
       </el-row>
     </el-col>
-
-      <el-col class="right-content" :span="12">
+    <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">경로당을 선택해주세요.</div>
@@ -33,13 +32,20 @@
 
 <script>
 import { useRouter } from 'vue-router'
-
+import { reactive } from 'vue'
+import { useStore } from 'vuex'
+import axios from 'axios';
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: 'HealthSelect',
 
     setup() {
         const router = useRouter()
-
+        const store = useStore()
+        const state = reactive({
+          targetSession: undefined
+        })
         const clickMap = () => {
           router.push({
             name: 'Map',
@@ -47,14 +53,48 @@ export default {
         }
 
         const clickSeniorCenter = () => {
-          router.push({
-            name: 'SeniorCenter',
-          })
-        }
-        
-   
+          store.commit('root/loadingOn')
+          axios
+            .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,{
+              auth: {
+                username: 'OPENVIDUAPP',
+                password: OPENVIDU_SERVER_SECRET
+              }
+            })
+            .then(res => {
+              store.commit('root/loadingOff')
+              console.log(res.data)
+              const sessions = res.data.content
 
-        return {clickMap, clickSeniorCenter}
+              if (sessions.length) {
+
+                const myId = store.getters['root/getMyId']
+                const index = Math.floor(Math.random() * res.data.numberOfElements)
+                console.log('세션과 랜덤인덱스 확인',sessions, index)
+                state.targetSession = sessions[index]
+                console.log()
+                store.dispatch('root/requestMyDetail', myId)
+                .then((res) => {
+                  const myName = res.data.data.userName
+                  router.push({
+                    name: 'SeniorCenter',
+                    params: {mySessionId: state.targetSession.id, myUserName: myName, myCenterName: '경로당 이름'}
+                  })
+                })
+              } else {
+                alert('현재 생성된 경로당이 없습니다.')
+              }
+            })
+            .catch((err) => {
+              store.commit('root/loadingOff')
+              console.log('여기로 와야되느네', err)
+            })
+          
+
+        }
+      
+
+        return {state, clickMap, clickSeniorCenter}
       }
 }
 
