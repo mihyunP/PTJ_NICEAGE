@@ -22,7 +22,7 @@
                     </tr>
                         </tbody>
                     </table>
-                          <div @click="$router.go(-1)">
+                        <div @click="$router.go(-1)">
                         <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
                         <span class="previouspage">전 페이지로 돌아가기</span>
                         </div>
@@ -31,7 +31,7 @@
 
                 <el-tab-pane label="자주 가는 순">
                     <el-scrollbar height="650px">
-                      <table>
+                    <table>
                         <thead></thead>
                         <tbody>
                     <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="state.dialogVisible=true">
@@ -55,8 +55,8 @@
 
                 <el-tab-pane label="인원수 많은 순">
                     <el-scrollbar height="650px">
-                     <table v-if="checked3">
-                          <tr>
+                    <table v-if="checked3">
+                        <tr>
                             <td>인원수 많은 순
                             </td>   
                         </tr>
@@ -69,9 +69,7 @@
                 </el-tab-pane>
                 </el-tabs>
 
-                   
-        
-              
+
         </el-col>
         <el-col :span="17">
             <div id="map" style="z-index:0"></div>
@@ -79,20 +77,12 @@
     </el-row>
 
     <!--모달창 -->
-    <el-dialog style="z-index:100"
-    :title="state.ClickedSeniorCenter.seniorName"
-    v-model="state.dialogVisible"
-    width="30%"
-    :before-close="handleClose">
-    <span>This is a message</span>
-    <button @click="clickEnter">입장</button>
-    <template #footer>
-        <span class="dialog-footer">
-        <el-button @click="state.dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="state.dialogVisible = false">Confirm</el-button>
-        </span>
-    </template>
-    </el-dialog>
+    <SeniorCenterModal
+    :centerInfo="state.ClickedSeniorCenter"
+    :visible="state.dialogVisible"
+    @closeCenterDialog="onCloseCenterDialog"
+    :personnelList="state.personnelList"
+    />
 
 </template>
 
@@ -100,6 +90,11 @@
 import { reactive, onMounted} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import SeniorCenterModal from './components/seniorCenterModal'
+import axios from 'axios';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
+const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
+const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
     name: 'Map',
     // data() {
@@ -108,7 +103,9 @@ export default {
     //         SeniorCenterInfo : [],
     //     };
     // },
-
+    components: {
+        SeniorCenterModal
+    },
     setup() {
         const router = useRouter()
         const store = useStore()
@@ -122,7 +119,7 @@ export default {
                 seniorId : 0,
                 userId : '',
             },
-
+            personnelList: [],
         })
 
 
@@ -218,8 +215,8 @@ export default {
                     window.kakao.maps.event.addListener(marker, 'click', function() {
                         console.log(marker)
                         marker.fa.addEventListener("click", function() {
-                            state.dialogVisible = true
                             state.ClickedSeniorCenter = roomInfo;
+                            getNumOfPeople()
                     })
                     });
                 
@@ -230,6 +227,38 @@ export default {
         }
         }
 
+        const getNumOfPeople = () => {
+            const personnelListTmp = [0, 0, 0, 0, 0]
+            store.commit('root/loadingOn')
+            axios
+                .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,{
+                    auth: {
+                        username: 'OPENVIDUAPP',
+                        password: OPENVIDU_SERVER_SECRET
+                    }
+                })
+                .then(res => {
+                    store.commit('root/loadingOff')
+                    console.log(res.data)
+                    const sessions = res.data.content
+                    const sessionId = String(state.ClickedSeniorCenter.seniorId)
+                    sessions.forEach(session => {
+                        const split_str = session.id.split('-')
+                        if (sessionId == split_str[0]) {
+                            const index = parseInt(split_str[1])
+                            personnelListTmp[index] = session.connections.numberOfElements
+                        }
+                    }); 
+                    state.personnelList = personnelListTmp
+                    console.log(state.personnelList)
+                    state.dialogVisible = true
+                })
+                .catch((err) => {
+                    store.commit('root/loadingOff')
+                    console.log('여기로 와야되느네', err)
+                })
+        }
+
         const clickEnter = () => {
             state.enterInfo.userId = store.getters['root/getMyId']
             state.enterInfo.seniorId = state.ClickedSeniorCenter.seniorId
@@ -238,11 +267,11 @@ export default {
             .then(result => {
             console.log(result)
             })
-             .then(() => {
-            router.push({
-              name: 'SeniorCenter' // 해당 노인정으로 보내기
+            .then(() => {
+                router.push({
+                name: 'SeniorCenter' // 해당 노인정으로 보내기
+                })
             })
-          })
         }
 
         onMounted(() => {
@@ -296,8 +325,12 @@ export default {
             //     document.head.appendChild(script);
             // }        
         })
+        const onCloseCenterDialog = () => {
+            state.dialogVisible = false
+        }
 
-        return{state, clickDialogVisible,clickEnter,initMap}
+        return{state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog }
+
     },
 
     // mounted() {

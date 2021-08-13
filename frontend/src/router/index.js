@@ -24,6 +24,28 @@ import DementiaResult2 from '@/views/contents/health/dementia/dementia_result2'
 
 import Admin from '@/views/admin/admin'
 
+const allowOnlyAuth = function(to, from, next) {
+  if (localStorage.getItem('access_token')) {
+    next()
+  } else {
+    next(from)
+  }
+}
+const allowNotAuth = function(to, from, next) {
+  if (!localStorage.getItem('access_token')) {
+    next()
+  } else {
+    next(from)
+  }  
+}
+const allowOnlyAdmin = function(to, from, next) {
+  if (localStorage.getItem('my_id') == 'ssafy') {
+    next()
+  } else {
+    next(from)
+  }  
+}
+
 const routes = [
   {
     path: "/",
@@ -34,21 +56,25 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/signup",
     name: "Signup",
     component: Signup,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/password",
     name: "Password",
     component: Password,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/password/2",
     name: "Password2",
     component: Password2,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/mainselect",
@@ -59,71 +85,86 @@ const routes = [
     path: "/seniorcenterselect",
     name: "SeniorCenterSelect",
     component: SeniorCenterSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/friendselect",
     name: "FriendSelect",
     component: FriendSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/healthselect",
     name: "HealthSelect",
     component: HealthSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/gameselect",
     name: "GameSelect",
     component: GameSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/board",
     name: "Board",
     component: Board,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/mypage",
     name: "Mypage",
     component: Mypage,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementia",
     name: "Dementia",
     component: Dementia,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/stretching",
     name: "Stretching",
     component: Stretching,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/seniorcenter",
     name: "SeniorCenter",
     component: SeniorCenter,
+    props: true,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/map",
     name: "Map",
     component: Map,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/friendmatching",
     name: "FriendMatching",
     component: FriendMatching,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementiaresult1",
     name: "DementiaResult1",
     component: DementiaResult1,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementiaresult2",
     name: "DementiaResult2",
     component: DementiaResult2,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/admin",
     name: "Admin",
     component: Admin,
+    beforeEnter: allowOnlyAdmin,
   },
 ];
 
@@ -131,5 +172,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
 
 export default router;
