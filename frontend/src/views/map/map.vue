@@ -83,8 +83,8 @@ import SeniorCenterModal from './components/seniorCenterModal'
 import BackButton from '@/views/components/BackButton'
 import axios from 'axios';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
+const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
     name: 'Map',
     // data() {

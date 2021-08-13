@@ -78,14 +78,21 @@ export default {
         const sessionId = String(props.centerInfo.seniorId) + '-' + String(idx)
         const centerName = props.centerInfo.seniorName
         const myId = store.getters['root/getMyId']
-        store.dispatch('root/requestMyDetail', myId)
+        store.dispatch('root/requestEnter', {seniorId: props.centerInfo.seniorId, userId: myId})
         .then((res) => {
-          const myName = res.data.data.userName
-          console.log(sessionId, myName)
-          router.push({
-            name: 'SeniorCenter',
-            params: {mySessionId: sessionId, myUserName: myName, myCenterName: centerName}
+          console.log('자주가는 경로당 응답:', res)
+          store.dispatch('root/requestMyDetail', myId)
+          .then((res) => {
+            const myName = res.data.data.userName
+            console.log(sessionId, myName)
+            router.push({
+              name: 'SeniorCenter',
+              params: {mySessionId: sessionId, myUserName: myName, myCenterName: centerName}
+            })
           })
+        })
+        .catch((err)=> {
+          alert(err)
         })
       }
     }

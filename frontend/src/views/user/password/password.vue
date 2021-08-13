@@ -9,18 +9,7 @@
         </el-col>
       </el-row>
     </el-col>
-    <el-popover
-      placement="top-start"
-      :width="230"
-      trigger="hover"
-      content="뒤로 가려면 화살표를 클릭해주세요."
-    >
-      <template #reference>
-        <el-button class="back-btn" @click="$router.go(-1)">
-          <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 100px;" ></span>
-        </el-button>
-      </template>
-    </el-popover>
+    <BackButton/>
     <el-col class="right-content" :span="12">
       <el-container class="login-container">
         <el-header>
@@ -73,9 +62,12 @@
 import { reactive, computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
+import BackButton from '@/views/components/BackButton'
 export default {
   name: 'Password',
-
+  components: {
+    BackButton
+  },
   // setup() {
   //   const router = useRouter()
 
@@ -169,7 +161,7 @@ export default {
       .then(res => {
         console.log(res)
         store.commit('root/loadingOff')
-        if (res.status == "success") {
+        if (res.data.status == "success") {
           router.push({
             name: 'Password2'
           })
