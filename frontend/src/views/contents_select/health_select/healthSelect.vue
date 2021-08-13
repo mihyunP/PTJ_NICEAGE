@@ -7,21 +7,10 @@
           <div class="explanation">치매 진단검사를 선택하시면 간단한 치매 진단을 하실 수 있습니다. 스트레칭 따라하기를 선택하시면 간단한 스트레칭 동작을 화면을 보시며 따라하실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
           <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
-
+    <BackButton/>
       <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
@@ -42,10 +31,12 @@
 
 <script>
 import { useRouter } from 'vue-router'
-
+import BackButton from '@/views/components/BackButton'
 export default {
   name: 'HealthSelect',
-
+  components: {
+    BackButton
+  },
     setup() {
         const router = useRouter()
 

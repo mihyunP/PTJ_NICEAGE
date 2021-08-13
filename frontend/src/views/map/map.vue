@@ -22,10 +22,6 @@
                     </tr>
                         </tbody>
                     </table>
-                        <div @click="$router.go(-1)">
-                        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-                        <span class="previouspage">전 페이지로 돌아가기</span>
-                        </div>
             </el-scrollbar>
                 </el-tab-pane>
 
@@ -46,10 +42,6 @@
                     </tr>
                         </tbody>
                     </table>
-                    <div @click="$router.go(-1)">
-                        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-                        <span class="previouspage">전 페이지로 돌아가기</span>
-                        </div>
             </el-scrollbar>
                 </el-tab-pane>
 
@@ -61,16 +53,13 @@
                             </td>   
                         </tr>
                     </table>
-                                        <div @click="$router.go(-1)">
-                        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-                        <span class="previouspage">전 페이지로 돌아가기</span>
-                        </div>
             </el-scrollbar>
                 </el-tab-pane>
                 </el-tabs>
 
 
         </el-col>
+        <BackButton/>
         <el-col :span="17">
             <div id="map" style="z-index:0"></div>
         </el-col>
@@ -91,6 +80,7 @@ import { reactive, onMounted} from 'vue'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 import SeniorCenterModal from './components/seniorCenterModal'
+import BackButton from '@/views/components/BackButton'
 import axios from 'axios';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
@@ -104,7 +94,8 @@ export default {
     //     };
     // },
     components: {
-        SeniorCenterModal
+        SeniorCenterModal,
+        BackButton
     },
     setup() {
         const router = useRouter()
@@ -312,7 +303,7 @@ export default {
             //     document.head.appendChild(script);
             // }
             })
-  
+
             // if (window.kakao && window.kakao.maps) {
             //     console.log(window.kakao);
             //     console.log("len"+" "+state.SeniorCenterInfo.length);
