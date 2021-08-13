@@ -67,4 +67,19 @@ public class SeniorController {
 		}
 		return response;
 	}
+	
+	@ApiOperation(value = "경로당 랜덤 입장시", response = MainResponse.class)
+	@GetMapping("/random/{seniorId}")
+	public MainResponse randomSenior(@ApiParam(value = "아이디")@PathVariable Long seniorId){
+		MainResponse response = null;
+		
+		try {
+			Senior_Citizen_Center senior = seniorService.findBySeniorId(seniorId);
+			response = new MainResponse("success", senior);
+			System.out.println(response);
+		} catch (Exception e) {
+			response = new MainResponse("fail", e.getMessage());
+		}
+		return response;
+	}
 }
