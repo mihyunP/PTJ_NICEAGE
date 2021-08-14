@@ -134,7 +134,15 @@ const routes = [
     name: "SeniorCenter",
     component: SeniorCenter,
     props: true,
-    beforeEnter: allowOnlyAuth,
+    beforeEnter: function(to, from, next) {
+      console.log('!!!')
+      if (to == from) {
+        console.log('같은 페이지1!!')
+      } else {
+        console.log('다른페이지!!!')
+      }
+      next()
+    },
   },
   {
     path: "/map",

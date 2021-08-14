@@ -37,8 +37,8 @@ import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios';
 import BackButton from '@/views/components/BackButton'
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
+const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
   name: 'HealthSelect',
   components: {
@@ -48,7 +48,8 @@ export default {
         const router = useRouter()
         const store = useStore()
         const state = reactive({
-          targetSession: undefined
+          targetSession: undefined,
+          myCenterName: undefined
         })
         const clickMap = () => {
           router.push({
@@ -66,7 +67,6 @@ export default {
               }
             })
             .then(res => {
-              store.commit('root/loadingOff')
               console.log(res.data)
               const sessions = res.data.content
 
@@ -74,17 +74,30 @@ export default {
 
                 const myId = store.getters['root/getMyId']
                 const index = Math.floor(Math.random() * res.data.numberOfElements)
-                console.log('세션과 랜덤인덱스 확인',sessions, index)
                 state.targetSession = sessions[index]
-                store.dispatch('root/requestMyDetail', myId)
-                .then((res) => {
-                  const myName = res.data.data.userName
-                  router.push({
-                    name: 'SeniorCenter',
-                    params: {mySessionId: state.targetSession.id, myUserName: myName, myCenterName: '경로당이름'}
+                const seniorId = state.targetSession.id.split('-')[0]
+                console.log('1124124214124',state.targetSession.id)
+                store.dispatch('root/requestSeniorCenter', seniorId)
+                .then(res => {
+                  if (res.data.data !== null) {
+                    state.myCenterName = res.data.data.seniorName
+                  }
+                  store.dispatch('root/requestMyDetail', myId)
+                  .then((res) => {
+                    store.commit('root/loadingOff')
+                    const myName = res.data.data.userName
+                    router.push({
+                      name: 'SeniorCenter',
+                      params: {mySessionId: state.targetSession.id, myUserName: myName, myCenterName: state.myCenterName}
+                    })
+                  })
+                  .catch(() => {
+                    store.commit('root/loadingOff')
+                    alert('이름을 불러올 수 없습니다.')
                   })
                 })
               } else {
+                store.commit('root/loadingOff')
                 alert('현재 생성된 경로당이 없습니다.')
               }
             })

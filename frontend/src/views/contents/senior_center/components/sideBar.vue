@@ -6,21 +6,29 @@
         <MessageForm @getMyMsg="getMyMsg"/>
       </div>
     </el-tab-pane>
-    <el-tab-pane label="다른방 정보">
-      <el-table
-        :data="tableData"
-        stripe
-        style="width: 100%">
-        <el-table-column
-          prop="name"
-          label="방번호"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="number"
-          label="인원수">
-        </el-table-column>
-      </el-table>
+    <el-tab-pane @click="clickOtherRoomInfo" label="다른방 정보">
+      <el-row class="room-title">
+        <el-col :span="4">방제목</el-col>
+        <el-col :span="12">인원수</el-col>
+        <el-col :span="8">입장</el-col>
+      </el-row>
+      <div
+      v-for="(personnel, idx) in personnelList" 
+      :key="idx" 
+      class="room-element">
+        <el-row>
+          <el-col :span="4">
+            <span>{{roomList[idx]}}방</span>
+          </el-col>
+          <el-col :span="12">
+            <span>{{personnel}} / 9</span>
+          </el-col>
+          <el-col :span="8">
+            <el-button type="danger" @click="clickChangeCenter(idx, personnel)">입장하기</el-button>
+          </el-col>
+        </el-row>
+        <el-divider></el-divider>
+      </div>
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -38,35 +46,45 @@ export default {
     msgs: {
       type: Array
     },
+    personnelList: {
+      type: Array
+    },
+    sessionIndex: {
+      type: Number
+    },
+    myCenterName: {
+      type: String
+    },
+    mySessionId: {
+      type: String
+    }
   },
   data() {
     return {
-      tableData: [{
-        name: '2번방',
-        number: '3/10'
-      }, {
-        name: '3번방',
-        number: '0/10'
-      }, {
-        name: '4번방',
-        number: '0/10'
-      }, {
-        name: '5번방',
-        number: '0/10'
-      }]
+      roomList: ['개나리', '진달래', '장미', '매화', '해바라기']
     }
+
   },
   methods: {
     getMyMsg(message) {
       this.$emit('getMyMsg', message)
     },
-    handleClick() {
-      this.$emit('handleClick')
+    handleClick(tab) {
+      if (tab.props.label == '다른방 정보') {
+        this.$emit('handleClick')
+      }
+    },
+    clickChangeCenter(idx, personnel) {
+      if (idx == this.sessionIndex) {
+        alert(`이미 ${this.roomList[idx]}방에 계십니다.`)
+      } else {
+        this.$emit('changeSession', {idx: idx, personnel: personnel})
+      }
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

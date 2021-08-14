@@ -2,7 +2,7 @@
     <el-row class="map-container">
         <el-col :span="7">
             
-                <el-tabs type="border-card">
+                <el-tabs type="border-card" @tab-click="handleTabClick">
                 <el-tab-pane label="전체 보기">
                     <el-scrollbar height="650px">
                 <!-- <div v-if="!state.dialogVisible">{{ state.dialogVisible }}</div> -->
@@ -10,14 +10,13 @@
                     <table>
                         <thead></thead>
                         <tbody>
-                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="state.dialogVisible=true">
+                    <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="loadModal(s)">
                     <td>
                         <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
                     </td>
                     <td>
                             이름 : {{ s.seniorName }}<br>
                             주소 : {{ s.seniorAddress }}<br>
-                            현재 인원 : 
                     </td>
                     </tr>
                         </tbody>
@@ -30,32 +29,37 @@
                     <table>
                         <thead></thead>
                         <tbody>
-                    <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="state.dialogVisible=true">
+                    <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="loadModal(s)">
                     <td>
                         <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
                     </td>
                     <td>
                             이름 : {{ s.seniorName }}<br>
                             주소 : {{ s.seniorAddress }}<br>
-                            현재 인원 : 
                     </td>
                     </tr>
                         </tbody>
                     </table>
             </el-scrollbar>
                 </el-tab-pane>
-
                 <el-tab-pane label="인원수 많은 순">
                     <el-scrollbar height="650px">
-                    <table v-if="checked3">
-                        <tr>
-                            <td>인원수 많은 순
-                            </td>   
-                        </tr>
-                    </table>
-            </el-scrollbar>
+                        <table>
+                        <tbody>
+                            <tr v-bind:key="s" v-for="s in state.mostPeopleCenterInfo" @click="loadModal(s)">
+                                <td>
+                                    <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
+                                </td>
+                                <td>
+                                    이름 : {{ s.seniorName }}<br>
+                                    주소 : {{ s.seniorAddress }}<br>
+                                </td>
+                            </tr>
+                        </tbody>
+                        </table>
+                    </el-scrollbar>
                 </el-tab-pane>
-                </el-tabs>
+            </el-tabs>
 
 
         </el-col>
@@ -105,6 +109,7 @@ export default {
             dialogVisible: false,
             SeniorCenterInfo : [], 
             FrequenceSeniorCenterInfo : [],
+            mostPeopleCenterInfo : [],
             ClickedSeniorCenter : {},
             enterInfo :{
                 seniorId : 0,
@@ -246,7 +251,7 @@ export default {
                 })
                 .catch((err) => {
                     store.commit('root/loadingOff')
-                    console.log('여기로 와야되느네', err)
+                    alert(err)
                 })
         }
 
@@ -271,10 +276,9 @@ export default {
             .then(result => {
                 // console.log(result);
                 state.SeniorCenterInfo = result.data.data;
-                console.log("sci"+" "+state.SeniorCenterInfo);
+                console.log(state.SeniorCenterInfo)
                     if (window.kakao && window.kakao.maps) {
                 console.log(window.kakao);
-                console.log("len"+" "+state.SeniorCenterInfo.length);
                 initMap();
             } else {
                 const script = document.createElement('script');
@@ -320,7 +324,62 @@ export default {
             state.dialogVisible = false
         }
 
-        return{state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog }
+        const loadModal = (centerObject) => {
+            state.ClickedSeniorCenter = centerObject;
+            getNumOfPeople()
+        }
+        const clickMostPeople = () => {
+            const sessionPeopleObject = {}
+            store.commit('root/loadingOn')
+            axios
+            .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,{
+                auth: {
+                    username: 'OPENVIDUAPP',
+                    password: OPENVIDU_SERVER_SECRET
+                }
+            })
+            .then(res => {
+                store.commit('root/loadingOff')
+                const sessions = res.data.content
+                sessions.forEach(session => {
+                    const sessionId = session.id.split('-')[0]
+                    if (!sessionPeopleObject[sessionId]) {
+                        sessionPeopleObject[sessionId] = 0
+                    }
+                    sessionPeopleObject[sessionId] += session.connections.numberOfElements
+                }); 
+                const sortedList = []
+                for(let id in sessionPeopleObject) {
+                    sortedList.push([id, sessionPeopleObject[id]])
+                }
+                sortedList.sort((a, b) => {
+                    return a[1] - b[1]
+                })
+                const mostPeopleCenterTmp = []
+                sortedList.forEach(centerId => {
+                    let id = parseInt(centerId[0])
+
+                    for(let i = 0; i < state.SeniorCenterInfo.length; i++) {
+                        if (state.SeniorCenterInfo[i]['seniorId'] == id) {
+                            mostPeopleCenterTmp.push(state.SeniorCenterInfo[i])
+                            break
+                        }
+                    }
+                })
+                state.mostPeopleCenterInfo = mostPeopleCenterTmp
+            })
+            .catch((err) => {
+                store.commit('root/loadingOff')
+                alert(err)
+            })
+        }
+        const handleTabClick = (tab) => {
+            if (tab.props.label == '인원수 많은 순') {
+                clickMostPeople()
+            }
+        }
+
+        return{state, clickDialogVisible,clickEnter,initMap, onCloseCenterDialog, loadModal, clickMostPeople, handleTabClick}
 
     },
 
