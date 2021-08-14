@@ -1,6 +1,7 @@
 package com.ssafy.niceage.Controller.Request;
 
-import javax.persistence.Column;
+import java.util.Date;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,5 +16,5 @@ public class ReportRequest {
     private String reporterTargetId;
 	
 	@ApiModelProperty(value = "roportDate")
-    private String roportDate;
+    private Date reportDate;
 }

@@ -47,12 +47,14 @@ public class MatchingService {
 	@Getter
 	public class MatchInfo {
 		String userId;
+		long userNo;
 		int firstChoice;
 		int secondChoice;
 		int thirdChoice;
 
-		public MatchInfo(String userId, int firstChoice, int secondChoice, int thirdChoice) {
+		public MatchInfo(String userId, long userNo, int firstChoice, int secondChoice, int thirdChoice) {
 			this.userId = userId;
+			this.userNo = userNo;
 			this.firstChoice = firstChoice;
 			this.secondChoice = secondChoice;
 			this.thirdChoice = thirdChoice;
@@ -86,11 +88,11 @@ public class MatchingService {
 	}
 
 	public void addList(MatchingRequest request) {
-		MatchInfo object = new MatchInfo(request.getUserId(), request.getFirstChoice(), request.getSecondChoice(),
+		User user = userRepository.findByUserId(request.getUserId());
+		long userNo = user.getUserNo();
+		MatchInfo object = new MatchInfo(request.getUserId(), userNo, request.getFirstChoice(), request.getSecondChoice(),
 				request.getThirdChoice());
 		matchInfoList.add(object);
-		System.out.println(matchInfoList.get(matchInfoList.size() - 1).firstChoice + " " + matchInfoList.get(matchInfoList.size() - 1).secondChoice + " "
-				+ matchInfoList.get(matchInfoList.size() - 1).thirdChoice);
 		statusList.add(new MatchStatus(request.getUserId(), false));
 
 	}
@@ -103,8 +105,8 @@ public class MatchingService {
 		Timer timer = new Timer();
 		TimerTask task = new TimerTask() {
 			
-			User user1;
-			User user2;
+			User user1 = new User();
+			User user2 = new User();
 			int i = 1;
 			@Override
 			public void run() {
@@ -122,6 +124,7 @@ public class MatchingService {
 							&& request.getThirdChoice() == matchInfoList.get(i).thirdChoice
 							&& !statusList.get(i).status) {
 
+						System.out.println("list크기: " + matchInfoList.size() + " i: " + i + " id :" +request.getUserId());
 						// 1:1매칭에 성공한 두명의 정보를 각각 저장
 						user1 = userRepository.findByUserId(request.getUserId());
 						user2 = userRepository.findByUserId(matchInfoList.get(i).userId);
@@ -142,17 +145,10 @@ public class MatchingService {
 						// 이 탐색은 스프링에서 제공하는 멀티스레드로 작업된다.
 						// 현재 스레드에서는 한 명의 탐색만 하고 있으므로 매칭이 잡혔다고 바로 리스트에서 삭제하면 상대방의 요청엔 응답을 해줄 수 없다.
 						// 따라서 현재 매칭이 잡혔다는 정보를 따로 저장할 필요가 있다.
-						MatchStatus matchStatus1 = new MatchStatus(user1.getUserId(), true);
-						MatchStatus matchStatus2 = new MatchStatus(user2.getUserId(), true);
+						MatchStatus matchStatus = new MatchStatus(user2.getUserId(), true);
 						
-						statusList.set(i, matchStatus1);						
-						for (int j = 0; j < matchInfoList.size(); j++) {
-							if (matchInfoList.get(j).userId.equals(user1.getUserId())) {
-								statusList.set(j, matchStatus2);
-								System.out.println(user1.getUserId() + " " + user2.getUserId());
-								break L;
-							}
-						}
+						statusList.set(i, matchStatus);						
+						break;
 						
 
 					} // if문 종료
@@ -160,39 +156,21 @@ public class MatchingService {
 					
 				} // for문 종료
 				
-				// 전역리스트 원소를 2개지워야하므로 인덱스를 따로 저장해놓고  한번에 지워준다.
-				int index1 = 0;
-				int index2 = 0;
 				int count = 0;
 				for (int i = 0; i < statusList.size(); i++) {
 					if (statusList.get(i).status && matchInfoList.get(i).getUserId().equals(user1.getUserId())) {
-						index1 = i;
 						count++;
-						if (count == 2) {
-							break;
-						}
 					}
 					if (statusList.get(i).status && matchInfoList.get(i).getUserId().equals(user2.getUserId())) {
-						index2 = i;
 						count++;
-						if (count == 2) {
-							break;
-						}
+					}
+					if (count == 2) {
+						break;
 					}
 				}
 				
 				if (count == 2) {
-					if (index1 > index2) {
-						statusList.remove(index1);
-						statusList.remove(index2);
-						matchInfoList.remove(index1);
-						matchInfoList.remove(index2);											
-					} else {
-						statusList.remove(index2);
-						statusList.remove(index1);
-						matchInfoList.remove(index2);											
-						matchInfoList.remove(index1);
-					}
+					System.out.println("타이머 종료 " + userNo);
 					timer.cancel();
 				}
 				
@@ -201,7 +179,6 @@ public class MatchingService {
 				}
 				i++;
 				timeIndex[(int) userNo]++;
-				System.out.println("size"+matchInfoList.size());
 			} // @Override method : run() 종료
 		}; // TimerTask 종료 시점
 		
@@ -227,7 +204,30 @@ public class MatchingService {
 			e.printStackTrace();
 		}
 
+		// 매칭에 실패한 경우 null을 리턴
 		return null;
 	}
 
+	/**
+	 * 같은 방번호로 매칭된 두 회원이 프론트에서 백으로 요청을 다시 보내면 매칭 리스트에서 삭제한다.
+	 * @param userId
+	 */
+	public void deleteList(String userId) {
+
+		User user = userRepository.findByUserId(userId);
+		long userNo = user.getUserNo();
+		
+		try {
+			Thread.sleep(5000);
+			for (int i = 0; i < statusList.size(); i++) {
+				if (matchInfoList.get(i).userNo == userNo) {
+					statusList.remove(i);
+					matchInfoList.remove(i);
+				}
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

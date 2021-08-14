@@ -60,7 +60,7 @@ public class Board implements Serializable{
 		this.user = user;
 	}
 	
-	@PrePersist //
+	@PrePersist
 	private void onCreate() {
         this.boardDate = new Date();
     }
