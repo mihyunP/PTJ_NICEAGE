@@ -41,7 +41,6 @@ public class SeniorController {
 			User user = userService.findById(userId);
 			List<Senior_Citizen_Center> seniorList = seniorService.findBySeniorAddress(user.getUserAddress());
 			response = new MainResponse("success", seniorList);
-			System.out.println(response);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
@@ -61,7 +60,6 @@ public class SeniorController {
 						.map(m-> new Senior_Citizen_CenterDTO(m))
 						.collect(Collectors.toList());
 			response = new MainResponse("success", collect);
-			System.out.println(response);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
@@ -76,7 +74,6 @@ public class SeniorController {
 		try {
 			Senior_Citizen_Center senior = seniorService.findBySeniorId(seniorId);
 			response = new MainResponse("success", senior);
-			System.out.println(response);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
