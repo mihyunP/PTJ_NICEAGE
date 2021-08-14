@@ -5,7 +5,7 @@
     <main-header class="main-header"/>
     <el-container class="main-container">
       <el-main class="main">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </el-main>
     </el-container>
     <main-footer/>

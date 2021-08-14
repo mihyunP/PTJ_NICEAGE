@@ -24,8 +24,8 @@
         <el-col class="video-container" :span="18">
 					<el-row id="session-title" justify="space-between">
 						<!-- <div>{{ mySessionId }}</div> -->
-						<div>{{myCenterName}}</div>
-						<div>119 신고기능 추가예정</div>
+						<div>{{myCenterName}} {{roomList[parseInt(sessionId.split('-')[1])]}}방</div>
+						<el-button type="text" @click="click119">119 신고</el-button>
 					</el-row>
 					<el-row>
 						<el-col :span="8">
@@ -40,7 +40,12 @@
 					<SideBar
 						@handleClick="handleClick"
 						@getMyMsg="getMyMsg"
-						:msgs="msgs"/>
+						:msgs="msgs"
+						:personnelList="personnelList"
+						:sessionIndex="sessionIndex"
+						:mySessionId="sessionId"
+						:myCenterName="myCenterName"
+						@changeSession="changeSession"/>
         </el-col>
       </el-row>
 			<BottomBar
@@ -95,17 +100,54 @@ export default {
 			isVideoMuted: false,
 			isAudioMuted: false,
 			activeName: 'first',
+			personnelList: [],
+			sessionIndex: undefined,
+			sessionId: this.mySessionId,
+			roomList: ['개나리', '진달래', '장미', '매화', '해바라기']
 		}
 	},
-
+	computed: {
+		roomIndex: () => {
+			return this.mySessionId
+		}
+	},
 	mounted() {
 		console.log('urllll:', OPENVIDU_SERVER_URL)
 		this.joinSession()
+		console.log(this.session)
 	},
 
 	methods: {
-		handleClick(tab, event) {
-			console.log(tab, event);
+		handleClick() {
+			const personnelListTmp = [0, 0, 0, 0, 0]
+			this.$store.commit('root/loadingOn')
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+				auth: {
+					username: 'OPENVIDUAPP',
+					password: OPENVIDU_SERVER_SECRET
+				}
+			})
+			.then(res => {
+				this.$store.commit('root/loadingOff')
+				const sessions = res.data.content
+				const tmp = this.sessionId.split('-')
+				const sessionId = tmp[0]
+				//!!
+				this.sessionIndex = parseInt(tmp[1])
+				sessions.forEach(session => {
+					const split_str = session.id.split('-')
+					if (sessionId == split_str[0]) {
+						const index = parseInt(split_str[1])
+						personnelListTmp[index] = session.connections.numberOfElements
+					}
+				})
+				//!!
+				this.personnelList = personnelListTmp
+			})
+			.catch(err => {
+				this.$store.commit('root/loadingOff')
+				alert(err)
+			})
 		},
 		muteAudio() {
 			this.publisher.publishAudio(this.isAudioMuted)
@@ -176,7 +218,7 @@ export default {
 			// --- Connect to the session with a valid user token ---
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
+			this.getToken(this.sessionId).then(token => {
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
 						// --- Get your own camera stream with the desired properties ---
@@ -211,6 +253,58 @@ export default {
 			this.OV = undefined;
 			window.removeEventListener('beforeunload', this.leaveSession);
 			this.leave()
+		},
+		changeSession (data) {
+			const idx = data.idx
+			const personnel = data.personnel
+			// --- Leave the session by calling 'disconnect' method over the Session object ---
+			
+      if (personnel >= 9) {
+				alert('정원초과로 입장할 수 없습니다.')
+      } else {
+				// 세션 종료
+				if (this.session) this.session.disconnect();
+				this.session = undefined;
+				this.mainStreamManager = undefined;
+				this.publisher = undefined;
+				this.subscribers = [];
+				this.OV = undefined;
+				window.removeEventListener('beforeunload', this.leaveSession);
+				// 새로운 세션 입장
+				this.sessionIndex = idx
+        this.sessionId = this.sessionId.split('-')[0] + '-' + String(idx)
+				this.joinSession()
+				console.log(this.sessionId, this.myUserName, this.myCenterName)
+				// 방 인원수 갱신
+				this.$store.commit('root/loadingOn')
+				axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+					auth: {
+						username: 'OPENVIDUAPP',
+						password: OPENVIDU_SERVER_SECRET
+					}
+				})
+				.then(res => {
+					this.$store.commit('root/loadingOff')
+					const personnelListTmp = [0, 0, 0, 0, 0]
+					this.$store.commit('root/loadingOff')
+					const sessions = res.data.content
+					const sessionId = this.sessionId.split('-')[0]
+					sessions.forEach(session => {
+						const split_str = session.id.split('-')
+						if (sessionId == split_str[0]) {
+							const index = parseInt(split_str[1])
+							personnelListTmp[index] = session.connections.numberOfElements
+						}
+					})
+					personnelListTmp[idx] += 1
+					//!!
+					this.personnelList = personnelListTmp
+				})
+				.catch(err => {
+					this.$store.commit('root/loadingOff')
+					alert(err)
+				})
+				} 
 		},
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
@@ -262,6 +356,10 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+
+		click119 () {
+			console.log('요청할 API가 아직 없습니다')
+		}
 	},
 	setup() {
 		const router = useRouter()
