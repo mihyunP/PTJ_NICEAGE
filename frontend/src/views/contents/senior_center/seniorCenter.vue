@@ -63,8 +63,8 @@ import SideBar from './components/sideBar';
 import BottomBar from './components/bottomBar';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
-const OPENVIDU_SERVER_SECRET = "MY_SECRET";
+const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
+const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
 	name: 'App',
 	components: {
@@ -99,8 +99,8 @@ export default {
 	},
 
 	mounted() {
+		console.log('urllll:', OPENVIDU_SERVER_URL)
 		this.joinSession()
-		console.log('12312312341241587342y379852hjkfedhnf', this.myCenterName)
 	},
 
 	methods: {
@@ -225,7 +225,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
-						customSessionId: sessionId,
+						customSessionId: sessionId
 					}), {
 						auth: {
 							username: 'OPENVIDUAPP',

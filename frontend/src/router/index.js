@@ -68,13 +68,13 @@ const routes = [
     path: "/password",
     name: "Password",
     component: Password,
-    beforeEnter: allowOnlyAuth,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/password/2",
     name: "Password2",
     component: Password2,
-    beforeEnter: allowOnlyAuth,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/mainselect",

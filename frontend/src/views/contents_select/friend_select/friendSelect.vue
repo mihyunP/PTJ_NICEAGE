@@ -1,5 +1,5 @@
 <template>
-   <el-row class="main-content">
+  <el-row class="main-content">
     <el-col class="left-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
@@ -10,7 +10,7 @@
         </el-col>
       </el-row>
     </el-col>
-
+    <BackButton/>
       <el-col class="right-content" :span="12">
   <div id="app">
 <div v-if="status==1">
@@ -18,7 +18,7 @@
         <el-col :span="24">
           <div class="question">친구를 소개해 드릴까요?</div>
 
-           <el-row justify="center">
+          <el-row justify="center">
           <el-button style="margin: 20px; width: 200px; height: 200px;" @click="getSelection(1)">
             <span class="iconify" data-inline="false" data-icon="bx:bx-wifi" style="font-size: 148px;"></span>
             <div class="select-button">동네친구</div>
@@ -106,11 +106,13 @@
 
 <script>
 import { useRouter } from 'vue-router'
-
+import BackButton from '@/views/components/BackButton'
 export default {
 
   name: 'FiendSelect',
-
+  components: {
+    BackButton
+  },
   setup() {
     const router = useRouter()
 

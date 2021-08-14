@@ -10,6 +10,7 @@
         </el-col>
       </el-row>
     </el-col>
+    <BackButton/>
     <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
@@ -35,11 +36,14 @@ import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios';
+import BackButton from '@/views/components/BackButton'
 const OPENVIDU_SERVER_URL = "https://" + location.hostname + ":4443";
 const OPENVIDU_SERVER_SECRET = "MY_SECRET";
 export default {
   name: 'HealthSelect',
-
+  components: {
+    BackButton
+  },
     setup() {
         const router = useRouter()
         const store = useStore()
@@ -72,13 +76,12 @@ export default {
                 const index = Math.floor(Math.random() * res.data.numberOfElements)
                 console.log('세션과 랜덤인덱스 확인',sessions, index)
                 state.targetSession = sessions[index]
-                console.log()
                 store.dispatch('root/requestMyDetail', myId)
                 .then((res) => {
                   const myName = res.data.data.userName
                   router.push({
                     name: 'SeniorCenter',
-                    params: {mySessionId: state.targetSession.id, myUserName: myName, myCenterName: '경로당 이름'}
+                    params: {mySessionId: state.targetSession.id, myUserName: myName, myCenterName: '경로당이름'}
                   })
                 })
               } else {

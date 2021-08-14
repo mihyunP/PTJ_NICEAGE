@@ -27,7 +27,7 @@
             <span>{{personnel}} / 9</span>
           </el-col>
           <el-col :span="8">
-            <el-button class="select-btn" @click="clickSeniorCenter(idx)">입장하기</el-button>
+            <el-button class="select-btn" @click="clickSeniorCenter(idx, personnel)">입장하기</el-button>
           </el-col>
         </el-row>
         <el-divider></el-divider>
@@ -71,22 +71,30 @@ export default {
     const handleClose = () => {
       emit('closeCenterDialog')
     }
-    const clickSeniorCenter = (idx) => {
-      const sessionId = String(props.centerInfo.seniorId) + '-' + String(idx)
-      const centerName = props.centerInfo.seniorName
-      console.log('centername', centerName)
-      console.log('sessionId:', sessionId)
-      const myId = store.getters['root/getMyId']
-      console.log('myId:', myId)
-      store.dispatch('root/requestMyDetail', myId)
-      .then((res) => {
-        const myName = res.data.data.userName
-        console.log(sessionId, myName)
-        router.push({
-          name: 'SeniorCenter',
-          params: {mySessionId: sessionId, myUserName: myName, myCenterName: centerName}
+    const clickSeniorCenter = (idx, personnel) => {
+      if (personnel >= 9) {
+        alert('정원초과로 입장할 수 없습니다.')
+      } else {
+        const sessionId = String(props.centerInfo.seniorId) + '-' + String(idx)
+        const centerName = props.centerInfo.seniorName
+        const myId = store.getters['root/getMyId']
+        store.dispatch('root/requestEnter', {seniorId: props.centerInfo.seniorId, userId: myId})
+        .then((res) => {
+          console.log('자주가는 경로당 응답:', res)
+          store.dispatch('root/requestMyDetail', myId)
+          .then((res) => {
+            const myName = res.data.data.userName
+            console.log(sessionId, myName)
+            router.push({
+              name: 'SeniorCenter',
+              params: {mySessionId: sessionId, myUserName: myName, myCenterName: centerName}
+            })
+          })
         })
-      })
+        .catch((err)=> {
+          alert(err)
+        })
+      }
     }
     return {state, handleClose, clickSeniorCenter}
 
