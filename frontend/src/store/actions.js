@@ -96,8 +96,14 @@ export function requestEnter ({ state }, payload) {
   return axios.post(url, body)
 }
 
-  export function requestDementiaResult ({ state }, param) {
-    console.log('requestDementiaResult', state, param)
-    const url = `/dementia/dementia/${param.userId}/${param.result}`
-    return axios.get(url)
-  }
+export function requestDementiaResult ({ state }, param) {
+  console.log('requestDementiaResult', state, param)
+  const url = `/dementia/dementia/${param.userId}/${param.result}`
+  return axios.get(url)
+}
+
+export function requestSeniorCenter ({ state }, userId) {
+  console.log('requestSeniorCenter', state, userId)
+  const url = `/senior/random/${userId}`
+  return axios.get(url)
+}
