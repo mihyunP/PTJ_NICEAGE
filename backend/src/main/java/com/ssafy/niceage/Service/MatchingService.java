@@ -293,12 +293,13 @@ public class MatchingService {
 		}
 
 		// 매칭에 실패한 경우 null을 리턴
-		return null;
+		long fail = 0;
+		return fail;
 	}
 
 
 	/**
-	 * 같은 방번호로 매칭된 두 회원이 프론트에서 백으로 요청을 다시 보내면 매칭 리스트에서 삭제한다.
+	 * 매칭에 성공하든 실패하든 매칭중이 끝났으니 리스트에서 삭제한다.
 	 * @param userId
 	 */
 	public void deleteList(String userId) {
@@ -314,10 +315,8 @@ public class MatchingService {
 					matchInfoList.remove(i);
 				}
 			}
-			System.out.println(userNo + "번 리스트 삭제");
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
