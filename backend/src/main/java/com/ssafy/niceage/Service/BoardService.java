@@ -1,5 +1,6 @@
 package com.ssafy.niceage.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
+import com.ssafy.niceage.Domain.Board.BoardDTO.BoardListDTO;
 import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_CenterDTO;
 import com.ssafy.niceage.Repository.BoardRepository;
 
@@ -51,6 +53,15 @@ public class BoardService {
 		} else {
 			return false;
 		}
+	}
+
+	public List<BoardListDTO> addList(List<Board> boardList, BoardDTO boardDto) {
+		List<BoardListDTO> result = new ArrayList<>();
+		for (int i = 0; i < boardList.size(); i++) {
+			BoardListDTO boardListDto = boardDto.new BoardListDTO(boardList.get(i));
+			result.add(i, boardListDto);
+		}
+		return result;
 	}
 
 }
