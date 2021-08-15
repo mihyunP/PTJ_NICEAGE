@@ -105,4 +105,10 @@ export default {
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
   }
+    /* 이전 페이지로 돌아가기 css */
+  .previouspage {
+    font-family: SangSangFlowerRoad;
+    font-size: 45px;
+   color: rgba(248, 141, 141, 1);
+  }
 </style>

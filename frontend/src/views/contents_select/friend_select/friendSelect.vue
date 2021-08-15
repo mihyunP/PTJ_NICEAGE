@@ -7,6 +7,18 @@
           <div class="explanation">오른쪽 3가지 질문에 대한 대답을 
             선택하시면 친구를 만나실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- 전 페이지로 돌아가기 시작 -->
+<el-row @click="$router.go(-1)">
+            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
+            <span class="previouspage">전 페이지로 돌아가기</span>
+</el-row>
+<!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
@@ -162,7 +174,7 @@ export default {
   .main-content {
     height: 100%;
   }
-  .right-content {
+   .right-content {
     background: rgba(173, 203, 176, 0.7);
     height: 100%;
     /* opacity: 0.5; */

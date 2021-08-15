@@ -24,6 +24,11 @@ import DementiaResult2 from '@/views/contents/health/dementia/dementia_result2'
 
 import Admin from '@/views/admin/admin'
 
+import BoardDetail from '@/views/contents/community/boardDetail'
+import BoardWrite from '@/views/contents/community/boardWrite'
+import BoardModify from '@/views/contents/community/boardModify'
+import BoardComment from '@/views/contents/community/boardComment'
+
 const routes = [
   {
     path: "/",
@@ -124,6 +129,26 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
+  },
+  {
+    path: "/boarddetail",
+    name: "BoardDetail",
+    component: BoardDetail,
+  },
+  {
+    path: "/boardwrite",
+    name: "BoardWrite",
+    component: BoardWrite,
+  },
+  {
+    path: "/boardmodify",
+    name: "BoardModify",
+    component: BoardModify,
+  },
+  {
+    path: "/boardcomment",
+    name: "BoardComment",
+    component: BoardComment,
   },
 ];
 

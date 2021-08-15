@@ -96,8 +96,39 @@ export function requestEnter ({ state }, payload) {
   return axios.post(url, body)
 }
 
-  export function requestDementiaResult ({ state }, param) {
-    console.log('requestDementiaResult', state, param)
-    const url = `/dementia/dementia/${param.userId}/${param.result}`
+export function requestDementiaResult ({ state }, param) {
+  console.log('requestDementiaResult', state, param)
+  const url = `/dementia/dementia/${param.userId}/${param.result}`
+  return axios.get(url)
+  }
+
+  // board
+  // 게시판 불러오기
+  export function requestBoardContent ({ state }) {
+    console.log('requestBoardContent', state)
+    const url = `/board/list`
     return axios.get(url)
   }
+  // 게시판 글 작성
+  export function requestSubmitWrite ({ state }, payload) {
+    console.log('requestSubmitWrite', state, payload)
+    const url = `/board/create`
+    let body = payload
+    return axios.post(url, body)
+  }
+  // 게시판 글 수정
+  export function requestUpdateWrite ({ state }, payload) {
+    console.log('requestUpdateWrite', state, payload)
+    const url = `/board/update` 
+    const body = payload
+    return axios.put(url, body)
+  }
+  // 게시판 글 삭제
+  export function requestDeleteWrite({ state }, param) {
+    console.log('requestDeleteWrite', state, param)
+    const url = `/board/delete/${param.userId}/${param.boardId}` 
+    return axios.delete(url)
+  }
+  // 게시판 글 읽기
+
+  // comment

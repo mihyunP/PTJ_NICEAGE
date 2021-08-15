@@ -83,8 +83,8 @@ export default {
     /* opacity: 0.5; */
   }
   .el-button {
-    width: 250px;
-    height: 250px;
+    width: 180px;
+    height: 180px;
     margin : 10px;
     background: #EBC86F !important;
     border-radius: 25px !important;
@@ -111,10 +111,9 @@ export default {
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
   }
-
    .baduk-image {
-    height: 98px;
-    width: 98px;
+    height: 120px;
+    width: 120px;
     margin: 0 auto;
     background-size: contain;
     background-repeat: no-repeat;

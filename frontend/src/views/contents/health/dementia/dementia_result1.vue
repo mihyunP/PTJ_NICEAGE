@@ -13,9 +13,9 @@
 <br>
 <br>
 <!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
+<el-row @click="$router.push('mainSelect')">
             <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
+            <span class="previouspage">메인 페이지로 돌아가기</span>
 </el-row>
 <!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
