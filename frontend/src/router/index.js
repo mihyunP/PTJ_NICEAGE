@@ -154,6 +154,7 @@ const routes = [
     path: "/friendmatching",
     name: "FriendMatching",
     component: FriendMatching,
+    props: true,
     beforeEnter: allowOnlyAuth,
   },
   {

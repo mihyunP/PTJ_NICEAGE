@@ -25,7 +25,7 @@
 					<el-row id="session-title" justify="space-between">
 						<!-- <div>{{ mySessionId }}</div> -->
 						<div>{{myCenterName}} {{roomList[parseInt(sessionId.split('-')[1])]}}방</div>
-						<el-button type="text" @click="click119">119 신고</el-button>
+						<el-button type="danger" @click="clickSOS">119 신고</el-button>
 					</el-row>
 					<el-row>
 						<el-col :span="8">
@@ -357,8 +357,19 @@ export default {
 			});
 		},
 
-		click119 () {
-			console.log('요청할 API가 아직 없습니다')
+		clickSOS () {
+			const userId = this.$store.getters['root/getMyId']
+			this.$store.dispatch('root/requestSOS', userId)
+			.then((res) => {
+				if (res.data.status == "success") {
+					alert("119 요청 완료.")
+				} else {
+					alert('119 호출에 실패하였습니다.')
+				}
+			})
+			.catch(() => {
+				alert('119 호출에 실패하였습니다.')
+			})
 		}
 	},
 	setup() {
@@ -366,7 +377,7 @@ export default {
 
 		const leave = () => {
 			router.push({
-				name: 'SeniorCenterSelect'
+				name: 'Home'
 			})
 		}
 

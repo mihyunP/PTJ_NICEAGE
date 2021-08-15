@@ -102,6 +102,19 @@
   </div>
     </el-col>
   </el-row>
+  <el-dialog
+  title="Tips"
+  v-model="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>This is a message</span>
+  <template #footer>
+    <span class="dialog-footer">
+      <el-button @click="dialogVisible = false">Cancel</el-button>
+      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
+    </span>
+  </template>
+</el-dialog>
 </template>
 
 <script>
@@ -131,14 +144,13 @@ export default {
         gender : 0,
         hobby : 0,
       },
-
+      dialogVisible: false,
       status : 1,
     }
   },
 
   methods: {
     getSelection(num) {
-     
       if(this.status==1){
         this.select.region = num;
         console.log("region :"+ this.select.region);
@@ -152,8 +164,33 @@ export default {
       }else if (this.status==3) {
         this.select.hobby = num;
         console.log("hobby :"+ this.select.hobby);
-
+        this.dialogVisible = true
+        this.$router.push({
+          name: 'FriendMatching',
+          params: {
+            mySessionId: '1234124', 
+            myUserNmae: '내이름 요청해서받아오기', 
+          }
+        })
       }
+    },
+    requestFriendMatching() {
+      const payload = {
+        firstChoice: this.select.region,
+        secondChoice: this.select.gender,
+        thirdChoice: this.select.hobby,
+        userId: this.$store.getters['root/getMyId']
+      }
+      this.$store.dispatch('root/requestFriendMatching', payload)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    handleClose() {
+      this.dialogVisible = false
     }
   },
 }
