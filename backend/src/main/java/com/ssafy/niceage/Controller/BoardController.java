@@ -1,6 +1,7 @@
 package com.ssafy.niceage.Controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.niceage.Controller.Request.BoardRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
+import com.ssafy.niceage.Domain.Board.BoardDTO.BoardListDTO;
+import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_CenterDTO;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Service.BoardService;
 import com.ssafy.niceage.Service.UserService;
@@ -41,7 +44,9 @@ public class BoardController {
 
 		try {
 			List<Board> boardList = boardService.findAll();
-			response = new MainResponse("success", boardList);
+			BoardDTO boardDto = new BoardDTO();
+			List<BoardListDTO> boardListDto = boardService.addList(boardList, boardDto);
+			response = new MainResponse("success", boardListDto);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}

@@ -1,9 +1,7 @@
 package com.ssafy.niceage.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -197,14 +195,6 @@ public class MatchingService {
 				 */
 				
 				// 나는 같은동네를 선택했다면 상대방도 같은동네를 선택하고 주소가 같아야만 매칭가능
-				
-//				System.out.println(user.getUserNo() + "번 선택 : " + firstChoice + "," + secondChoice + "," + thirdChoice);
-//				System.out.println(user.getUserNo() + "번 상대방 선택 : " + matchInfoList.get(index).firstChoice + "," + matchInfoList.get(index).secondChoice
-//						 + "," + matchInfoList.get(index).thirdChoice);
-//				System.out.println(user.getUserNo() + "번 주소: " + userAddress);
-//				System.out.println(user.getUserNo() + "번 상대방 주소: " + matchInfoList.get(index).userAddress);
-//				System.out.println(user.getUserNo() + "번 성별: " + userGender);
-//				System.out.println(user.getUserNo() + "번 상대방 성별: " + matchInfoList.get(index).userGender);
 				if (firstChoice == 1) {
 					if (matchInfoList.get(index).firstChoice == 1) {
 						if(userAddress.equals(matchInfoList.get(index).userAddress)) {

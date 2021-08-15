@@ -40,7 +40,10 @@ public class SeniorController {
 		try {
 			User user = userService.findById(userId);
 			List<Senior_Citizen_Center> seniorList = seniorService.findBySeniorAddress(user.getUserAddress());
-			response = new MainResponse("success", seniorList);
+			List<Senior_Citizen_CenterDTO> collect = seniorList.stream()
+					.map(m-> new Senior_Citizen_CenterDTO(m))
+					.collect(Collectors.toList());
+			response = new MainResponse("success", collect);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}

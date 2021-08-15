@@ -69,34 +69,31 @@ public class BoardDTO {
 		this.user = user;
 	}
 
-	@Builder
-	public BoardDTO(Board board) {
-		Assert.assertNotNull("boardTitle must not be null", board.getBoardTitle());
-		Assert.assertNotNull("boardContents must not be null", board.getBoardContents());
-
-		this.boardId = board.getBoardId();
-		this.boardTitle = board.getBoardTitle();
-		this.boardContents = board.getBoardContents();
-		this.boardDate = board.getBoardDate();
-		this.user = board.getUser();
-
-		if (board.getComments() != null) {
-			List<CommentDTO> commentList = new ArrayList<>();
-			for (Comment comment : board.getComments()) {
-				CommentDTO commentDto = new CommentDTO(comment);
-				commentList.add(commentDto);
-			}
-			this.commentsDto = commentList;
-		}
+	/**
+	 * 게시글 불러오기에서 불필요한 정보를 제외한 편의성 클래스
+	 */
+	@Getter
+	@NoArgsConstructor(access = AccessLevel.PROTECTED)
+	@ApiModel(value = "게시글 불러오기 response에 담을 DTO")
+	public class BoardListDTO {
+		private Long boardId;
+		private String boardTitle;
+		private String boardContents;
+		private Date boardDate;
+		private String userName;
+		
+		public BoardListDTO(Board board) {
+			Assert.assertNotNull("boardTitle must not be null", board.getBoardTitle());
+			Assert.assertNotNull("boardContents must not be null", board.getBoardContents());
+			
+			this.boardId = board.getBoardId();
+			this.boardTitle = board.getBoardTitle();
+			this.boardContents = board.getBoardContents();
+			this.boardDate = board.getBoardDate();
+			this.userName = board.getUser().getUserName();
+		}		
 	}
-
-	public Board toEntity() {
-		return Board.builder().
-				boardId(this.boardId).
-				boardTitle(this.boardTitle).
-				boardContents(this.boardContents)
-				.user(this.user).build();
-	}
+	
 	
 	/**
 	 * 게시글 읽기에서 불필요한 정보를 제외한 편의성 클래스
@@ -132,5 +129,13 @@ public class BoardDTO {
 			}
 		}
 		
+	}
+	
+	public Board toEntity() {
+		return Board.builder().
+				boardId(this.boardId).
+				boardTitle(this.boardTitle).
+				boardContents(this.boardContents)
+				.user(this.user).build();
 	}
 }
