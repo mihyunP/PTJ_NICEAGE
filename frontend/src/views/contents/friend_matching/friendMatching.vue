@@ -1,25 +1,21 @@
 <template>
 	<div class="room-container" id="main-container">
-		<div id="join" v-if="!session">
+		<div id="join" v-if="!isMatched">
 			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
+				<h1>대기 페이지</h1>
 				<div class="form-group">
 					<p>
 						<label>Participant</label>
 						<input v-model="myUserName" class="form-control" type="text" required>
 					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
 					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
+						<button class="btn btn-lg btn-success" @click="clickButton">Join!</button>
 					</p>
 				</div>
 			</div>
 		</div>
 
-		<div class="section" v-if="session">
+		<div class="section" v-if="isMatched">
       <el-row class="session-main">
         <el-col class="video-container" :span="18">
 					<el-row id="session-title" justify="space-between">
@@ -56,22 +52,6 @@
 								<MessageList :msgs="msgs" :senderObj="messageSenderObj" :me="publisher"/>
 								<MessageForm @getMyMsg="getMyMsg"/>
 							</div>
-						</el-tab-pane>
-						<el-tab-pane label="다른방 정보">
-							<el-table
-								:data="tableData"
-								stripe
-								style="width: 100%">
-								<el-table-column
-									prop="name"
-									label="방번호"
-									width="180">
-								</el-table-column>
-								<el-table-column
-									prop="number"
-									label="인원수">
-								</el-table-column>
-							</el-table>
 						</el-tab-pane>
 					</el-tabs>
         </el-col>
@@ -129,6 +109,11 @@ export default {
     MessageForm,
     MessageList
 	},
+	props: {
+		mySessionId: {
+			type: String
+		},
+	},
 	data () {
 		return {
 			OV: undefined,
@@ -136,30 +121,29 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			mySessionId: 'SessionA',
-			myUserName: 'Participant' + Math.floor(Math.random() * 100),
+			myUserName: '',
       msgs: [],
 			messageSenderObj: undefined,
-			isVideoMuted: false,
-			isAudioMuted: false,
+			isVideoMuted: true,
+			isAudioMuted: true,
 			inChat: true,
 			activeName: 'first',
-			tableData: [{
-				name: '2번방',
-				address: '3/10'
-			}, {
-				name: '3번방',
-				number: '0/10'
-			}, {
-				name: '4번방',
-				number: '0/10'
-			}, {
-				name: '5번방',
-				number: '0/10'
-			}]
+			isMatched: false,
 		}
 	},
+	mounted() {
+		this.$store.dispatch('root/requestMyDetail', this.$store.getters['root/getMyId'])
+		.then((res) => {
+			this.myUserName = res.data.data.userName
+			this.joinSession()
+		})
+	},
 	methods: {
+		clickButton() {
+			this.muteAudio()
+			this.muteVideo()
+			this.isMatched = !this.isMatched
+		},
 		handleClick(tab, event) {
 			console.log(tab, event);
 		},
@@ -264,6 +248,9 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 			window.removeEventListener('beforeunload', this.leaveSession);
+			this.$router.push({
+				name: 'Home'
+			})
 		},
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
