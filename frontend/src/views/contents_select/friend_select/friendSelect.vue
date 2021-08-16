@@ -102,19 +102,27 @@
   </div>
     </el-col>
   </el-row>
-  <el-dialog
-  title="Tips"
+  <div v-if="dialogVisible" class="loading-container">
+    <p class="center-title" style="margin-bottom: 0;">친구를 찾는 중입니다...</p>
+    <el-row justify="center">
+      <div class="pigeon-image"></div>
+      <!-- <el-image src="https://media.giphy.com/media/COzggcvksIViw/giphy.gif"></el-image> -->
+    </el-row>
+    <div class="footer">
+      <div class="dialog-question">친구매칭을 취소하시겠어요?</div>
+      <el-button @click="handleClose">
+        <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
+        <div class="custom-font">취소해~</div>
+      </el-button>
+    </div>
+  </div>
+  <!-- <el-dialog
   v-model="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
-  <span>This is a message</span>
-  <template #footer>
-    <span class="dialog-footer">
-      <el-button @click="dialogVisible = false">Cancel</el-button>
-      <el-button type="primary" @click="dialogVisible = false">Confirm</el-button>
-    </span>
-  </template>
-</el-dialog>
+  width="70%"
+  :before-close="handleClose"
+  center>
+
+</el-dialog> -->
 </template>
 
 <script>
@@ -164,15 +172,20 @@ export default {
       }else if (this.status==3) {
         this.select.hobby = num;
         console.log("hobby :"+ this.select.hobby);
-        this.dialogVisible = true
-        this.$router.push({
-          name: 'FriendMatching',
-          params: {
-            mySessionId: '1234124', 
-            myUserNmae: '내이름 요청해서받아오기', 
-          }
-        })
+        this.onLoading()
+        this.requestFriendMatching()
       }
+    },
+    onLoading() {
+      this.dialogVisible = true
+      const mainContent = document.querySelector('.main-content')
+      mainContent.classList.add('background-loading')
+
+    },
+    offLoading() {
+      this.dialogVisible = false
+      const mainContent = document.querySelector('.main-content')
+      mainContent.classList.remove('background-loading')
     },
     requestFriendMatching() {
       const payload = {
@@ -182,15 +195,26 @@ export default {
         userId: this.$store.getters['root/getMyId']
       }
       this.$store.dispatch('root/requestFriendMatching', payload)
-      .then(res => {
+      .then((res) => {
+        this.offLoading()
         console.log(res)
+        if (res.data.data) {
+          this.$router.push({
+            name: 'FriendMatching',
+            params: {
+              mySessionId: res.data.data, 
+            }
+          })
+        } else {
+          alert('친구를 찾지 못했습니다.')
+        }
       })
       .catch(err => {
         console.log(err)
       })
     },
     handleClose() {
-      this.dialogVisible = false
+      this.offLoading()
     }
   },
 }
@@ -213,13 +237,34 @@ export default {
     background: #EBC86F !important;
     border-radius: 25px !important;
   }
+  /* .dialog-button {
+    margin: 15px;
+    width: 150px;
+    height: 150px;
+    background: #EBC86F !important;
+    border-radius: 20px !important;
+  } */
   .select-button {
     font-family: BlackHanSans;
     font-size: 21px;
   }
+  .custom-button {
+    /* background: white !important; */
+    /* border-radius: 25px !important; */
+    width: 200px !important;
+  }
+  .custom-font {
+    font-family: BlackHanSans;
+    font-size: 35px;
+  }
   .question {
     font-family: SangSangFlowerRoad;
     font-size: 88px;
+    color: rgba(248, 141, 141, 1);
+  }
+  .dialog-question {
+    font-family: SangSangFlowerRoad;
+    font-size: 40px;
     color: rgba(248, 141, 141, 1);
   }
   .explanation {
@@ -283,5 +328,37 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/button/janggi.png');
+  }
+      .pigeon-image {
+    height: 400px;
+    width: 400px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/pigeon2.gif');
+  }
+  .center-title {
+    font-family: SangSangFlowerRoad;
+    font-size: 48px;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);     
+  }
+  .loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: rgba(173, 203, 176, 0.6);
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 70vh;
+    border-radius: 40px !important;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  .background-loading {
+    opacity: 0.1 !important;
+  }
+  .footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
   }
 </style>
