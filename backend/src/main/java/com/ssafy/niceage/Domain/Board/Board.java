@@ -1,6 +1,6 @@
 package com.ssafy.niceage.Domain.Board;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.*;
@@ -35,7 +35,7 @@ public class Board {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 	@Column (name = "board_date", updatable=false)
-	private Date boardDate;
+	private LocalDateTime boardDate;
 	
 	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,10 +49,5 @@ public class Board {
 		this.boardContents = boardContents;
 		this.user = user;
 	}
-	
-	@PrePersist
-	private void onCreate() {
-        this.boardDate = new Date();
-    }
 
 }

@@ -1,7 +1,7 @@
 package com.ssafy.niceage.Domain.Board;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -25,7 +25,7 @@ public class BoardDTO {
 	private List<CommentDTO> commentsDto;
 	private String boardTitle;
 	private String boardContents;
-	private Date boardDate;
+	private LocalDateTime boardDate;
 	private User user;
 
 	/**
@@ -41,7 +41,6 @@ public class BoardDTO {
 		Assert.assertNotNull("user must not be null", user);
 
 		this.boardId = request.getBoardId();
-//		this.comments = request.getComments();
 		this.boardTitle = request.getBoardTitle();
 		this.boardContents = request.getBoardContents();
 		this.boardDate = request.getBoardDate();
@@ -79,7 +78,7 @@ public class BoardDTO {
 		private Long boardId;
 		private String boardTitle;
 		private String boardContents;
-		private Date boardDate;
+		private LocalDateTime boardDate;
 		private String userName;
 		
 		public BoardListDTO(Board board) {
@@ -105,7 +104,7 @@ public class BoardDTO {
 		private Long boardId;
 		private String boardTitle;
 		private String boardContents;
-		private Date boardDate;
+		private LocalDateTime boardDate;
 		private User user;
 		private List<CommentDTO.CommentResponseDTO> commentsDto;
 		
