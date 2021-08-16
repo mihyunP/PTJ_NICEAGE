@@ -107,3 +107,16 @@ export function requestSeniorCenter ({ state }, userId) {
   const url = `/senior/random/${userId}`
   return axios.get(url)
 }
+
+export function requestFriendMatching ({ state }, payload) {
+  console.log('requestFriendMatching', state, payload)
+  const url = '/match/match'
+  const body = payload
+  return axios.post(url,body)
+}
+
+export function requestSOS ({ state }, userId) {
+  console.log('requestFriendMatching', state, userId)
+  const url = `/sos119/${userId}`
+  return axios.get(url)
+}
