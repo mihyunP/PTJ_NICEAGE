@@ -1,6 +1,6 @@
 package com.ssafy.niceage.Domain.Report;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class ReportDTO {
 	private String reporterId;
     private String reporterTargetId;
-    private Date reportDate;
+    private LocalDateTime reportDate;
     
 	public ReportDTO(Report report) {
 		super();
