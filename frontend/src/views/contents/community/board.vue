@@ -94,7 +94,7 @@ import { useRouter } from 'vue-router'
 
 export default defineComponent ({
   name: 'Board',
-
+  
     setup() {
     const store = useStore()
     const router = useRouter()
@@ -104,7 +104,7 @@ export default defineComponent ({
       page: 1,
       pageSize: 10,
       currentRow: null,
-      pagedTableData :computed(() => state.boardList.slice(state.pageSize * state.page - state.pageSize, state.pageSize * state.page)
+      pagedTableData :computed(() => state.boardList.slice(state.pageSize * state.page - state.pageSize, state.pageSize * state.page),
       )
     })
     
@@ -116,13 +116,24 @@ export default defineComponent ({
 
      const handleCurrentChange = function (val) {
         state.currentRow = val;
-        console.log(val.boardTitle)
-          router.push({
+        
+        router.push({       
           name: 'BoardDetail',
           params: {
-            pid: val.boardTitle
-          }
-        })
+            // userid:val.userId,
+            id:val.boardId,
+            // date:val.boardDate,
+            // title:val.boardTitle,
+            // contents:val.boardContents,
+            // writer:val.boardWriter,
+        }})
+
+        // state.id = val.boardId;
+        // router.push('/boarddetail/'+ state.id);
+      
+        console.log("title : "+val.boardTitle)
+        console.log("id : "+val.boardId)
+        console.log(this.id);
     }
 
     store.dispatch('root/requestBoardContent')
@@ -141,23 +152,26 @@ export default defineComponent ({
               })
     };
 
+    // 검색 기능 추가
     const clickSearch = function () {
     store.dispatch('root/requestBoardContent')
     .then(res => {
-        const word = state.keyword.toUpperCase();
+        // const word = state.keyword.toUpperCase(); // 키워드를 다 대문자로 바꾼것
+        const word = state.keyword;
         let arr = res.data.data;
         console.log(res.data)
         state.boardList = arr.filter((v)=>{
-          const fname = v.firstName.toUpperCase();
-          const lname = v.lastName.toUpperCase();
-          return fname.includes(word) || lname.includes(word);
+          // const title = v.boardTitle.toUpperCase();
+          // const writer = v.boardWriter.toUpperCase();
+          // return title.includes(word) || writer.includes(word);
+          const title = v.boardTitle;
+          return title.includes(word)
         })
         console.log(state.boardList);
       })
       .catch((err) => {
         console.log(err);
       })
-
     };
 
    

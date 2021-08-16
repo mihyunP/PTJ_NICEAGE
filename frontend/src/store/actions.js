@@ -109,6 +109,12 @@ export function requestDementiaResult ({ state }, param) {
     const url = `/board/list`
     return axios.get(url)
   }
+  // 게시판 글 읽기
+  export function requestReadBoard ({ state },params) {
+    console.log('requestReadBoard', state)
+    const url = `/board/read/${params.userId}/${params.boardId}`
+    return axios.get(url)
+  }
   // 게시판 글 작성
   export function requestSubmitWrite ({ state }, payload) {
     console.log('requestSubmitWrite', state, payload)
@@ -119,7 +125,7 @@ export function requestDementiaResult ({ state }, param) {
   // 게시판 글 수정
   export function requestUpdateWrite ({ state }, payload) {
     console.log('requestUpdateWrite', state, payload)
-    const url = `/board/update` 
+    const url = `/board/update`
     const body = payload
     return axios.put(url, body)
   }

@@ -45,8 +45,8 @@
             </el-form-item>
             <el-form-item>
               <el-row justify="center" align="middle">
-                <el-button @click="clickModify">수정</el-button> <!--  @click="submitForm('ruleForm')" -->
-                <el-button>삭제</el-button> <!-- @click="resetForm('ruleForm')" -->
+                <el-button @click="clickModify">수정</el-button>
+                <el-button @click="clickDelete">삭제</el-button>
               </el-row>
             </el-form-item>
             </el-form>
@@ -68,18 +68,34 @@
  
 
 export default {
-  name: 'board',
-   setup() {
+  name: 'BoardModify',
+   props: {
+            id: {
+                type: Number,
+                default: 0
+            },
+            title: {
+                type: String,
+                default : ''
+            },
+            contents:{
+                 type: String,
+                 default : ''
+            },
+        },
+   setup(props) {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
       form :{
       userId: store.getters['root/getMyId'],
-      boardTitle :'',
-      boardContents :'',
-      boardId : 0,
+      boardTitle :props.title,
+      boardContents :props.contents,
+      boardId : props.id,
       },
     })
+    
+    console.log("md보드아이디"+state.form.boardId);
 
     const clickModify= () => {
       store.dispatch('root/requestUpdateWrite',state.form)
@@ -94,7 +110,7 @@ export default {
 
     const clickDelete = () => {
         const userId = store.getters['root/getMyId']
-         store.dispatch('root/requestDeleteWrite',{userId : userId, boardId : state.form.boardId})
+         store.dispatch('root/requestDeleteWrite',{userId : userId, boardId : `{boardId}?boardId=${state.form.boardId}`}) // state.form.boardId
        .then(result =>{
         console.log(result)
         
@@ -104,6 +120,8 @@ export default {
       })
     }
 
+
+    console.log(props.title);
     return { state, clickModify, useStore, clickDelete }
   }
 }

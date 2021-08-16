@@ -27,7 +27,7 @@ import Admin from '@/views/admin/admin'
 import BoardDetail from '@/views/contents/community/boardDetail'
 import BoardWrite from '@/views/contents/community/boardWrite'
 import BoardModify from '@/views/contents/community/boardModify'
-import BoardComment from '@/views/contents/community/boardComment'
+// import BoardComment from '@/views/contents/community/boardComment'
 
 const routes = [
   {
@@ -131,9 +131,10 @@ const routes = [
     component: Admin,
   },
   {
-    path: "/boarddetail",
+    path: "/boarddetail/:id",
     name: "BoardDetail",
     component: BoardDetail,
+    props: true,
   },
   {
     path: "/boardwrite",
@@ -141,18 +142,20 @@ const routes = [
     component: BoardWrite,
   },
   {
-    path: "/boardmodify",
+    path: "/boardmodify/:id",
     name: "BoardModify",
     component: BoardModify,
+    props: true,
   },
-  {
-    path: "/boardcomment",
-    name: "BoardComment",
-    component: BoardComment,
-  },
+  // {
+  //   path: "/comment",
+  //   name: "Comment",
+  //   component: Comment,
+  // },
 ];
 
 const router = createRouter({
+  mode: 'history',
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });

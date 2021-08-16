@@ -25,64 +25,138 @@
     <el-col class="right-content" :span="12">
         <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
-          <span class="question">타이틀{{boardTitle}}</span>
-          <el-button round @click="$router.push('/boardModify')">수정</el-button>
+          <div>
+          <span class="question">{{state.form.boardTitle}}</span>
+          </div>
+<!-- v-if="store.getters['root/getMyId']==state.form.user.userId" -->
+<div v-if="state.nowuserId==state.form.user.userId">
+          <el-button round @click="clickModify" >수정</el-button>
+</div>
           <el-row justify="cneter">
 
             <el-container class="board-container">
-              <div>
-              <span> 작성자 : {{작성자}}</span>
-              <span> 작성일자 : {{boardDate}}</span>
-              </div>
-              <br>
-              <div>
-              <div> 콘텐츠{{boardContents}}</div>
-              </div>
-
-
-    
-    
+              <el-header>
+              <span> 작성자 : {{state.form.user.userName}}</span>
+              <span> 작성일자 :{{state.form.boardDate}} </span>
+              </el-header>
+              <el-main>
+                  콘텐츠 : {{state.form.boardContents}}
+              </el-main>
+              <el-main>
+                <comment/>
+              </el-main>   
             </el-container>
           </el-row>
-         
+      
         </el-col>
-        </el-row>   
-     
+        </el-row>      
     </el-col>
   </el-row>
 </template>
 
 <script>
-
-  import { defineComponent } from 'vue'
+  import comment from './components/comment.vue'
+  // import { defineComponent } from 'vue'
 
   import { reactive } from 'vue'
-  // import { useStore } from 'vuex'
+  import { useStore } from 'vuex'
   import { useRouter } from 'vue-router'
  
-export default defineComponent ({
-  name: 'board',
-   setup() {
-   
-    // const store = useStore()
+export default ({ 
+  name: 'BoardDetail',
+
+        props: {
+            id: {
+                type: Number,
+                default: 0
+            },
+            // title: {
+            //     type: String,
+            //     default : ''
+            // },
+            // writer :{
+            //     type: String,
+            //     default : ''
+            // },
+            // date :{
+            //      type: Date,
+            //      default : ''
+            // },
+            // contents:{
+            //      type: String,
+            //      default : ''
+            // },
+        },
+  components: {
+   comment,
+  },
+  setup(props) { // props.으로 props에 선언한 변수에 접근가능함
+    const store = useStore()
     const router = useRouter()
     const state = reactive({
+      boardId : props.id,
+      nowuserId : store.getters['root/getMyId'],
       form :{
+        user:{},
         boardTitle :'',
         boardContents : '',
+        boardDate :'',
       }
     
     })
+    console.log(state.nowuserId);
+   
 
-    const clickWrite= () => {
-      router.push({
-        name: 'BoardDetail'
+    console.log("props방식"+state.boardId); // props방식으로 넘어오는지
+
+    // state.form.boardId = 0;
+    // console.log("초기화"+state.form.boardId);
+    // console.log(router.params);
+    // this.info.id = this.$route.params.id;
+    // state.form.boardId = router.params.id;
+    // state.form.boardId = router.params.bId; // router => params방식으로 변수 넘기기
+    // state.form.boardId = this.$route.params.id;
+    // state.form.boardId = router.params.id;
+    // console.log("params방식"+state.form.boardId); // params방식으로 넘어오는지
+    
+    console.log(props.id);
+    // console.log(state.id); 
+
+     const userId = store.getters['root/getMyId']
+     store.dispatch('root/requestReadBoard',{userId : userId, boardId : `{boardId}?boardId=${state.boardId}`}) // #{state.boardId}
+     .then(res => {
+      console.log(res.data);
+      console.log(res.data.data);
+      state.form = res.data.data;
+      console.log(state.form.user.userName);
+      console.log(state.form.boardTitle);
+      console.log(state.form.boardContents);
+      console.log(state.form.boardDate);
+
+      console.log(state.nowuserId);
+      console.log(state.form.user.userId);
       })
-    }
-    
+      .catch((err) => {
+        console.log(err);
+      })
 
-    
-    return {state, clickWrite }
+  
+   
+
+
+    const clickModify= () => {
+      router.push({
+        name: 'BoardModify',
+         params: {
+            id:state.boardId,
+            title:state.form.boardTitle,
+            contents:state.form.boardContents,
+            // writer:val.boardWriter,
+        }
+      })
+      // params : 제목, 콘텐츠 넘겨주기
+    }
+    return {state, clickModify }
   }
 })
 
