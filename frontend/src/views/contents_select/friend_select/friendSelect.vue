@@ -245,7 +245,7 @@ export default {
   .main-content {
     height: 100%;
   }
-  .right-content {
+   .right-content {
     background: rgba(173, 203, 176, 0.7);
     height: 100%;
     /* opacity: 0.5; */

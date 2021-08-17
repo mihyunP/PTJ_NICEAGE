@@ -24,6 +24,12 @@ import DementiaResult2 from '@/views/contents/health/dementia/dementia_result2'
 
 import Admin from '@/views/admin/admin'
 
+
+import BoardDetail from '@/views/contents/community/boardDetail'
+import BoardWrite from '@/views/contents/community/boardWrite'
+import BoardModify from '@/views/contents/community/boardModify'
+import BoardComment from '@/views/contents/community/boardComment'
+
 const allowOnlyAuth = function(to, from, next) {
   if (localStorage.getItem('access_token')) {
     next()
@@ -45,6 +51,7 @@ const allowOnlyAdmin = function(to, from, next) {
     next(from)
   }  
 }
+
 
 const routes = [
   {
@@ -174,6 +181,26 @@ const routes = [
     name: "Admin",
     component: Admin,
     beforeEnter: allowOnlyAdmin,
+  },
+  {
+    path: "/boarddetail",
+    name: "BoardDetail",
+    component: BoardDetail,
+  },
+  {
+    path: "/boardwrite",
+    name: "BoardWrite",
+    component: BoardWrite,
+  },
+  {
+    path: "/boardmodify",
+    name: "BoardModify",
+    component: BoardModify,
+  },
+  {
+    path: "/boardcomment",
+    name: "BoardComment",
+    component: BoardComment,
   },
 ];
 

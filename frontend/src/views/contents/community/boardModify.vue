@@ -30,18 +30,27 @@
 
 
             <el-container class="board-container">
+              <el-row justify="center">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="제목" prop="pass">
-                <el-input></el-input>
+              <el-input placeholder="Please input" v-model="state.form.boardTitle"></el-input>
             </el-form-item>
             <el-form-item label="내용" prop="checkPass">
-                <el-input></el-input>
+                 <el-input
+                      type="textarea"
+                      :rows="2"
+                      placeholder="Please input"
+                      v-model="state.form.boardContents">
+                    </el-input>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">수정</el-button> <!--  @click="submitForm('ruleForm')" -->
-                <el-button >삭제</el-button> <!-- @click="resetForm('ruleForm')" -->
+              <el-row justify="center" align="middle">
+                <el-button @click="clickModify">수정</el-button> <!--  @click="submitForm('ruleForm')" -->
+                <el-button>삭제</el-button> <!-- @click="resetForm('ruleForm')" -->
+              </el-row>
             </el-form-item>
             </el-form>
+              </el-row>
             </el-container>
           </el-row>
          
@@ -53,7 +62,7 @@
 </template>
 
 <script>
-  import { reactive, computed } from 'vue'
+  import { reactive } from 'vue'
   import { useStore } from 'vuex'
   import { useRouter } from 'vue-router'
  
@@ -64,23 +73,38 @@ export default {
     const store = useStore()
     const router = useRouter()
     const state = reactive({
-      isLoggedIn: computed(() => store.getters['root/getIsLoggedIn']),
-      myId: computed(() => store.getters['root/getMyId'])
+      form :{
+      userId: store.getters['root/getMyId'],
+      boardTitle :'',
+      boardContents :'',
+      boardId : 0,
+      },
     })
 
-    const clickWrite= () => {
-      router.push({
-        name: 'BoardWrite'
+    const clickModify= () => {
+      store.dispatch('root/requestUpdateWrite',state.form)
+       .then(result =>{
+        console.log(result)
+        
+        router.push({
+          name : 'Board'
+        })
       })
     }
 
-    const clickAdmin = () => {
-      router.push({
-        name: 'Admin'
+    const clickDelete = () => {
+        const userId = store.getters['root/getMyId']
+         store.dispatch('root/requestDeleteWrite',{userId : userId, boardId : state.form.boardId})
+       .then(result =>{
+        console.log(result)
+        
+        router.push({
+          name : 'Board'
+        })
       })
     }
 
-    return { state, clickWrite, useStore, clickAdmin }
+    return { state, clickModify, useStore, clickDelete }
   }
 }
 </script>

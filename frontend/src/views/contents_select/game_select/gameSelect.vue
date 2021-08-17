@@ -17,7 +17,7 @@
       <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
-          <div class="question">게임을 선택해 주세요.</div>
+           <div class="question">게임을 선택해 주세요.</div>
           
             <el-row justify="center">
               <a href="https://baduk.hangame.com/?utm_source=baduk&utm_medium=quick_2dp&utm_campaign=main" target="_blank">
@@ -53,7 +53,6 @@
           </el-button>
              </a>
             </el-row>
-
         </el-col>
       </el-row>
     </el-col>
@@ -88,46 +87,49 @@ export default {
     }
   }
 }
-
 </script>
 
 <style scoped>
-/* a{
-  text-decoration-line : none;
-}
-a:visited { color: black; }
   .main-content {
     height: 100%;
-  } */
+  }
   .right-content {
     background: rgba(173, 203, 176, 0.7);
     height: 100%;
     /* opacity: 0.5; */
   }
   .el-button {
-    margin:  20px;
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
+    margin : 10px;
     background: #EBC86F !important;
-    border-radius: 40px !important;
+    border-radius: 25px !important;
   }
   .select-button {
     font-family: BlackHanSans;
-    font-size: 36px;
+    font-size: 21px;
   }
   .question {
     font-family: SangSangFlowerRoad;
-    font-size: 68px;
+    font-size: 88px;
     color: rgba(248, 141, 141, 1);
   }
   .explanation {
     font-family: SangSangFlowerRoad;
-    font-size: 38px;
+    font-size: 48px;
     text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   }
+  .main-image {
+    height: 442px;
+    width: 700px;
+    margin: 0 auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url('../../../assets/images/main.png');
+  }
    .baduk-image {
-    height: 98px;
-    width: 98px;
+    height: 120px;
+    width: 120px;
     margin: 0 auto;
     background-size: contain;
     background-repeat: no-repeat;
@@ -148,13 +150,5 @@ a:visited { color: black; }
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/button/yutplay.png');
-  }
-  .main-image {
-    height: 442px;
-    width: 700px;
-    margin: 0 auto;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url('../../../assets/images/main.png');
   }
 </style>
