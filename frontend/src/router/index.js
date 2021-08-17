@@ -28,6 +28,27 @@ import BoardDetail from '@/views/contents/community/boardDetail'
 import BoardWrite from '@/views/contents/community/boardWrite'
 import BoardModify from '@/views/contents/community/boardModify'
 // import BoardComment from '@/views/contents/community/boardComment'
+const allowOnlyAuth = function(to, from, next) {
+  if (localStorage.getItem('access_token')) {
+    next()
+  } else {
+    next(from)
+  }
+}
+const allowNotAuth = function(to, from, next) {
+  if (!localStorage.getItem('access_token')) {
+    next()
+  } else {
+    next(from)
+  }  
+}
+const allowOnlyAdmin = function(to, from, next) {
+  if (localStorage.getItem('my_id') == 'ssafy') {
+    next()
+  } else {
+    next(from)
+  }  
+}
 
 const routes = [
   {
@@ -39,21 +60,25 @@ const routes = [
     path: "/login",
     name: "Login",
     component: Login,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/signup",
     name: "Signup",
     component: Signup,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/password",
     name: "Password",
     component: Password,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/password/2",
     name: "Password2",
     component: Password2,
+    beforeEnter: allowNotAuth,
   },
   {
     path: "/mainselect",
@@ -64,71 +89,95 @@ const routes = [
     path: "/seniorcenterselect",
     name: "SeniorCenterSelect",
     component: SeniorCenterSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/friendselect",
     name: "FriendSelect",
     component: FriendSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/healthselect",
     name: "HealthSelect",
     component: HealthSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/gameselect",
     name: "GameSelect",
     component: GameSelect,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/board",
     name: "Board",
     component: Board,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/mypage",
     name: "Mypage",
     component: Mypage,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementia",
     name: "Dementia",
     component: Dementia,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/stretching",
     name: "Stretching",
     component: Stretching,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/seniorcenter",
     name: "SeniorCenter",
     component: SeniorCenter,
+    props: true,
+    beforeEnter: function(to, from, next) {
+      console.log('!!!')
+      if (to == from) {
+        console.log('같은 페이지1!!')
+      } else {
+        console.log('다른페이지!!!')
+      }
+      next()
+    },
   },
   {
     path: "/map",
     name: "Map",
     component: Map,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/friendmatching",
     name: "FriendMatching",
     component: FriendMatching,
+    props: true,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementiaresult1",
     name: "DementiaResult1",
     component: DementiaResult1,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/dementiaresult2",
     name: "DementiaResult2",
     component: DementiaResult2,
+    beforeEnter: allowOnlyAuth,
   },
   {
     path: "/admin",
     name: "Admin",
     component: Admin,
+    beforeEnter: allowOnlyAdmin,
   },
   {
     path: "/boarddetail/:id",
@@ -159,5 +208,6 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
 
 export default router;

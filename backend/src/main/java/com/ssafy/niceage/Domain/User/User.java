@@ -1,23 +1,15 @@
 package com.ssafy.niceage.Domain.User;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ssafy.niceage.Controller.Request.UserRequest;
-import com.ssafy.niceage.Domain.Board.Board;
-import com.ssafy.niceage.Domain.Comment.Comment;
 import com.ssafy.niceage.Domain.Enter.Enter;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Data

@@ -1,6 +1,6 @@
 package com.ssafy.niceage.Controller.Request;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,12 +19,9 @@ public class BoardRequest {
 	private String boardContents;
 	
 	@ApiModelProperty(value = "Date")
-	private Date boardDate;
+	private LocalDateTime boardDate;
 
 	@ApiModelProperty(value = "UserID")
 	private String userId;
-	
-//	@ApiModelProperty(value = "Comments")
-//	private List<Comment> comments;
 	
 }

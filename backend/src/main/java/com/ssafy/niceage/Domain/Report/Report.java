@@ -1,12 +1,11 @@
 package com.ssafy.niceage.Domain.Report;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ssafy.niceage.Controller.Request.ReportRequest;
-import com.ssafy.niceage.Controller.Request.UserRequest;
-import com.ssafy.niceage.Domain.User.User;
 
 import lombok.Data;
 
@@ -23,15 +22,17 @@ public class Report {
 	@Column (name = "reporter_target_id", nullable = false, length = 45)
     private String reporterTargetId;
 	
-	@Column (name = "report_date")
-    private String roportDate;
+	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
+	@Column (name = "report_date", updatable=false)
+    private LocalDateTime reportDate;
 	
 	public static Report receiptReport(ReportRequest request) {
 		Report reportInput = new Report();
 		reportInput.reporterId = request.getReporterId();
 		reportInput.setReporterId(request.getReporterId());
 		reportInput.setReporterTargetId(request.getReporterTargetId());
-		reportInput.setRoportDate(request.getRoportDate());
+		reportInput.setReportDate(request.getReportDate());
         return reportInput;
 	}
+
 }
