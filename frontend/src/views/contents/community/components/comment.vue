@@ -1,31 +1,33 @@
 <template>
-{{title}}
-    <el-form-item label="댓글"> <!--  prop="pass"-->
-                  <el-input placeholder="댓글을 작성해주세요." v-model="state.commentContents"></el-input>
+    <el-form-item>
+                  <el-input placeholder="댓글을 작성해주세요." v-model="state.form.commentContents"></el-input>
     </el-form-item>
-    <el-button @click="clickWriteComment"> 댓글달기</el-button>
-    
+    <el-form-item >
+    <el-button @click="clickWriteComment"> 댓글 달기</el-button>
+    </el-form-item>
+    <br>
      <!--  :data="" -->
     <el-table
+    :show-header =false
+    :data="state.commentList"
     style="width: 100%"
     @current-change="handleCurrentChange"
     >
     <el-table-column
       prop="작성자"
-      label="작성자"
+      
       width="180">
     </el-table-column>
     <el-table-column
       prop="댓글내용"
-      label="내용"
       width="180">
     </el-table-column>
     <el-table-column
-              label="수정"> <!--v-if 사용해서 댓글쓴사람 == 현재 로그인된 사람 일때만 보여주기-->
+            > <!--v-if 사용해서 댓글쓴사람 == 현재 로그인된 사람 일때만 보여주기-->
               <el-button @click="clickModifyComment" type="danger">수정</el-button>
             </el-table-column>
     <el-table-column
-              label="삭제">
+            >
               <el-button @click="clickDeleteComment" type="danger">삭제</el-button>
             </el-table-column>
   </el-table>
@@ -46,30 +48,33 @@ import { useStore } from 'vuex'
 
 export default {
 props: {
+      id : {
+        type : String,
+        default : '',
+      }
   // comment : {
   //   type : Array,
-
   // }
-  // 댓글 내용
-  // 작성자 아이디
 
-  title : {
-    type: String,
-    default : '댓글창입니다.'
-  }
+
+  // title : {
+  //   type: String,
+  //   default : '댓글창입니다.'
+  // }
 },
 
 setup(props) {
       const store = useStore()
     const state = reactive({
-    //   form : {
-    //    boardId : 0,
-    //    commentContents : '',
-    //    commentId :'', // 
-    //    userId : '', // id 번호?
-    //  }
-      newComment : '',
-})
+      commentList : [], // 댓글 받아온거
+      form : {
+       boardId : props.boardId,
+       commentContents : '', // v-model로 입력받음
+       // commentId :'', 자동 증가?
+
+     
+      } // 댓글 입력시 보낼 입력폼
+    })
   console.log(props.title);
 
     const clickWriteComment= () => {

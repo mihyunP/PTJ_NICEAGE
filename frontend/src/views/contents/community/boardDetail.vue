@@ -25,12 +25,18 @@
     <el-col class="right-content" :span="12">
         <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
+  <el-row>
+    <el-col :span="12">
           <div>
           <span class="question">{{state.form.boardTitle}}</span>
           </div>
+    </el-col>
+    <el-col :span="12">
 <div v-if="state.nowuserId==state.form.user.userId">
           <el-button round @click="clickModify" >수정</el-button>
 </div>
+    </el-col>
+  </el-row>
           <el-row justify="cneter">
 
             <el-container class="board-container">
@@ -48,7 +54,7 @@
                   <p class="text">{{state.form.boardContents}}</p>
               </el-main>
               <el-main>
-                <comment title="부모컴포넌트에서 던져준 페이지 타이틀" />
+                <comment  /> <!-- title="부모컴포넌트에서 던져준 페이지 타이틀" -->
               </el-main>   
             </el-container>
           </el-row>

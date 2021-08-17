@@ -42,7 +42,7 @@
     @current-change="handleCurrentChange"
     >
     <el-table-column
-      prop="작성자"
+      prop="userName"
       label="작성자"
       width="180">
     </el-table-column>
