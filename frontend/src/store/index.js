@@ -4,6 +4,7 @@ import state from './state'
 import * as getters from './getters'
 import * as mutations from './mutations'
 import * as actions from './actions' 
+import * as actions2 from './KakaoAPI/actions' 
 
 // import axios from 'axios'
 
@@ -20,11 +21,12 @@ const root = {
   state,
   getters,
   mutations,
-  actions
+  actions,
 }
 
 export default createStore({
-  modules: { root }
+  modules: { root },
+  actions: actions2
 });
 
 // 원래

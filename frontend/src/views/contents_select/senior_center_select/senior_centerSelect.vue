@@ -6,7 +6,9 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">‘지도로 보기’를 선택하시면 지도에서 주변 경로당을 직접 선택하실 수 있습니다. ‘아무데나 갈래’를 선택하시면 
 자동으로 경로당에 입장할 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS" style="background: rgba(255, 250, 250, 0.5) !important;">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -29,6 +31,20 @@
       </el-row>
     </el-col>
   </el-row>
+  <div v-if="dialogVisible" class="loading-container">
+    <p class="center-title" style="margin-bottom: 0;">친구를 찾는 중입니다...</p>
+    <el-row justify="center">
+      <div class="pigeon-image"></div>
+      <!-- <el-image src="https://media.giphy.com/media/COzggcvksIViw/giphy.gif"></el-image> -->
+    </el-row>
+    <div class="footer">
+      <div class="dialog-question">친구매칭을 취소하시겠어요?</div>
+      <el-button @click="handleClose">
+        <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
+        <div class="custom-font">취소</div>
+      </el-button>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,7 +65,8 @@ export default {
         const store = useStore()
         const state = reactive({
           targetSession: undefined,
-          myCenterName: undefined
+          myCenterName: undefined,
+          dialogVisible: false,
         })
         const clickMap = () => {
           router.push({
@@ -57,8 +74,20 @@ export default {
           })
         }
 
+        const onLoading = () => {
+          state.dialogVisible = true
+          const mainContent = document.querySelector('.main-content')
+          mainContent.classList.add('background-loading')
+
+        }
+        const offLoading = () => {
+          state.dialogVisible = false
+          const mainContent = document.querySelector('.main-content')
+          mainContent.classList.remove('background-loading')
+        }
+
         const clickSeniorCenter = () => {
-          store.commit('root/loadingOn')
+          onLoading()
           axios
             .get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`,{
               auth: {
@@ -84,7 +113,7 @@ export default {
                   }
                   store.dispatch('root/requestMyDetail', myId)
                   .then((res) => {
-                    store.commit('root/loadingOff')
+                    offLoading()
                     const myName = res.data.data.userName
                     router.push({
                       name: 'SeniorCenter',
@@ -92,25 +121,41 @@ export default {
                     })
                   })
                   .catch(() => {
-                    store.commit('root/loadingOff')
+                    offLoading()
                     alert('이름을 불러올 수 없습니다.')
                   })
                 })
               } else {
-                store.commit('root/loadingOff')
+                offLoading()
                 alert('현재 생성된 경로당이 없습니다.')
               }
             })
             .catch((err) => {
-              store.commit('root/loadingOff')
+              offLoading()
               console.log('여기로 와야되느네', err)
             })
-          
-
         }
-      
 
-        return {state, clickMap, clickSeniorCenter}
+        const clickTTS = () => {
+          const text = document.querySelector('.explanation').innerText
+          let source; 
+          let context; 
+          context = new AudioContext();
+          store.dispatch('requestKakaoTTS', text)
+          .then(res => {
+            context.decodeAudioData(res.data, function(buffer) {
+                source = context.createBufferSource();
+                source.buffer = buffer;
+                source.connect(context.destination);
+                source.start(); 
+              });  
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        }  
+
+        return {state, clickMap, clickSeniorCenter, clickTTS, onLoading, offLoading}
       }
 }
 
@@ -152,5 +197,29 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
+  }
+  .loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: rgba(173, 203, 176, 0.6);
+    transform: translate(-50%, -50%);
+    width: 50vw;
+    height: 70vh;
+    border-radius: 40px !important;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  }
+  .background-loading {
+    opacity: 0.1 !important;
+  }
+  .footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+  }
+  .dialog-question {
+    font-family: SangSangFlowerRoad;
+    font-size: 40px;
+    color: rgba(248, 141, 141, 1);
   }
 </style>
