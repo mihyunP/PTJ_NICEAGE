@@ -1,8 +1,6 @@
 package com.ssafy.niceage.Controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.niceage.Controller.Request.BoardRequest;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
+import com.ssafy.niceage.Domain.Board.BoardDTO.BoardListDTO;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Service.BoardService;
 import com.ssafy.niceage.Service.UserService;
@@ -43,7 +42,9 @@ public class BoardController {
 
 		try {
 			List<Board> boardList = boardService.findAll();
-			response = new MainResponse("success", boardList);
+			BoardDTO boardDto = new BoardDTO();
+			List<BoardListDTO> boardListDto = boardService.addList(boardList, boardDto);
+			response = new MainResponse("success", boardListDto);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
@@ -72,13 +73,15 @@ public class BoardController {
 	}
 
 	@ApiOperation(value = "게시판 글 읽기", response = MainResponse.class)
-	@GetMapping("/read/{userId}/{boardId}")
-	public MainResponse readBoard(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId) {
+	@GetMapping("/read/{boardId}")
+	public MainResponse readBoard(@ApiParam(value = "보드 아이디")@PathVariable Long boardId) {
 		MainResponse response = null;
 
 		try {
-			User user = userService.findById(userId);
+			// userList : DB 무한참조를 막기 위해 User Entity를 전부 조회한다. 처음 참조를 제외하고 실제로 쓰이지 않음.
+			List<User> userList = userService.findAll();
 			Board board = boardService.findById(boardId);
+			System.out.println(board.getUser().getUserId());
 			// BoardDTO 클래스의 inner클래스의 객체를 생성하는 과정
 			BoardDTO boardDto = new BoardDTO();
 			BoardDTO.BoardResponseDTO boardResponseDto = boardDto.new BoardResponseDTO(board);

@@ -6,23 +6,12 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">원하시는 게임을 클릭하시면 해당 게임 페이지로 가실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <br>
-          <!-- 전 페이지로 돌아가기 시작 -->
-          <el-row @click="$router.go(-1)">
-                      <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-                      <span class="previouspage">전 페이지로 돌아가기</span>
-          </el-row>
-          <!-- 전 페이지로 돌아가기 끝 -->
+<!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
-
-    <el-col class="right-content" :span="12">
+    <BackButton/>
+      <el-col class="right-content" :span="12">
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
            <div class="question">게임을 선택해 주세요.</div>
@@ -68,8 +57,12 @@
 </template>
 
 <script>
+import BackButton from '@/views/components/BackButton'
 export default {
- 
+  name: 'Login',
+  components: {
+    BackButton
+  },
 }
 </script>
 

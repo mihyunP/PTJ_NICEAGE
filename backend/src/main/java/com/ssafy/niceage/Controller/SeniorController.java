@@ -40,8 +40,10 @@ public class SeniorController {
 		try {
 			User user = userService.findById(userId);
 			List<Senior_Citizen_Center> seniorList = seniorService.findBySeniorAddress(user.getUserAddress());
-			response = new MainResponse("success", seniorList);
-			System.out.println(response);
+			List<Senior_Citizen_CenterDTO> collect = seniorList.stream()
+					.map(m-> new Senior_Citizen_CenterDTO(m))
+					.collect(Collectors.toList());
+			response = new MainResponse("success", collect);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}
@@ -61,7 +63,20 @@ public class SeniorController {
 						.map(m-> new Senior_Citizen_CenterDTO(m))
 						.collect(Collectors.toList());
 			response = new MainResponse("success", collect);
-			System.out.println(response);
+		} catch (Exception e) {
+			response = new MainResponse("fail", e.getMessage());
+		}
+		return response;
+	}
+	
+	@ApiOperation(value = "경로당 랜덤 입장시", response = MainResponse.class)
+	@GetMapping("/random/{seniorId}")
+	public MainResponse randomSenior(@ApiParam(value = "아이디")@PathVariable Long seniorId){
+		MainResponse response = null;
+		
+		try {
+			Senior_Citizen_Center senior = seniorService.findBySeniorId(seniorId);
+			response = new MainResponse("success", senior);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
 		}

@@ -100,6 +100,7 @@ export function requestDementiaResult ({ state }, param) {
   console.log('requestDementiaResult', state, param)
   const url = `/dementia/dementia/${param.userId}/${param.result}`
   return axios.get(url)
+
   }
 
   // board
@@ -132,3 +133,25 @@ export function requestDementiaResult ({ state }, param) {
   // 게시판 글 읽기
 
   // comment
+
+}
+
+export function requestSeniorCenter ({ state }, userId) {
+  console.log('requestSeniorCenter', state, userId)
+  const url = `/senior/random/${userId}`
+  return axios.get(url)
+}
+
+export function requestFriendMatching ({ state }, payload) {
+  console.log('requestFriendMatching', state, payload)
+  const url = '/match/match'
+  const body = payload
+  return axios.post(url,body)
+}
+
+export function requestSOS ({ state }, userId) {
+  console.log('requestFriendMatching', state, userId)
+  const url = `/sos119/${userId}`
+  return axios.get(url)
+}
+
