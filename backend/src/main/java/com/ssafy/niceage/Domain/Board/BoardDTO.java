@@ -121,7 +121,8 @@ public class BoardDTO {
 					CommentDTO commentDto = new CommentDTO();
 					CommentDTO.CommentResponseDTO commentResponseDto = commentDto.new CommentResponseDTO(comment.getCommentId(), 
 									comment.getCommentContents(), 
-									comment.getUser().getUserName());
+									comment.getUser().getUserName(),
+									comment.getUser().getUserId());
 					commentList.add(commentResponseDto);
 				}
 				this.commentsDto = commentList;
