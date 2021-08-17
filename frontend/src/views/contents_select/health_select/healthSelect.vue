@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">치매 진단검사를 선택하시면 간단한 치매 진단을 하실 수 있습니다. 스트레칭 따라하기를 선택하시면 간단한 스트레칭 동작을 화면을 보시며 따라하실 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS" style="background: rgba(255, 250, 250, 0.5) !important;">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
           <br>
         </el-col>
       </el-row>
@@ -31,6 +33,7 @@
 
 <script>
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 import BackButton from '@/views/components/BackButton'
 export default {
   name: 'HealthSelect',
@@ -38,6 +41,7 @@ export default {
     BackButton
   },
     setup() {
+        const store = useStore()
         const router = useRouter()
 
         const clickDementia = () => {
@@ -52,7 +56,26 @@ export default {
           })
         }
 
-        return {clickDementia, clickStretching}
+        const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
+        return {clickDementia, clickStretching, clickTTS}
       }
 
 }
