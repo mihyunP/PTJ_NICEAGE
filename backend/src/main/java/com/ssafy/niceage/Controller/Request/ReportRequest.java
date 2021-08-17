@@ -1,6 +1,6 @@
 package com.ssafy.niceage.Controller.Request;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,5 +16,5 @@ public class ReportRequest {
     private String reporterTargetId;
 	
 	@ApiModelProperty(value = "roportDate")
-    private Date reportDate;
+    private LocalDateTime reportDate;
 }

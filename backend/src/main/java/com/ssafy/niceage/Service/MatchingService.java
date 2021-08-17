@@ -80,17 +80,22 @@ public class MatchingService {
 
 	}
 
+	
+	// 현재 요청한 회원의 매칭조건과 맞는 사람이 리스트에 있는지 찾는 메소드
+	// 타이머로 일정시간마다 탐색(현재 구현한 코드에서는 2초에 한번씩 총 10번을 탐색한다.)
 	public Long findList (MatchingRequest request) {
 		
 		User user = userRepository.findByUserId(request.getUserId());
 		long userNo = user.getUserNo();
 		
 		Timer timer = new Timer();
+		
 		TimerTask task = new TimerTask() {
 			
 			User user1 = new User();
 			User user2 = new User();
 			int i = 1;
+			
 			@Override
 			public void run() {
 				System.out.println("실행중임"+"["+userNo+"]");

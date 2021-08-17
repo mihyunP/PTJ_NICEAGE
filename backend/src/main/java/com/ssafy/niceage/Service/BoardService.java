@@ -2,7 +2,6 @@ package com.ssafy.niceage.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 import com.ssafy.niceage.Domain.Board.Board;
 import com.ssafy.niceage.Domain.Board.BoardDTO;
 import com.ssafy.niceage.Domain.Board.BoardDTO.BoardListDTO;
-import com.ssafy.niceage.Domain.Senior_Citizen_Center.Senior_Citizen_CenterDTO;
 import com.ssafy.niceage.Repository.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
