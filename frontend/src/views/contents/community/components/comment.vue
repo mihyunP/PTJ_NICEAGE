@@ -110,7 +110,7 @@ setup(props) {
 }
 </script>
 
-<style>
+<style scoped>
   .el-button {
     margin: 15px;
     width: 150px;
