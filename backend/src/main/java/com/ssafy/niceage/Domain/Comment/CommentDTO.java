@@ -64,11 +64,13 @@ public class CommentDTO {
     	private Long commentId;
         private String commentContents;
         private String userName;
+        private String userId;
         
-    	public CommentResponseDTO(Long commentId, String commentContents, String userName) {
+    	public CommentResponseDTO(Long commentId, String commentContents, String userName, String userId) {
     		this.commentId = commentId;
     		this.commentContents = commentContents;
     		this.userName = userName;
+    		this.userId = userId;
     	}
            
     }
