@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">코로나 19 시대의 어르신들을 위한 화상 미팅 서비스입니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -131,7 +133,24 @@ export default {
         name: 'Mypage',
       })
     }
-    return {state, clickLogin, clickSignup, clickSeniorCenterSelect, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage}
+
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+
+    return {state, clickLogin, clickSignup, clickSeniorCenterSelect, clickFriendSelect, clickHealthSelect, clickGameSelect, clickBoard, clickMypage, clickTTS}
   }
 }
 </script>
