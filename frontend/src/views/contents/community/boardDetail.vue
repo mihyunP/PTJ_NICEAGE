@@ -28,7 +28,6 @@
           <div>
           <span class="question">{{state.form.boardTitle}}</span>
           </div>
-<!-- v-if="store.getters['root/getMyId']==state.form.user.userId" -->
 <div v-if="state.nowuserId==state.form.user.userId">
           <el-button round @click="clickModify" >수정</el-button>
 </div>
@@ -36,14 +35,20 @@
 
             <el-container class="board-container">
               <el-header>
-              <span> 작성자 : {{state.form.user.userName}}</span>
-              <span> 작성일자 :{{state.form.boardDate}} </span>
+                <el-row>
+                <!-- <el-col span="12" style="inline-block"> -->
+                  <span class="text" style="margin-right: 10% text-align:left"> 작성자 : {{state.form.user.userName}}</span>
+                <!-- </el-col> -->
+                <!-- <el-col span="12" style="inline-block"> -->
+                 <span class="text"> 작성일자 :{{state.form.boardDate}} </span>
+                <!-- </el-col> -->
+                </el-row>
               </el-header>
               <el-main>
-                  콘텐츠 : {{state.form.boardContents}}
+                  <p class="text">{{state.form.boardContents}}</p>
               </el-main>
               <el-main>
-                <comment/>
+                <comment title="부모컴포넌트에서 던져준 페이지 타이틀" />
               </el-main>   
             </el-container>
           </el-row>
@@ -97,6 +102,7 @@ export default ({
       boardId : props.id,
       nowuserId : store.getters['root/getMyId'],
       form :{
+        comments:[],
         user:{},
         boardTitle :'',
         boardContents : '',
@@ -122,8 +128,8 @@ export default ({
     console.log(props.id);
     // console.log(state.id); 
 
-     const userId = store.getters['root/getMyId']
-     store.dispatch('root/requestReadBoard',{userId : userId, boardId : `{boardId}?boardId=${state.boardId}`}) // #{state.boardId}
+    //  const userId = store.getters['root/getMyId']
+     store.dispatch('root/requestReadBoard',{boardId : state.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
      .then(res => {
       console.log(res.data);
       console.log(res.data.data);
@@ -167,10 +173,9 @@ export default ({
     width: 30px; /*Desired width*/
     height: 30px; /*Desired height*/
   }
-  label{
+  .text{
     font-family: BlackHanSans;
     font-size: 30px;
-    text-align: left;
   }
   .dementia-container {
     /* width : 100%; */

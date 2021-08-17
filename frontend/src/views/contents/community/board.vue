@@ -41,7 +41,6 @@
     style="width: 100%"
     @current-change="handleCurrentChange"
     >
-
     <el-table-column
       prop="작성자"
       label="작성자"
@@ -100,6 +99,7 @@ export default defineComponent ({
     const router = useRouter()
     const state = reactive({
       boardList : [],
+      // reverseBoardList : [],
       keyword :'',
       page: 1,
       pageSize: 10,
@@ -108,6 +108,14 @@ export default defineComponent ({
       )
     })
     
+    // state.reverseBoardList = state.boardList;
+    // console.log("aaa"+state.reverseBoardList.length);
+    // for(var i=0; i<state.boardList.length;i++){
+    //   state.reverseBoardList.push(state.boardList[state.boardList.length-1-i]);
+    //   console.log(state.reverseBoardList[i]);
+    // }
+    
+
     console.log("data"+state.pagedTableData)
 
     const setPage= function (val) {
@@ -128,6 +136,9 @@ export default defineComponent ({
             // writer:val.boardWriter,
         }})
 
+console.log("var"+this.var);
+console.log("page"+state.page);
+console.log("currentRow"+state.currentRow);
         // state.id = val.boardId;
         // router.push('/boarddetail/'+ state.id);
       

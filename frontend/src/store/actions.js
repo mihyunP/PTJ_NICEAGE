@@ -112,7 +112,7 @@ export function requestDementiaResult ({ state }, param) {
   // 게시판 글 읽기
   export function requestReadBoard ({ state },params) {
     console.log('requestReadBoard', state)
-    const url = `/board/read/${params.userId}/${params.boardId}`
+    const url = `/board/read/${params.boardId}` // ${params.userId}/
     return axios.get(url)
   }
   // 게시판 글 작성
@@ -135,6 +135,25 @@ export function requestDementiaResult ({ state }, param) {
     const url = `/board/delete/${param.userId}/${param.boardId}` 
     return axios.delete(url)
   }
-  // 게시판 글 읽기
-
   // comment
+  // 댓글 작성
+  export function requestSubmitComment ({ state }, payload) {
+    console.log('requestSubmitComment', state, payload)
+    const url = `/comment/create`
+    let body = payload
+    return axios.post(url, body)
+  }
+  // 댓글 삭제
+
+  export function requestDeleteComment({ state }, param) {
+    console.log('requestDeleteWrite', state, param)
+    const url = `/board/delete/${param.userId}/${param.boardId}/${param.commentId}` 
+    return axios.delete(url)
+  }
+  // 댓글 수정
+  export function requestUpdateComment ({ state }, payload) {
+    console.log('requestUpdateComment', state, payload)
+    const url = `/comment/update`
+    const body = payload
+    return axios.put(url, body)
+  }
