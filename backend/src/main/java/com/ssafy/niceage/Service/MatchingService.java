@@ -303,7 +303,7 @@ public class MatchingService {
 		long userNo = user.getUserNo();
 		
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(1000);
 			for (int i = 0; i < statusList.size(); i++) {
 				if (matchInfoList.get(i).userNo == userNo) {
 					statusList.remove(i);

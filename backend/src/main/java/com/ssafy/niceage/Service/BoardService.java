@@ -39,7 +39,7 @@ public class BoardService {
 	}
 
 	public Board update(BoardDTO boardDto) {
-		Board board = boardDto.toEntity();
+		Board board = boardDto.toUpdate();
 		return boardRepository.save(board);
 		
 	}

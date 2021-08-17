@@ -1,7 +1,5 @@
 package com.ssafy.niceage.Controller.Request;
 
-import java.time.LocalDateTime;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -17,9 +15,6 @@ public class BoardRequest {
 	
 	@ApiModelProperty(value = "Contents")
 	private String boardContents;
-	
-	@ApiModelProperty(value = "Date")
-	private LocalDateTime boardDate;
 
 	@ApiModelProperty(value = "UserID")
 	private String userId;
