@@ -134,8 +134,6 @@ export function requestDementiaResult ({ state }, param) {
 
   // comment
 
-}
-
 export function requestSeniorCenter ({ state }, userId) {
   console.log('requestSeniorCenter', state, userId)
   const url = `/senior/random/${userId}`
