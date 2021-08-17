@@ -100,12 +100,13 @@ public class BoardController {
 		MainResponse response = null;
 
 		try {
-			// 로그인 아이디로 회원객체 먼저 가져오기
 			User user = userService.findById(request.getUserId());
-			BoardDTO boardDto = new BoardDTO(request, user);
+			Board board = boardService.findById(request.getBoardId());
+			BoardDTO boardDto = new BoardDTO(board, request, user);
 			boardService.update(boardDto);
 			response = new MainResponse("success", "게시글 수정 완료");
 		} catch (Exception e) {
+			System.out.println(e);
 			response = new MainResponse("fail", e.getMessage());
 		}
 

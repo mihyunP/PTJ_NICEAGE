@@ -22,7 +22,7 @@ import lombok.NoArgsConstructor;
 @ApiModel(value = "게시판 DTO")
 public class BoardDTO {
 	private Long boardId;
-	private List<CommentDTO> commentsDto;
+	private List<Comment> comments;
 	private String boardTitle;
 	private String boardContents;
 	private LocalDateTime boardDate;
@@ -43,28 +43,20 @@ public class BoardDTO {
 		this.boardId = request.getBoardId();
 		this.boardTitle = request.getBoardTitle();
 		this.boardContents = request.getBoardContents();
-		this.boardDate = request.getBoardDate();
 		this.user = user;
 	}
-
-
-	/**
-	 * Assert.assertNotNull null값이 입력되면 안되는 컬럼들을 위한 안전장치
-	 * 
-	 * @param request
-	 * @param user
-	 */
+	
 	@Builder
-	public BoardDTO(BoardRequest request, User user, List<CommentDTO> commentsDto) {
+	public BoardDTO(Board board, BoardRequest request, User user) {
 		Assert.assertNotNull("boardTitle must not be null", request.getBoardTitle());
 		Assert.assertNotNull("boardContents must not be null", request.getBoardContents());
 		Assert.assertNotNull("user must not be null", user);
 
+		this.comments = board.getComments();
 		this.boardId = request.getBoardId();
-		this.commentsDto = commentsDto;
 		this.boardTitle = request.getBoardTitle();
 		this.boardContents = request.getBoardContents();
-		this.boardDate = request.getBoardDate();
+		this.boardDate = board.getBoardDate();
 		this.user = user;
 	}
 
@@ -132,10 +124,22 @@ public class BoardDTO {
 	}
 	
 	public Board toEntity() {
-		return Board.builder().
-				boardId(this.boardId).
-				boardTitle(this.boardTitle).
-				boardContents(this.boardContents)
-				.user(this.user).build();
+		return Board.builder()
+				.boardId(this.boardId)
+				.boardTitle(this.boardTitle)
+				.boardContents(this.boardContents)
+				.user(this.user)
+				.build();
+	}
+	
+	public Board toUpdate() {
+		return Board.builder()
+				.boardId(this.boardId)
+				.boardTitle(this.boardTitle)
+				.boardContents(this.boardContents)
+				.user(this.user)
+				.comments(this.comments)
+				.boardDate(this.boardDate)
+				.build();
 	}
 }
