@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">회원가입에 필요한 정보를 입력하시면 서비스를 이용하실 수 있어요.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -345,7 +347,26 @@ export default {
       })
     }
 
-    return { signupForm, state, clickSignup, clickOverlap, checkValidation, sendAuthenticationNumber, execDaumPostcode, confirmAuthenticationNumber }
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
+    return { signupForm, state, clickSignup, clickOverlap, checkValidation, sendAuthenticationNumber, execDaumPostcode, confirmAuthenticationNumber, clickTTS }
   }
 }
 

@@ -209,6 +209,22 @@ export default {
         tmp.push({message: event.data, isMe: isMe, username: clientData})
 				this.msgs = tmp
 				this.messageSenderObj = event.from
+				// tts 요청
+				let source; 
+				let context; 
+				context = new AudioContext();
+				this.$store.dispatch('requestKakaoTTS', event.data)
+				.then(res => {
+					context.decodeAudioData(res.data, function(buffer) {
+							source = context.createBufferSource();
+							source.buffer = buffer;
+							source.connect(context.destination);
+							source.start(); 
+						});  
+				})
+				.catch(err => {
+					console.log(err)
+				})
       })
 
 			this.session.on('connectionCreated', (event) => {

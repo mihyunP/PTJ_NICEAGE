@@ -6,19 +6,9 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">오른쪽 3가지 질문에 대한 대답을 
             선택하시면 친구를 만나실 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-          <br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+          <el-button type="text" @click="clickTTS" style="background: rgba(255, 250, 250, 0.5) !important;">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -97,13 +87,13 @@
             <div class="select-button">조깅</div>
           </el-button>
 
-          <el-button @click="getSelection(5)">
+          <el-button class="select-button" @click="getSelection(5)">
            <span class="iconify" data-inline="false" data-icon="noto:mountain" style="font-size: 92px;"></span>
-            <div class="select-button">등산</div>
+            <div>등산</div>
           </el-button>
 
           <el-button @click="getSelection(6)">
-   <div class="random-image"></div>
+    <div class="random-image"></div>
             <div class="select-button">상관없음</div>
           </el-button>
             </el-row>
@@ -124,7 +114,7 @@
       <div class="dialog-question">친구매칭을 취소하시겠어요?</div>
       <el-button @click="handleClose">
         <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
-        <div class="custom-font">취소해~</div>
+        <div class="custom-font">취소</div>
       </el-button>
     </div>
   </div>
@@ -227,6 +217,24 @@ export default {
     },
     handleClose() {
       this.offLoading()
+    },
+    clickTTS() {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      this.$store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   },
 }
@@ -248,14 +256,7 @@ export default {
     height: 150px;
     background: #EBC86F !important;
     border-radius: 25px !important;
-  }
-  /* .dialog-button {
-    margin: 15px;
-    width: 150px;
-    height: 150px;
-    background: #EBC86F !important;
-    border-radius: 20px !important;
-  } */
+  } 
   .select-button {
     font-family: BlackHanSans;
     font-size: 21px;

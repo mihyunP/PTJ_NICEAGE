@@ -4,8 +4,11 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
-          <div class="explanation">원하시는 게임을 클릭하시면 해당 게임 페이지로 가실 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <div class="explanation">원하시는 게임을 클릭하시면 
+해당 게임 페이지로 가실 수 있습니다.</div>
+          <el-button type="text" @click="clickTTS" style="background: rgba(255, 250, 250, 0.5) !important;">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
@@ -63,6 +66,26 @@ export default {
   components: {
     BackButton
   },
+  methods: {
+    clickTTS() {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      this.$store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+  }
 }
 </script>
 

@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">새로운 비밀번호를 입력해주세요.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         </el-col>
       </el-row>
     </el-col>
@@ -124,7 +126,26 @@ export default {
       })
     }
 
-    return { newPasswordForm, state, clickChangePassword, checkValidation }
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
+
+    return { newPasswordForm, state, clickChangePassword, checkValidation, clickTTS }
   }
 }
 
