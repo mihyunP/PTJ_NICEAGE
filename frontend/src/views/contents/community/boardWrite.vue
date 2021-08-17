@@ -30,16 +30,18 @@
 
 
             <el-container class="board-container">
-            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+                        <el-row justify="cneter">
+            <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="40px" class="demo-ruleForm">
             <el-form-item label="제목" prop="pass">
-                  <el-input placeholder="제목을 입력해 주세요." v-model="state.form.boardTitle"></el-input>
+                  <el-input placeholder="제목을 입력해 주세요." v-model="state.form.boardTitle"  ></el-input> <!--autosize="100px"-->
             </el-form-item>
             <el-form-item label="내용" prop="checkPass">
                       <el-input
                       type="textarea"
-                      :rows="2"
                       placeholder="내용을 입력해 주세요."
-                      v-model="state.form.boardContents">
+                      v-model="state.form.boardContents"
+                      minlength=60px
+                      >
                     </el-input>
             </el-form-item>
             <el-form-item>
@@ -47,6 +49,7 @@
                 <el-button @click="$router.push('/board')">취소</el-button> <!-- @click="resetForm('ruleForm')" -->
             </el-form-item>
             </el-form>
+                        </el-row>
             </el-container>
           </el-row>
          
@@ -66,7 +69,7 @@
   import { useRouter } from 'vue-router'
  
 export default defineComponent ({
-  name: 'board',
+  name: 'BoardWrite',
    setup() {
    
     const store = useStore()
@@ -116,8 +119,8 @@ export default defineComponent ({
     text-align: left;
   }
   .dementia-container {
-    /* width : 100%; */
-    height: 670px;
+    width : 100%;
+    /* height: 670px; */
     padding: 20px;
     margin: 50px;
     background: #EFDEDE !important;
