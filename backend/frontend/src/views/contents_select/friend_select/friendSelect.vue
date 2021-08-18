@@ -218,6 +218,9 @@ export default {
     },
     handleClose() {
       this.offLoading()
+      this.$router.push({
+        name: 'Home'
+      })
     },
     clickTTS() {
       const text = document.querySelector('.explanation').innerText
