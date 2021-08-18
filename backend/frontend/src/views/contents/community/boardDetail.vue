@@ -54,7 +54,7 @@
                   <p class="text">{{state.form.boardContents}}</p>
               </el-main>
               <el-main>
-                <comment  /> <!-- title="부모컴포넌트에서 던져준 페이지 타이틀" -->
+                <comment :boardId="state.boardId" :commentsDto="state.form.commentsDto" :titles="state.titles" /> <!-- boardId="부모컴포넌트에서 던져준 보드 아이디" -->
               </el-main>   
             </el-container>
           </el-row>
@@ -105,21 +105,22 @@ export default ({
     const store = useStore()
     const router = useRouter()
     const state = reactive({
+      titles : [1,3,5,7],
       boardId : props.id,
       nowuserId : store.getters['root/getMyId'],
       form :{
-        comments:[],
+        commentsDto:[],
         user:{},
-        boardTitle :'',
+        boardTitle :'', 
         boardContents : '',
         boardDate :'',
-      }
-    
+      },
+      // commentDto:[],
     })
     console.log(state.nowuserId);
    
 
-    console.log("props방식"+state.boardId); // props방식으로 넘어오는지
+    // console.log("props방식"+state.boardId); // props방식으로 넘어오는지
 
     // state.form.boardId = 0;
     // console.log("초기화"+state.form.boardId);
@@ -132,21 +133,22 @@ export default ({
     // console.log("params방식"+state.form.boardId); // params방식으로 넘어오는지
     
     console.log(props.id);
-    // console.log(state.id); 
+    console.log(state.boardId); 
 
     //  const userId = store.getters['root/getMyId']
      store.dispatch('root/requestReadBoard',{boardId : state.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
      .then(res => {
-      console.log(res.data);
-      console.log(res.data.data);
-      state.form = res.data.data;
-      console.log(state.form.user.userName);
-      console.log(state.form.boardTitle);
-      console.log(state.form.boardContents);
-      console.log(state.form.boardDate);
-
-      console.log(state.nowuserId);
-      console.log(state.form.user.userId);
+      // console.log(res.data);
+      // console.log(res.data.data);
+      state.form = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
+      // console.log(state.form.user.userName);
+      // console.log(state.form.boardTitle);
+      // console.log(state.form.boardContents);
+      // console.log(state.form.boardDate);
+      console.log(state.form.commentsDto); // 잘찍힘
+      // console.log(state.nowuserId);
+      // console.log(state.form.user.userId);
+     
       })
       .catch((err) => {
         console.log(err);
@@ -209,7 +211,7 @@ export default ({
   .right-content {
     position: relative;
     background: rgba(173, 203, 176, 0.7);
-    height: 140%;
+    height: 100%;
     /* opacity: 0.5; */
   }
   .question {

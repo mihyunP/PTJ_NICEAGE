@@ -153,7 +153,7 @@ export function requestDementiaResult ({ state }, param) {
   // 댓글 삭제
 
   export function requestDeleteComment({ state }, param) {
-    console.log('requestDeleteWrite', state, param)
+    console.log('requestDeleteComment', state, param)
     const url = `/board/delete/${param.userId}/${param.boardId}/${param.commentId}` 
     return axios.delete(url)
   }
