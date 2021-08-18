@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const KAKAO_TTS_API_KEY = process.env.VUE_APP_KAKAO_TTS_REST_API_KEY
+const KAKAO_TTS_API_KEY = "3c0313753fd2e0eacded067594c45184"
 axios.defaults.headers.common['Authorization'] = `KakaoAK ${KAKAO_TTS_API_KEY}`
 
 const url = 'https://kakaoi-newtone-openapi.kakao.com/v1/synthesize'
