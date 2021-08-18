@@ -1,1 +1,0 @@
-INDEX VERSION 1.4+C:\worksapce\S05P13B202\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
