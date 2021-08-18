@@ -1,0 +1,39 @@
+<<<<<<< HEAD:frontend/src/common/css/common.css
+=======
+html, body {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+}
+
+/* 이전 페이지로 돌아가기 css */
+.previouspage {
+  font-family: SangSangFlowerRoad;
+  font-size: 45px;
+  color: rgba(248, 141, 141, 1);
+}
+
+@media (min-width: 1270px) {
+  html, body {
+    min-width: 1270px;
+  }
+}
+
+>>>>>>> develope:backend/frontend/src/common/css/common.css
+@font-face {
+  font-family: 'SangSangFlowerRoad';
+  src: url('../../assets/fonts/SangSangFlowerRoad.otf');
+  /* src: url('../../assets/fonts/sangsangflowerroad-webfont.woff2'); */
+}
+@font-face {
+  font-family: 'SSShinb7';
+  src: url('../../assets/fonts/SSShinb7.ttf');
+  /* src: url('../../assets/fonts/ssshinb7-webfont.woff2'); */
+}
+@font-face {
+  font-family: 'BlackHanSans';
+  src: url('../../assets/fonts/BlackHanSans-Regular.ttf');
+}
+ 
