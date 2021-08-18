@@ -3304,3 +3304,13 @@ java.lang.OutOfMemoryError: Requested array size exceeds VM limit
 	at org.eclipse.jdt.internal.core.search.indexing.IndexManager.notifyIdle(IndexManager.java:711)
 	at org.eclipse.jdt.internal.core.search.processing.JobManager.run(JobManager.java:384)
 	at java.lang.Thread.run(Thread.java:748)
+
+!ENTRY org.eclipse.wst.jsdt.core 4 4 2021-08-18 15:56:39.022
+!MESSAGE null
+!STACK 0
+java.lang.ClassCastException
+
+!ENTRY org.eclipse.wst.jsdt.core 4 4 2021-08-18 15:56:39.073
+!MESSAGE null
+!STACK 0
+java.lang.ClassCastException
