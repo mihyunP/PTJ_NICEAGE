@@ -6,25 +6,15 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+<back-button/>
         </el-col>
       </el-row>
     </el-col>
 
     <el-col class="right-content" :span="12">
         <el-row class="main-content" justify="center" align="middle">
-        <el-col :span="24">
+        <el-col :span="24">a
+          
           <div class="question">글을 수정해 보세요.</div>
           <el-row justify="cneter">
 
@@ -33,13 +23,14 @@
               <el-row justify="center">
             <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
             <el-form-item label="제목" prop="pass">
-              <el-input placeholder="Please input" v-model="state.form.boardTitle"></el-input>
+              <el-input id="input-title" placeholder="제목을 입력해주세요." v-model="state.form.boardTitle"></el-input>
             </el-form-item>
-            <el-form-item label="내용" prop="checkPass">
+            <el-form-item  label="내용" prop="checkPass">
                  <el-input
+                      id="input-contents"
                       type="textarea"
                       :rows="2"
-                      placeholder="Please input"
+                      placeholder="내용을 입력해주세요."
                       v-model="state.form.boardContents">
                     </el-input>
             </el-form-item>
@@ -65,9 +56,11 @@
   import { reactive } from 'vue'
   import { useStore } from 'vuex'
   import { useRouter } from 'vue-router'
+import BackButton from '../../components/BackButton.vue'
  
 
 export default {
+  components: { BackButton },
   name: 'BoardModify',
    props: {
             id: {
@@ -128,9 +121,15 @@ export default {
 </script>
 
 <style scoped>
-  input[type="checkbox"]{
-    width: 30px; /*Desired width*/
-    height: 30px; /*Desired height*/
+  #input-title{
+     width:200px;
+  height:100px;
+  font-size:20px;
+  }
+  #input-contents{
+     width:200px;
+  height:100px;
+  font-size:20px;
   }
   label{
     font-family: BlackHanSans;
@@ -163,7 +162,7 @@ export default {
   .right-content {
     position: relative;
     background: rgba(173, 203, 176, 0.7);
-    height: 140%;
+    height: 100%;
     /* opacity: 0.5; */
   }
   .question {

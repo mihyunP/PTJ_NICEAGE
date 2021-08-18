@@ -371,7 +371,7 @@
   .right-content {
     position: relative;
     background: rgba(173, 203, 176, 0.7);
-    height: 140%;
+    height: 100%;
     /* opacity: 0.5; */
   }
   .question {
