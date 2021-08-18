@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <back-button/>
         </el-col>
       </el-row>
@@ -16,9 +18,9 @@
         <el-col :span="24">
           <div class="question">자유롭게 글을 남겨 보세요.</div>
     <el-row justify="center" align="middle">
-    <el-button round @click="clickWrite" >글작성</el-button>
+    <el-button class="my-button" round @click="clickWrite" >글작성</el-button>
       <el-input placeholder="검색어를 입력하세요." v-model="state.keyword" style="display:inline; width : 30%;"></el-input>
-    <el-button round @click="clickSearch"  placement="right-end" >검색</el-button>
+    <el-button class="my-button" round @click="clickSearch"  placement="right-end" >검색</el-button>
     </el-row>
 <el-row>
   <el-col :span="3"></el-col>
@@ -181,8 +183,23 @@ export default defineComponent ({
     // const handleCurrentChange= function(state.boardList.length/10) {
     //     console.log(`current page: ${val}`);
     //   };
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
 
-     return { state, clickWrite, setPage, clickSearch,handleCurrentChange} //  setPage,
+    return { state, clickWrite, setPage, clickSearch,handleCurrentChange, clickTTS} //  setPage,
 
   }
 })
@@ -193,7 +210,7 @@ export default defineComponent ({
    font-family: BlackHanSans;
     font-size: 16px;
 }
-  .el-button {
+  .my-button {
     font-family: BlackHanSans;
     font-size: 25px;
     margin: 15px;

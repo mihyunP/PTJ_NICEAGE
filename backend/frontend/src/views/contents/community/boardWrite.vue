@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
         <back-button/>
         </el-col>
       </el-row>
@@ -35,8 +37,8 @@
             </el-form-item>
             <el-form-item>
                <el-row justify="center" align="middle">
-                <el-button round @click="clickSubmit">등록</el-button> <!--  @click="submitForm('ruleForm')" -->
-                <el-button @click="$router.push('/board')">취소</el-button> <!-- @click="resetForm('ruleForm')" -->
+                <el-button class="my-button" round @click="clickSubmit">등록</el-button> <!--  @click="submitForm('ruleForm')" -->
+                <el-button class="my-button" @click="$router.push('/board')">취소</el-button> <!-- @click="resetForm('ruleForm')" -->
                   </el-row>
             </el-form-item>
             </el-form>
@@ -94,8 +96,24 @@ export default defineComponent ({
             alert(err)
           })
     }
+
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
     
-    return { state, clickSubmit }
+    return { state, clickSubmit, clickTTS }
   }
 })
 
@@ -110,7 +128,7 @@ export default defineComponent ({
     font-size: 50px !important;
     text-align: left;
   }
-  .el-button {
+  .my-button {
     font-family: BlackHanSans;
     font-size: 25px;
     margin: 15px;
