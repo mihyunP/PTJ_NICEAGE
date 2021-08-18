@@ -6,18 +6,7 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">해당 하는 항목에 체크하시면 치매 진단 결과를 확인하실 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+<back-button/>
         </el-col>
       </el-row>
     </el-col>
@@ -274,7 +263,9 @@
     import { useRouter } from 'vue-router'
     import { reactive } from 'vue'
     import { useStore } from 'vuex'
+import BackButton from '../../../components/BackButton.vue'
     export default {
+  components: { BackButton },
     name: 'Dementia',
 
     setup() {
@@ -349,7 +340,7 @@
     /* width : 100%; */
     height: 670px;
     padding: 20px;
-    margin: 50px;
+    margin: 25px;
     background: #EFDEDE !important;
     line-height: 300%;
   }
