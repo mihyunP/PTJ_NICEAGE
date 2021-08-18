@@ -131,6 +131,7 @@ export default defineComponent ({
       
         console.log("title : "+val.boardTitle)
         console.log("id : "+val.boardId)
+        
         console.log(this.id);
     }
 

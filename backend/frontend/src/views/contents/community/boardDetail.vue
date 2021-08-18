@@ -6,18 +6,7 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.go(-1)">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">전 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+            <back-button/>
         </el-col>
       </el-row>
     </el-col>
@@ -26,7 +15,7 @@
         <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
   <el-row>
-    <el-col :span="12">
+    <el-col :span="12" style="text-align:right">
           <div>
           <span class="question">{{state.form.boardTitle}}</span>
           </div>
@@ -41,21 +30,20 @@
 
             <el-container class="board-container">
               <el-header>
-                <el-row>
-                <!-- <el-col span="12" style="inline-block"> -->
-                  <span class="text" style="margin-right: 10% text-align:left"> 작성자 : {{state.form.user.userName}}</span>
-                <!-- </el-col> -->
-                <!-- <el-col span="12" style="inline-block"> -->
-                 <span class="text"> 작성일자 :{{state.form.boardDate}} </span>
-                <!-- </el-col> -->
-                </el-row>
+                
+               
+                  
+                  <span class="text" style="text-align:left"> 작성자 : {{state.form.user.userName}}</span>
+              
+                 <span class="text"  style="text-align:right"> 작성일자 :{{state.form.boardDate}} </span>
+              
               </el-header>
               <el-main>
-                  <p class="text">{{state.form.boardContents}}</p>
+                  <p class="text" style="text-align:left">{{state.form.boardContents}}</p>
               </el-main>
               <el-main>
                 <comment :boardId="state.boardId" :commentsDto="state.form.commentsDto" :titles="state.titles" /> <!-- boardId="부모컴포넌트에서 던져준 보드 아이디" -->
-              </el-main>   
+              </el-main>
             </el-container>
           </el-row>
       
@@ -67,6 +55,7 @@
 
 <script>
   import comment from './components/comment.vue'
+  import BackButton from '../../components/BackButton.vue'
   // import { defineComponent } from 'vue'
 
   import { reactive } from 'vue'
@@ -99,7 +88,7 @@ export default ({
             // },
         },
   components: {
-   comment,
+   comment, BackButton,
   },
   setup(props) { // props.으로 props에 선언한 변수에 접근가능함
     const store = useStore()
@@ -177,33 +166,26 @@ export default ({
 </script>
 
 <style scoped>
-  input[type="checkbox"]{
-    width: 30px; /*Desired width*/
-    height: 30px; /*Desired height*/
-  }
-  .text{
+.text{
     font-family: BlackHanSans;
     font-size: 30px;
+}
+   .demo-ruleForm{
+    width: 700px;
   }
-  .dementia-container {
-    /* width : 100%; */
-    height: 670px;
-    padding: 20px;
-    margin: 50px;
-    background: #EFDEDE !important;
-    line-height: 300%;
+  .el-form-item{
+    font-family: BlackHanSans;
+    font-size: 50px !important;
+    text-align: left;
   }
-
   .el-button {
+    font-family: BlackHanSans;
+    font-size: 25px;
     margin: 15px;
     width: 150px;
     height: 50px;
     background: #EBC86F !important;
     border-radius: 25px !important;
-  }
-  .bottom-button {
-    font-family: BlackHanSans;
-    font-size: 30px;
   }
   .main-content {
     height: 100%;
@@ -218,6 +200,7 @@ export default ({
     font-family: SangSangFlowerRoad;
     font-size: 44px;
     color: rgba(248, 141, 141, 1);
+    text-align: center;
   }
   .explanation {
     font-family: SangSangFlowerRoad;
@@ -232,12 +215,6 @@ export default ({
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
   }
-  /* 이전 페이지로 돌아가기 css */
-  .previouspage {
-    font-family: SangSangFlowerRoad;
-    font-size: 45px;
-   color: rgba(248, 141, 141, 1);
-  }
 .board-container {
     /* width : 100%; */
     height: 670px;
@@ -245,5 +222,5 @@ export default ({
     margin: 50px;
     background: #EFDEDE !important;
     line-height: 300%;
-  }
+  } 
 </style>

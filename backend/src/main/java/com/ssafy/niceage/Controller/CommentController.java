@@ -78,7 +78,7 @@ public class CommentController {
 	
 	@ApiOperation(value = "댓글 삭제", response = MainResponse.class)
 	@DeleteMapping("/delete/{userId}/{boardId}/{commentId}")
-	public MainResponse deleteComment(@ApiParam(value = "아이디")@PathVariable String userId, Long boardId, Long commentId) {
+	public MainResponse deleteComment(@ApiParam(value = "아이디")@PathVariable("userId") String userId,@PathVariable("boardId") Long boardId,@PathVariable("commentId") Long commentId) {
 		
 		MainResponse response = null;
 
