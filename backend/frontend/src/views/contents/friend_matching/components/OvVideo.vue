@@ -19,5 +19,6 @@ export default {
 <style scoped>
 	video {
 		width: 100%;
+		border-radius: 40px !important;
 	}
 </style>>

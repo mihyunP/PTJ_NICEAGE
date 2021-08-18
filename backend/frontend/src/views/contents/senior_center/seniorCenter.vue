@@ -1,30 +1,12 @@
 <template>
 	<div class="room-container" id="main-container">
-		<!-- <div id="join" v-if="!session">
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>Join a video session</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p>
-						<label>Session</label>
-						<input v-model="mySessionId" class="form-control" type="text" required>
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="joinSession()">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div> -->
 
 		<div class="section" v-if="session">
       <el-row class="session-main">
         <el-col class="video-container" :span="18">
 					<el-row id="session-title" justify="space-between">
 						<!-- <div>{{ mySessionId }}</div> -->
-						<div>{{myCenterName}} {{roomList[parseInt(sessionId.split('-')[1])]}}방</div>
+						<div style="font-family: 'SangSangFlowerRoad'; font-size: 25px;">{{myCenterName}} {{roomList[parseInt(sessionId.split('-')[1])]}}방</div>
 						<el-button type="danger" @click="clickSOS">119 신고</el-button>
 					</el-row>
 					<el-row>
@@ -112,9 +94,7 @@ export default {
 		}
 	},
 	mounted() {
-		console.log('urllll:', OPENVIDU_SERVER_URL)
 		this.joinSession()
-		console.log(this.session)
 	},
 
 	methods: {
@@ -213,7 +193,9 @@ export default {
 				let source; 
 				let context; 
 				context = new AudioContext();
-				this.$store.dispatch('requestKakaoTTS', event.data)
+				const name = JSON.parse(event.from.data).clientData
+				const text = `${name}님이 ${event.data}라고 말하셨습니다.`
+				this.$store.dispatch('requestKakaoTTS', text)
 				.then(res => {
 					context.decodeAudioData(res.data, function(buffer) {
 							source = context.createBufferSource();
@@ -290,7 +272,6 @@ export default {
 				this.sessionIndex = idx
         this.sessionId = this.sessionId.split('-')[0] + '-' + String(idx)
 				this.joinSession()
-				console.log(this.sessionId, this.myUserName, this.myCenterName)
 				// 방 인원수 갱신
 				this.$store.commit('root/loadingOn')
 				axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {

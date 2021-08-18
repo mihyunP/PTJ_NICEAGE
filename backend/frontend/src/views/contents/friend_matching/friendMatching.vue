@@ -1,118 +1,69 @@
 <template>
 	<div class="room-container" id="main-container">
-		<div id="join" v-if="!isMatched">
-			<div id="join-dialog" class="jumbotron vertical-center">
-				<h1>대기 페이지</h1>
-				<div class="form-group">
-					<p>
-						<label>Participant</label>
-						<input v-model="myUserName" class="form-control" type="text" required>
-					</p>
-					<p class="text-center">
-						<button class="btn btn-lg btn-success" @click="clickButton">Join!</button>
-					</p>
-				</div>
-			</div>
-		</div>
-
-		<div class="section" v-if="isMatched">
+		<div class="section" v-if="session">
       <el-row class="session-main">
         <el-col class="video-container" :span="18">
-					<el-row id="session-title" justify="space-between">
-						<div>{{ mySessionId }}</div>
-						<div>119 신고기능 추가예정</div>
-					</el-row>
-					<!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"> -->
-          <!-- <el-row id="session-header" justify="space-between">
-						<el-col :span="5">
-						</el-col>
-						<el-col :span="5">
-							<el-button>
-								<span class="iconify" data-inline="false" data-icon="twemoji:ambulance" style="font-size: 40px;"></span>
-								<span style="font-size: 25px;">119에 신고하기</span>
-							</el-button>
-						</el-col>
-          </el-row> -->
-          <!-- <div id="main-video">
-            <user-video :stream-manager="mainStreamManager"/>
-          </div> -->
-					<el-row style="height: 100%;" align="middle">
+					<el-row align="middle" style="height: 100%;">
 						<el-col :span="12">
-							<user-video :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
+							<UserVideo :stream-manager="publisher" @click="updateMainVideoStreamManager(publisher)"/>
 						</el-col>
-						<el-col :span="12" v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-							<user-video :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
+						<el-col v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :span="12">
+							<UserVideo :stream-manager="sub" @click="updateMainVideoStreamManager(sub)"/>
 						</el-col>
 					</el-row>
         </el-col>
         <el-col class="session-sidebar" :span="6">
-					<el-tabs type="card" @tab-click="handleClick">
-						<el-tab-pane label="채팅">
-							<div>
-								<MessageList :msgs="msgs" :senderObj="messageSenderObj" :me="publisher"/>
-								<MessageForm @getMyMsg="getMyMsg"/>
-							</div>
-						</el-tab-pane>
-					</el-tabs>
+					<SideBar
+						@handleClick="handleClick"
+						@getMyMsg="getMyMsg"
+						:msgs="msgs"
+						:personnelList="personnelList"
+						:sessionIndex="sessionIndex"
+						:mySessionId="sessionId"
+						:myCenterName="myCenterName"
+						@changeSession="changeSession"/>
         </el-col>
       </el-row>
-			<el-row class="bottom-bar" justify="center" align="middle">
-				<el-col :span="8">
-					<el-button class="select-btn" round @click="muteAudio">
-						<div v-if="isAudioMuted">
-							<span class="iconify" data-inline="false" data-icon="ant-design:audio-muted-outlined" style="color: #E25353; font-size: 48px;"></span>
-							소리 켜기
-						</div>
-						<div v-else>
-							<span class="iconify" data-inline="false" data-icon="ant-design:audio-filled" style="color: #2ec02e; font-size: 48px;"></span>
-							<span>소리 끄기</span>
-						</div>
-					</el-button>
-				</el-col>
-				<el-col :span="8">
-					<el-button class="select-btn" round @click="muteVideo">
-						<div v-if="isVideoMuted">
-							<span class="iconify" data-inline="false" data-icon="bx:bxs-video-off" style="color: #e25353; font-size: 48px;"></span>
-							<span>비디오 켜기</span>
-						</div>
-						<div v-else>
-							<span class="iconify" data-inline="false" data-icon="bx:bxs-video" style="color: #2ec02e; font-size: 48px;"></span>
-							<span>비디오 끄기</span>
-						</div>
-					</el-button>
-				</el-col>
-				<el-col :span="8">
-					<el-button class="select-btn" round @click="leaveSession">
-						<span class="iconify" data-inline="false" data-icon="icomoon-free:exit" style="color: #e25353; font-size: 48px;"></span>
-						나가기
-					</el-button>
-				</el-col>
-			</el-row>
+			<BottomBar
+				:isAudioMuted="isAudioMuted"
+				:isVideoMuted="isVideoMuted"
+				@muteAudio="muteAudio"
+				@muteVideo="muteVideo"
+				@leaveSession="leaveSession"
+				@reportUser="reportUser"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import UserVideo from './components/UserVideo';
-import MessageForm from './components/messageForm';
-import MessageList from './components/messageList';
+import SideBar from './components/sideBar';
+import BottomBar from './components/bottomBar';
 
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
 const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
-	name: 'App',
+	name: 'FriendMatching',
 	components: {
 		UserVideo,
-    MessageForm,
-    MessageList
+		BottomBar,
+		SideBar
 	},
 	props: {
 		mySessionId: {
 			type: String
 		},
+		myUserName: {
+			type: String
+		},
+		myCenterName: {
+			type: String
+		}
 	},
 	data () {
 		return {
@@ -121,31 +72,86 @@ export default {
 			mainStreamManager: undefined,
 			publisher: undefined,
 			subscribers: [],
-			myUserName: '',
       msgs: [],
 			messageSenderObj: undefined,
-			isVideoMuted: true,
-			isAudioMuted: true,
-			inChat: true,
+			isVideoMuted: false,
+			isAudioMuted: false,
 			activeName: 'first',
-			isMatched: false,
+			personnelList: [],
+			sessionIndex: undefined,
+			sessionId: this.mySessionId,
+			roomList: ['개나리', '진달래', '장미', '매화', '해바라기']
+		}
+	},
+	computed: {
+		roomIndex: () => {
+			return this.mySessionId
 		}
 	},
 	mounted() {
-		this.$store.dispatch('root/requestMyDetail', this.$store.getters['root/getMyId'])
-		.then((res) => {
-			this.myUserName = res.data.data.userName
-			this.joinSession()
-		})
+		this.joinSession()
+		console.log(this.session)
 	},
+
 	methods: {
-		clickButton() {
-			this.muteAudio()
-			this.muteVideo()
-			this.isMatched = !this.isMatched
+		reportUser() {
+			// const sessionId = parseInt(this.mySessionId)
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions/${this.mySessionId}`, {
+				auth: {
+					username: 'OPENVIDUAPP',
+					password: OPENVIDU_SERVER_SECRET
+				}
+			})
+			.then(res => {
+				const users = res.data.connections.content
+				users.forEach(user => {
+					const { clientData } = JSON.parse(user.clientData)
+					if ( clientData !== this.myUserName ) {
+						const payload = {
+							reporterId: this.myUserName,
+							reporterTargetId: clientData
+						}
+						this.$store.dispatch('root/requestReportUser', payload)
+						.then(() => {
+							alert('신고가 접수되었습니다.')
+						})
+						.catch((err) => {
+							alert(err)
+						})
+					}
+				})
+			})
 		},
-		handleClick(tab, event) {
-			console.log(tab, event);
+		handleClick() {
+			const personnelListTmp = [0, 0, 0, 0, 0]
+			this.$store.commit('root/loadingOn')
+			axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+				auth: {
+					username: 'OPENVIDUAPP',
+					password: OPENVIDU_SERVER_SECRET
+				}
+			})
+			.then(res => {
+				this.$store.commit('root/loadingOff')
+				const sessions = res.data.content
+				const tmp = this.sessionId.split('-')
+				const sessionId = tmp[0]
+				//!!
+				this.sessionIndex = parseInt(tmp[1])
+				sessions.forEach(session => {
+					const split_str = session.id.split('-')
+					if (sessionId == split_str[0]) {
+						const index = parseInt(split_str[1])
+						personnelListTmp[index] = session.connections.numberOfElements
+					}
+				})
+				//!!
+				this.personnelList = personnelListTmp
+			})
+			.catch(err => {
+				this.$store.commit('root/loadingOff')
+				alert(err)
+			})
 		},
 		muteAudio() {
 			this.publisher.publishAudio(this.isAudioMuted)
@@ -197,14 +203,32 @@ export default {
 				// console.log('11', this.publisher)
 				// console.log("사용자이름: ",this.publisher.stream.connection.data)
 				// console.log("커넥션아이디: ",this.publisher.stream.connection.connectionId)
-				// console.log("커넥션아이디: ", event.from.connectionId)
+				// console.log("커넥션아이디: ", event.from)
 				// console.log('123',JSON.parse(event.from.data).clientData)
 				if (event.from.connectionId == this.publisher.stream.connection.connectionId) {
 					isMe = true
 				}
-        tmp.push({message: event.data, isMe: isMe})
+				const { clientData } = JSON.parse(event.from.data)
+				console.log('메시지:', event)
+        tmp.push({message: event.data, isMe: isMe, username: clientData})
 				this.msgs = tmp
 				this.messageSenderObj = event.from
+				// tts 요청
+				let source; 
+				let context; 
+				context = new AudioContext();
+				this.$store.dispatch('requestKakaoTTS', event.data)
+				.then(res => {
+					context.decodeAudioData(res.data, function(buffer) {
+							source = context.createBufferSource();
+							source.buffer = buffer;
+							source.connect(context.destination);
+							source.start(); 
+						});  
+				})
+				.catch(err => {
+					console.log(err)
+				})
       })
 
 			this.session.on('connectionCreated', (event) => {
@@ -214,7 +238,7 @@ export default {
 			// --- Connect to the session with a valid user token ---
 			// 'getToken' method is simulating what your server-side should do.
 			// 'token' parameter should be retrieved and returned by your own backend
-			this.getToken(this.mySessionId).then(token => {
+			this.getToken(this.sessionId).then(token => {
 				this.session.connect(token, { clientData: this.myUserName })
 					.then(() => {
 						// --- Get your own camera stream with the desired properties ---
@@ -248,25 +272,64 @@ export default {
 			this.subscribers = [];
 			this.OV = undefined;
 			window.removeEventListener('beforeunload', this.leaveSession);
-			this.$router.push({
-				name: 'Home'
-			})
+			this.leave()
+		},
+		changeSession (data) {
+			const idx = data.idx
+			const personnel = data.personnel
+			// --- Leave the session by calling 'disconnect' method over the Session object ---
+			
+      if (personnel >= 9) {
+				alert('정원초과로 입장할 수 없습니다.')
+      } else {
+				// 세션 종료
+				if (this.session) this.session.disconnect();
+				this.session = undefined;
+				this.mainStreamManager = undefined;
+				this.publisher = undefined;
+				this.subscribers = [];
+				this.OV = undefined;
+				window.removeEventListener('beforeunload', this.leaveSession);
+				// 새로운 세션 입장
+				this.sessionIndex = idx
+        this.sessionId = this.sessionId.split('-')[0] + '-' + String(idx)
+				this.joinSession()
+				// 방 인원수 갱신
+				this.$store.commit('root/loadingOn')
+				axios.get(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, {
+					auth: {
+						username: 'OPENVIDUAPP',
+						password: OPENVIDU_SERVER_SECRET
+					}
+				})
+				.then(res => {
+					this.$store.commit('root/loadingOff')
+					const personnelListTmp = [0, 0, 0, 0, 0]
+					this.$store.commit('root/loadingOff')
+					const sessions = res.data.content
+					const sessionId = this.sessionId.split('-')[0]
+					sessions.forEach(session => {
+						const split_str = session.id.split('-')
+						if (sessionId == split_str[0]) {
+							const index = parseInt(split_str[1])
+							personnelListTmp[index] = session.connections.numberOfElements
+						}
+					})
+					personnelListTmp[idx] += 1
+					//!!
+					this.personnelList = personnelListTmp
+				})
+				.catch(err => {
+					this.$store.commit('root/loadingOff')
+					alert(err)
+				})
+				} 
 		},
 		updateMainVideoStreamManager (stream) {
 			if (this.mainStreamManager === stream) return;
 			this.mainStreamManager = stream;
 		},
-		/**
-		 * --------------------------
-		 * SERVER-SIDE RESPONSIBILITY
-		 * --------------------------
-		 * These methods retrieve the mandatory user token from OpenVidu Server.
-		 * This behavior MUST BE IN YOUR SERVER-SIDE IN PRODUCTION (by using
-		 * the API REST, openvidu-java-client or openvidu-node-client):
-		 *   1) Initialize a Session in OpenVidu Server	(POST /openvidu/api/sessions)
-		 *   2) Create a Connection in OpenVidu Server (POST /openvidu/api/sessions/<SESSION_ID>/connection)
-		 *   3) The Connection.token must be consumed in Session.connect() method
-		 */
+
 		getToken (mySessionId) {
 			return this.createSession(mySessionId).then(sessionId => this.createToken(sessionId));
 		},
@@ -275,7 +338,7 @@ export default {
 			return new Promise((resolve, reject) => {
 				axios
 					.post(`${OPENVIDU_SERVER_URL}/openvidu/api/sessions`, JSON.stringify({
-						customSessionId: sessionId,
+						customSessionId: sessionId
 					}), {
 						auth: {
 							username: 'OPENVIDUAPP',
@@ -312,6 +375,33 @@ export default {
 					.catch(error => reject(error.response));
 			});
 		},
+
+		clickSOS () {
+			const userId = this.$store.getters['root/getMyId']
+			this.$store.dispatch('root/requestSOS', userId)
+			.then((res) => {
+				if (res.data.status == "success") {
+					alert("119 요청 완료.")
+				} else {
+					alert('119 호출에 실패하였습니다.')
+				}
+			})
+			.catch(() => {
+				alert('119 호출에 실패하였습니다.')
+			})
+		}
+	},
+	setup() {
+		const router = useRouter()
+
+		const leave = () => {
+			router.push({
+				name: 'Home'
+			})
+		}
+
+		return { leave }
+
 	}
 }
 </script>
@@ -335,9 +425,8 @@ export default {
 	}
 
 	.video-container {
-    height: 100%;
 		margin-bottom: 10px;
-		border: 2px solid #bcbcbc;
+		border: 1px solid #bcbcbc;
 		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
 	}
 
@@ -352,15 +441,20 @@ export default {
 		height: 3vh;
 	}
 
+	/* .chat-container {
+		height: 100%;
+		padding: 4px;
+		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+	} */
+
 	.bottom-bar {
 		margin-top: 15px;
 	}
-
   .select-btn {
     font-family: BlackHanSans;
     font-size: 32px;
     /* background: 61ACF1 !important; */
     border-radius: 40px !important;
-		/* filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
+		filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   }
 </style>

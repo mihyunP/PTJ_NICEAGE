@@ -89,6 +89,13 @@ export function requestReportList({ state }) {
   return axios.get(url)
 }
 
+export function requestReportUser({ state }, payload) {
+  console.log('requestReportList', state)
+  const url = `/user/report`
+  const body = payload
+  return axios.post(url, body)
+}
+
 export function requestEnter ({ state }, payload) {
   console.log('requestEnter', state, payload)
   const url = `/enter/enter`

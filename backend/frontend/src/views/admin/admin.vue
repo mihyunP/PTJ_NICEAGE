@@ -85,7 +85,7 @@
               width="180">
             </el-table-column>
             <el-table-column
-              prop="roportDate"
+              prop="reportDate"
               label="신고 시간">
             </el-table-column>
           </el-table>

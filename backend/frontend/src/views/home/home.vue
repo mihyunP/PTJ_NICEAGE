@@ -4,7 +4,7 @@
       <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
-          <div class="explanation">코로나 19 시대의 어르신들을 위한 화상 미팅 서비스입니다.</div>
+          <div class="explanation">코로나 19 시대의 어르신들을 위한 화상 미팅 서비스입니다..</div>
           <el-button type="text" @click="clickTTS">
             <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
           </el-button>
