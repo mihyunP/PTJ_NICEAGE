@@ -85,7 +85,7 @@ import { useStore } from 'vuex'
 import SeniorCenterModal from './components/seniorCenterModal'
 import BackButton from '@/views/components/BackButton'
 import axios from 'axios';
-axios.defaults.headers.post['Access-Control-Allow-Origin'] = 'http://i5b202.p.ssafy.io';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 const OPENVIDU_SERVER_URL = "https://i5b202.p.ssafy.io:4443"
 const OPENVIDU_SERVER_SECRET = "ssafy"
