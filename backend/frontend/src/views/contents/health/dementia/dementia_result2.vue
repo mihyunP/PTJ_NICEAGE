@@ -6,18 +6,7 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">진단 결과를 확인해주세요.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<!-- 전 페이지로 돌아가기 시작 -->
-<el-row @click="$router.push('mainSelect')">
-            <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 111px;" ></span>
-            <span class="previouspage">메인 페이지로 돌아가기</span>
-</el-row>
-<!-- 전 페이지로 돌아가기 끝 -->
+<back-button/>
         </el-col>
       </el-row>
     </el-col>
@@ -42,7 +31,9 @@
   </el-row>
 </template>
 <script>
+import BackButton from '../../../components/BackButton.vue'
 export default {
+  components: { BackButton },
 
 }
 </script>
@@ -65,7 +56,7 @@ export default {
   .right-content {
     position: relative;
     background: rgba(173, 203, 176, 0.7);
-    height: 140%;
+    height: 100%;
     /* opacity: 0.5; */
   }
   .question {
