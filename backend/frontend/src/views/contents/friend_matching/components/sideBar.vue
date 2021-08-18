@@ -6,32 +6,6 @@
         <MessageForm @getMyMsg="getMyMsg"/>
       </div>
     </el-tab-pane>
-    <el-tab-pane @click="clickOtherRoomInfo" label="다른방 정보">
-      <el-row class="room-title">
-        <el-col :span="6">방제목</el-col>
-        <el-col :span="12">인원수</el-col>
-        <el-col :span="6">입장</el-col>
-      </el-row>
-      <div
-      v-for="(personnel, idx) in personnelList" 
-      :key="idx" 
-      class="room-element">
-        <el-row>
-          <el-col :span="6">
-            <span>{{roomList[idx]}}방</span>
-          </el-col>
-          <el-col :span="12">
-            <span>{{personnel}} / 9</span>
-          </el-col>
-          <el-col :span="6">
-            <el-button type="text" @click="clickChangeCenter(idx, personnel)">
-              <span style="font-family: SangSangFlowerRoad; font-size: 20px;">입장하기</span>
-            </el-button>
-          </el-col>
-        </el-row>
-        <el-divider></el-divider>
-      </div>
-    </el-tab-pane>
   </el-tabs>
 </template>
 

@@ -25,6 +25,7 @@ export default {
 <style scoped>
 .list-container {
   height: 65vh;
-  background: white;
+  background: rgba(173, 203, 176, 0.2);
+  border-radius: 30px !important;
 }
 </style>

@@ -31,6 +31,9 @@
       </el-button>
     </el-col>
     <el-col :span="6">
+      <el-button class="select-btn" type="danger" round @click="reportUser">
+        상대방 신고하기
+      </el-button>
     </el-col>
   </el-row>
 </template>
@@ -56,6 +59,9 @@ export default {
     leaveSession() {
       this.$emit('leaveSession')
     },
+    reportUser() {
+      this.$emit('reportUser')
+    }
   }
 }
 </script>
