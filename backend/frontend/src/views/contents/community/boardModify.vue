@@ -13,8 +13,8 @@
 
     <el-col class="right-content" :span="12">
         <el-row class="main-content" justify="center" align="middle">
-        <el-col :span="24">a
-          
+        <el-col :span="24">
+
           <div class="question">글을 수정해 보세요.</div>
           <el-row justify="cneter">
 
@@ -29,7 +29,7 @@
                  <el-input
                       id="input-contents"
                       type="textarea"
-                      :rows="2"
+                       :autosize="{ minRows: 20, maxRows: 20}"
                       placeholder="내용을 입력해주세요."
                       v-model="state.form.boardContents">
                     </el-input>
@@ -121,40 +121,22 @@ export default {
 </script>
 
 <style scoped>
-  #input-title{
-     width:200px;
-  height:100px;
-  font-size:20px;
+  .demo-ruleForm{
+    width: 700px;
   }
-  #input-contents{
-     width:200px;
-  height:100px;
-  font-size:20px;
-  }
-  label{
+  .el-form-item{
     font-family: BlackHanSans;
-    font-size: 30px;
+    font-size: 50px !important;
     text-align: left;
   }
-  .dementia-container {
-    /* width : 100%; */
-    height: 670px;
-    padding: 20px;
-    margin: 50px;
-    background: #EFDEDE !important;
-    line-height: 300%;
-  }
-
   .el-button {
+    font-family: BlackHanSans;
+    font-size: 25px;
     margin: 15px;
     width: 150px;
     height: 50px;
     background: #EBC86F !important;
     border-radius: 25px !important;
-  }
-  .bottom-button {
-    font-family: BlackHanSans;
-    font-size: 30px;
   }
   .main-content {
     height: 100%;
@@ -182,12 +164,6 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../assets/images/main.png');
-  }
-  /* 이전 페이지로 돌아가기 css */
-  .previouspage {
-    font-family: SangSangFlowerRoad;
-    font-size: 45px;
-   color: rgba(248, 141, 141, 1);
   }
 .board-container {
     /* width : 100%; */

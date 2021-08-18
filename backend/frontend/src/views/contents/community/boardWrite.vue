@@ -6,37 +6,41 @@
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
           <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+        <back-button/>
         </el-col>
       </el-row>
     </el-col>
-<back-button/>
+
     <el-col class="right-content" :span="12">
         <el-row class="main-content" justify="center" align="middle">
         <el-col :span="24">
+
           <div class="question">글을 작성해 보세요.</div>
           <el-row justify="cneter">
 
 
             <el-container class="board-container">
-                        <el-row justify="cneter">
-            <el-form label-width="40px" class="demo-ruleForm"><!-- :model="ruleForm" status-icon :rules="rules" ref="ruleForm"--> 
+              <el-row justify="cneter">
+            <el-form label-width="120px" class="demo-ruleForm"><!-- :model="ruleForm" status-icon :rules="rules" ref="ruleForm"--> 
             <el-form-item label="제목">
                   <el-input placeholder="제목을 입력해 주세요." v-model="state.form.boardTitle"  ></el-input> <!--autosize="100px"-->
             </el-form-item>
             <el-form-item label="내용">
                       <el-input
                       type="textarea"
+                      :autosize="{ minRows: 20, maxRows: 20}"
                       placeholder="내용을 입력해 주세요."
-                      v-model="state.form.boardContents"
-                      >
+                      v-model="state.form.boardContents">
                     </el-input>
             </el-form-item>
             <el-form-item>
+               <el-row justify="center" align="middle">
                 <el-button round @click="clickSubmit">등록</el-button> <!--  @click="submitForm('ruleForm')" -->
                 <el-button @click="$router.push('/board')">취소</el-button> <!-- @click="resetForm('ruleForm')" -->
+                  </el-row>
             </el-form-item>
             </el-form>
-                        </el-row>
+            </el-row>
             </el-container>
           </el-row>
          
@@ -98,6 +102,9 @@ export default defineComponent ({
 </script>
 
 <style scoped>
+  .demo-ruleForm{
+    width: 700px;
+  }
   .el-form-item{
     font-family: BlackHanSans;
     font-size: 50px !important;
