@@ -220,13 +220,9 @@ export default {
       })
     },
     handleClose() {
-      const userId = this.$store.getters['root/getMyId']
       this.offLoading()
-      this.$store.dispatch('root/requestCancelFriendMatching', userId)
-      .then(() => {
-        this.$router.push({
-          name: 'Home'
-        })
+      this.$router.push({
+        name: 'Home'
       })
     },
     clickTTS() {

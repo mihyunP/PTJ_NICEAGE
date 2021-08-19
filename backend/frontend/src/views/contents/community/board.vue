@@ -8,7 +8,19 @@
           <el-button type="text" @click="clickTTS">
             <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
           </el-button>
-<back-button/>
+  <el-popover
+    placement="top-start"
+    :width="230"
+    trigger="hover"
+    content="뒤로 가려면 화살표를 클릭해주세요."
+  >
+    <template #reference>
+      <el-button class="back-btn" type="text" @click="$router.push('/')">
+        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 100px;" ></span>
+      </el-button>
+    </template>
+  </el-popover>
+
         </el-col>
       </el-row>
     </el-col>
@@ -75,10 +87,8 @@
 import {defineComponent, reactive, computed} from 'vue' //  , , 
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
-import BackButton from '../../components/BackButton.vue'
 
 export default defineComponent ({
-  components: { BackButton },
   name: 'Board',
   
     setup() {
@@ -246,5 +256,10 @@ export default defineComponent ({
     font-family: SangSangFlowerRoad;
     font-size: 44px;
     color: rgba(248, 141, 141, 1);
+  }
+  .back-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
   }
 </style>

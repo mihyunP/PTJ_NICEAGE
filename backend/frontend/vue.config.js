@@ -4,7 +4,6 @@ module.exports = {
   outputDir: "../src/main/resources/static",
   indexPath: "../src/main/resources/static/index.html",
   devServer: {
-    port: 8083,
     proxy: 'http://localhost:8080',
   },
   chainWebpack: config =>{
