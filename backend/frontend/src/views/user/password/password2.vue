@@ -29,7 +29,7 @@
         </el-main>
         <div class="info-font">다 입력 하셨나요?</div>
         <el-row justify="center">
-          <el-button class="select-btn" @click="clickChangePasword" :disabled="state.isDisabled">
+          <el-button class="select-btn" @click="clickChangePassword" :disabled="state.isDisabled">
             <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
             <div class="select-font">다 입력했어~</div>
           </el-button>
@@ -51,11 +51,16 @@ export default {
   components: {
     BackButton
   },
+  props: {
+    userId: {
+      type: String
+    }
+  },
   // setup() {
   //   const router = useRouter()
 
   // }
-  setup() {
+  setup(props) {
     const store = useStore()
     const router = useRouter()
     // 마운드 이후 바인딩 될 예정 - 컨텍스트에 노출시켜야함. <return>
@@ -92,23 +97,34 @@ export default {
         if (valid) {
           console.log('submit')
           store.commit('root/loadingOn')
-          store.dispatch('root/requestChangeUserInfo', state.newPasswordForm)
-          .then(result => {
-            store.commit('root/loadingOff')
-            if (result.data.status == "success") {
-              alert('비밀번호가 변경되었습니다!!')
-              router.push({
-              name: 'Login'
+
+          store.dispatch('root/requestMyDetail', props.userId)
+          .then((res) => {
+            const myInfo = res.data.data
+            myInfo.userPassword = state.newPasswordForm.userPassword
+            console.log('수정할 내 정보',myInfo)
+            store.dispatch('root/requestChangeUserInfo', myInfo)
+            .then(result => {
+              store.commit('root/loadingOff')
+              console.log(result)
+              if (result.data.status == "success") {
+                alert('비밀번호가 변경되었습니다!!')
+                router.push({
+                name: 'Login'
+              })
+              } else {
+                alert('변경할 비밀번호를 다시 입력해주세요.')
+              }
+              state.newPasswordForm.userPassword = ''
+              state.newPasswordForm.userPasswordConfirmation = ''
             })
-            } else {
-              alert('변경할 비밀번호를 다시 입력해주세요.')
-            }
-            state.newPasswordForm.userPassword = ''
-            state.newPasswordForm.userPasswordConfirmation = ''
+            .catch(function (err) {
+              store.commit('root/loadingOff')
+              alert(err)
+            })
           })
-          .catch(function (err) {
-            store.commit('root/loadingOff')
-            alert(err)
+          .catch(() => {
+            alert('아이디가 존재하지 않습니다.')
           })
         } else {
           alert('Validate error!')

@@ -56,9 +56,9 @@
                 
                
                   
-                  <span class="text" style="text-align:left"> 작성자 : {{state.form.user.userName}}</span>
+                  <span class="text" style="text-align:left"> 작성자 : {{state.form.user.userName}} / </span>
               
-                 <span class="text"  style="text-align:right"> 작성일자 :{{state.form.boardDate}} </span>
+                 <span class="text"  style="text-align:right"> 작성일자 :{{state.form.boardDate.split('T')[0]}} </span>
               
               </el-header>
               <el-main>

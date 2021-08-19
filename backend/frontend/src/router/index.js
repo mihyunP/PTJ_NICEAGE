@@ -78,6 +78,7 @@ const routes = [
     path: "/password/2",
     name: "Password2",
     component: Password2,
+    props: true,
     beforeEnter: allowNotAuth,
   },
   {
