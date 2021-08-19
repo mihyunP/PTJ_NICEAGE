@@ -4,9 +4,9 @@
     </el-form-item>
     <el-form-item >
       <!-- <div>{{boardId}}</div> -->
-    <el-button @click="clickWriteComment"> 댓글 달기</el-button>
+    <el-button @click="clickWriteComment">댓글 달기</el-button>
     </el-form-item>
-    <!--   state.commentform.commentsDto   -->
+
     
     <!-- <el-table
     :show-header =false
@@ -40,6 +40,7 @@
       @current-change="setPage"> 
     </el-pagination> -->
 
+ <!--state.commentform.commentsDto-->
 <el-table
     :height="100"
     :show-header = false
@@ -81,14 +82,14 @@
     <el-table-column 
       label="Operations">
       <template #default="scope">
-        <div v-if="scope.row.userId=state.form.userId">
-        <el-button class="commentButton" 
+        <div v-if="scope.row.userId==state.form.userId">
+        <el-button class="commentButton"
           size="mini"
-          @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+          @click="handleEdit(scope.$index, scope.row)">수정</el-button>
         <el-button class="commentButton" 
           size="mini"
           type="danger"
-          @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+          @click="handleDelete(scope.$index, scope.row)" style="background: #d11111 !important;">삭제</el-button>
         </div>
       </template>
     </el-table-column>
@@ -96,7 +97,7 @@
 </template>
 
 <script>
-import { reactive } from 'vue'
+import { reactive, computed } from 'vue'
 import { useStore } from 'vuex'
 // import { useRouter } from 'vue-router'
 
@@ -143,8 +144,8 @@ setup(props) {
       }, // 댓글 받아오는 폼
 
 
-      // pagedTableData :computed(() => state.commentform.commentsDto.slice(state.pageSize * state.page - state.pageSize, state.pageSize * state.page),
-      // ),
+      Data :computed(() => state.commentform.commentsDto,
+      ),
     })
 
       
@@ -191,13 +192,25 @@ setup(props) {
   console.log(props.commentsDto.userId); 
 
 
-    // 댓글 작성하기  
+    // 댓글 작성하기
     const clickWriteComment= () => {
       store.dispatch('root/requestSubmitComment', state.form)
       .then(result =>{
+
+      // 댓글 다시 불러오기
+      store.dispatch('root/requestReadBoard',{boardId : state.form.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
+     .then(res => {
+   
+      state.commentform = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
+      console.log(state.commentform.commentsDto); 
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
         console.log(result)
           state.form.commentContents='';
-          state.commentList = props.commentsDto;
+          state.commentList = props.commentsDto; // 
            console.log("댓글 입력후"); 
           console.log(state.commentList); 
 
@@ -225,6 +238,19 @@ setup(props) {
        .then(result =>{
         console.log(result)
 
+
+      // 댓글 다시 불러오기
+      store.dispatch('root/requestReadBoard',{boardId : state.form.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
+     .then(res => {
+   
+      state.commentform = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
+      console.log(state.commentform.commentsDto); 
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
       })
 
       }
@@ -238,6 +264,18 @@ setup(props) {
          store.dispatch('root/requestDeleteComment',{userId : userId, boardId : state.form.boardId, commentId : state.commentId}) // `{boardId}?boardId=${state.form.boardId}` // 
        .then(result =>{
         console.log(result)
+
+      // 댓글 다시 불러오기
+      store.dispatch('root/requestReadBoard',{boardId : state.form.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
+     .then(res => {
+   
+      state.commentform = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
+      console.log(state.commentform.commentsDto); 
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
         
       })
       }
@@ -257,13 +295,13 @@ setup(props) {
     background: #EBC86F !important;
     border-radius: 25px !important;
   }
-  .commentButton{
+    .commentButton{
     font-family: BlackHanSans;
     font-size: 10px;
+    color : black !important;
     /* margin: 15px; */
     width: 60px;
     height: 30px;
-    /* background: #EBC86F !important; */
     border-radius: 25px !important;
   }
 </style>
