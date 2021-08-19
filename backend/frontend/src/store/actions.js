@@ -184,3 +184,9 @@ export function requestSOS ({ state }, userId) {
   const url = `/sos119/${userId}`
   return axios.get(url)
 }
+
+export function requestCancelFriendMatching ({ state }, userId) {
+  console.log('requestCancelFriendMatching', state, userId)
+  const url = `/match/cancel/${userId}`
+  return axios.get(url)
+}
