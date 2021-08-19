@@ -24,9 +24,6 @@ export default {
     MainHeader,
     MainFooter,
   },
-  mounted() {
-    console.log(this.loading)
-  },
   setup() {
   const store = useStore()
   const loading = computed(() => store.getters['root/getLoading'])

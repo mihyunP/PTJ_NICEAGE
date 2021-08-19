@@ -243,7 +243,6 @@ export default {
           state.signupForm.userEmergency = res.data.data.userEmergency
           state.signupForm.userBirth = res.data.data.userBirth
           // this.myInfo = res.data.data
-          console.log(state.signupForm)
         } else {
           alert('개인정보를 불러올 수 없습니다.')
           router.push({
@@ -258,10 +257,18 @@ export default {
         if (valid) {
           store.commit('root/loadingOn')
           state.signupForm.userAddress = state.signupForm.userAddress + ' ' + state.signupForm.userDetailAddress
-          state.signupForm.userBirth = state.signupForm.userBirthYear + '-' + state.signupForm.userBirthMonth + '-' + state.signupForm.userBirthDay
-          store.dispatch('root/requestChangeUserInfo', state.signupForm)
-          .then(function (res) {
-            console.log(res)
+          const myForm = {
+            userId: state.signupForm.userId,
+            userPassword: state.signupForm.userPassword,
+            userName: state.signupForm.userName,
+            userAddress: state.signupForm.userAddress,
+            userGender: state.signupForm.userGender,
+            userBirth: state.signupForm.userBirth,
+            userPhone: state.signupForm.userPhone,
+            userEmergency: state.signupForm.userEmergency
+          }
+          store.dispatch('root/requestChangeUserInfo', myForm)
+          .then(function () {
             store.commit('root/loadingOff')
             initSignupForm()
             state.updateDialogVisible = true
@@ -278,6 +285,11 @@ export default {
 
     const deleteMyAccount = function() {
       store.dispatch('root/requestDeleteAccount', state.myId)
+      .then(() => {
+        this.router.push({
+          name: 'Home'
+        })
+      })
     }
 
     const initSignupForm = function () {
@@ -338,8 +350,7 @@ export default {
       }
       store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
-      .then(res => {
-        console.log(res)
+      .then(() => {
         store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
@@ -357,7 +368,6 @@ export default {
       store.commit('root/loadingOn')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data.data)
         store.commit('root/loadingOff')
         if (res.data.data == "true") {
           state.isAuthNumConfirmed = true

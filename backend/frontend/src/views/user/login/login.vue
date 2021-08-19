@@ -100,7 +100,6 @@ export default {
           store.commit('root/loadingOn')
           store.dispatch('root/requestLogin', state.form)
           .then(result => {
-            console.log(result)
             store.commit('root/loadingOff')
             const token = result.data.auth_token
             if (token) {

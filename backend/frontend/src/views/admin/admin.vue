@@ -155,12 +155,10 @@ export default {
     onMounted(() => {
       store.dispatch('root/requestUserList')
       .then(res => {
-        console.log(res.data)
         state.userList = res.data.data
         state.list = state.userList.map(user => {
           return { value: `${user.userId}`, label: `${user.userId}` };
         });
-        console.log(state.list)
       })
       .catch(err => {
         alert(err)
@@ -185,7 +183,6 @@ export default {
     }
 
     const deleteUser = function() {
-      console.log('123')
       store.dispatch('root/requestDeleteAccount', state.clickedUser.userId)
       .then(() => {
         state.centerDialogVisible = false
@@ -213,19 +210,17 @@ export default {
             return item.label.toLowerCase()
               .indexOf(query.toLowerCase()) > -1;
           });
-          console.log('optionL:', state.options)
         }, 200);
       } else {
         state.options = [];
       }
     }
     const clickOption = (userId) => {
-      console.log(userId)
+
       const clickedUser = state.userList.filter(user => {
         return user.userId == userId
       })
       state.clickedUser = clickedUser[0]
-      console.log(state.clickedUser)
       state.centerDialogVisible = true
     }
     return {state, clickUser, clickDeleteUser, deleteUser, remoteMethod, clickOption}

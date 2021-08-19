@@ -89,14 +89,10 @@ export default {
       boardId : props.id,
       },
     })
-    
-    console.log("md보드아이디"+state.form.boardId);
 
     const clickModify= () => {
       store.dispatch('root/requestUpdateWrite',state.form)
-       .then(result =>{
-        console.log(result)
-        
+       .then(() =>{
         router.push({
           name : 'Board'
         })
@@ -106,8 +102,7 @@ export default {
     const clickDelete = () => {
         const userId = store.getters['root/getMyId']
          store.dispatch('root/requestDeleteWrite',{userId : userId, boardId : `{boardId}?boardId=${state.form.boardId}`}) // state.form.boardId
-       .then(result =>{
-        console.log(result)
+       .then(() =>{
         
         router.push({
           name : 'Board'
@@ -131,8 +126,6 @@ export default {
       })
     }
 
-
-    console.log(props.title);
     return { state, clickModify, useStore, clickDelete, clickTTS }
   }
 }
