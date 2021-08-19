@@ -186,7 +186,6 @@ export default {
 					isMe = true
 				}
 				const { clientData } = JSON.parse(event.from.data)
-				console.log('메시지:', event)
         tmp.push({message: event.data, isMe: isMe, username: clientData})
 				this.msgs = tmp
 				this.messageSenderObj = event.from
@@ -210,9 +209,9 @@ export default {
 				})
       })
 
-			this.session.on('connectionCreated', (event) => {
-				console.log("이벤트 커넥션 발생", event.connection)
-			})
+			// this.session.on('connectionCreated', (event) => {
+			// 	console.log("이벤트 커넥션 발생", event.connection)
+			// })
 
 			// --- Connect to the session with a valid user token ---
 			// 'getToken' method is simulating what your server-side should do.

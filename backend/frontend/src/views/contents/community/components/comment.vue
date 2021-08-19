@@ -150,13 +150,7 @@ setup(props) {
 
       
 
-      console.log("보드 아이디");
-      console.log(state.form.boardId);
-      
 
-
-    console.log("PTD");
-      console.log(state.pagedTableData);
 
 
       // 댓글 불러오기
@@ -169,7 +163,6 @@ setup(props) {
       // console.log(state.form.boardTitle);
       // console.log(state.form.boardContents);
       // console.log(state.form.boardDate);
-      console.log(state.commentform.commentsDto); 
       // console.log(state.nowuserId);
       // console.log(state.form.user.userId);
      
@@ -182,42 +175,38 @@ setup(props) {
 
   // console.log(props.boardId);
   // console.log(state.form.boardId);
-  console.log("커멘트디티오");
-  console.log(props.commentsDto); 
-  console.log(state.commentList); 
-  console.log(props.commentsDto.userName);
-  console.log("타이틀");
-  console.log(props.titles);
-   console.log("댓글 작성자");
-  console.log(props.commentsDto.userId); 
+  // console.log("커멘트디티오");
+  // console.log(props.commentsDto); 
+  // console.log(state.commentList); 
+  // console.log(props.commentsDto.userName);
+  // console.log("타이틀");
+  // console.log(props.titles);
+  //  console.log("댓글 작성자");
+  // console.log(props.commentsDto.userId); 
 
 
     // 댓글 작성하기
     const clickWriteComment= () => {
       store.dispatch('root/requestSubmitComment', state.form)
-      .then(result =>{
+      .then(() =>{
 
       // 댓글 다시 불러오기
       store.dispatch('root/requestReadBoard',{boardId : state.form.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
      .then(res => {
    
       state.commentform = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
-      console.log(state.commentform.commentsDto); 
+      // console.log(state.commentform.commentsDto); 
       })
       .catch((err) => {
         console.log(err);
       })
 
-        console.log(result)
           state.form.commentContents='';
           state.commentList = props.commentsDto; // 
-           console.log("댓글 입력후"); 
-          console.log(state.commentList); 
 
         //   router.push({       
         //   name: 'BoardDetail',
         // })
-        console.log()
       })
        .catch((err) => {
             store.commit('root/loadingOff')
@@ -227,9 +216,6 @@ setup(props) {
 
       // 댓글 수정하기
       const handleEdit= (index, row) =>{
-        console.log("수정");
-        console.log(index, row);
-        console.log(row.commentId); // ==43
        state.form.userId = store.getters['root/getMyId'],
        state.form.boardId = props.boardId,
       //  state.form.commentContents
@@ -244,7 +230,6 @@ setup(props) {
      .then(res => {
    
       state.commentform = res.data.data; // form에다가 백에서 받아온 값들 넣어주자.
-      console.log(state.commentform.commentsDto); 
       })
       .catch((err) => {
         console.log(err);

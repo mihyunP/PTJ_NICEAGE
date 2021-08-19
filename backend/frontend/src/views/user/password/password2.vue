@@ -102,13 +102,11 @@ export default {
       // 로그인 클릭 시 validate 체크 후 그 결과 값에 따라, 로그인 API 호출 또는 경고창 표시
       newPasswordForm.value.validate((valid) => {
         if (valid) {
-          console.log('submit')
           store.commit('root/loadingOn')
           const data = {
             userId: props.userId,
             userPw: state.newPasswordForm.userPassword
           }
-          console.log(data)
           store.dispatch('root/requestChangePassword', data)
           .then(result => {
             store.commit('root/loadingOff')

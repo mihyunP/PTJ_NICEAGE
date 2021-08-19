@@ -78,15 +78,10 @@ export default defineComponent ({
 
       },
     })
-    console.log(state.form.user)
-    console.log(state.form.boardTitle)
-    console.log(state.form.boardContents)
 
     const clickSubmit= () => {
       store.dispatch('root/requestSubmitWrite', state.form)
-      .then(result =>{
-        console.log(result)
-        
+      .then(() =>{
         router.push({
           name : 'Board'
         })

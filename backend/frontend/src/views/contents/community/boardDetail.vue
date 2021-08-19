@@ -128,7 +128,6 @@ export default ({
       },
       // commentDto:[],
     })
-    console.log(state.nowuserId);
    
 
     // console.log("props방식"+state.boardId); // props방식으로 넘어오는지
@@ -143,8 +142,6 @@ export default ({
     // state.form.boardId = router.params.id;
     // console.log("params방식"+state.form.boardId); // params방식으로 넘어오는지
     
-    console.log(props.id);
-    console.log(state.boardId); 
 
     //  const userId = store.getters['root/getMyId']
      store.dispatch('root/requestReadBoard',{boardId : state.boardId }) // #{state.boardId} // userId : userId, //  `{boardId}?boardId=${state.boardId}`
@@ -156,7 +153,6 @@ export default ({
       // console.log(state.form.boardTitle);
       // console.log(state.form.boardContents);
       // console.log(state.form.boardDate);
-      console.log(state.form.commentsDto); // 잘찍힘
       // console.log(state.nowuserId);
       // console.log(state.form.user.userId);
      
