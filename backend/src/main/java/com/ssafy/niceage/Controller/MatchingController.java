@@ -39,6 +39,7 @@ public class MatchingController {
 			matchingService.addList(request);
 			long roomNumber = matchingService.findList(request);
 			matchingService.deleteList(request.getUserId());
+			System.out.println("매칭종료 : " + user.getUserNo());
 			response = new MainResponse("success", roomNumber);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
