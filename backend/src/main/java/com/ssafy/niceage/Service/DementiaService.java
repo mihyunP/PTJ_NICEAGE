@@ -20,8 +20,8 @@ public class DementiaService {
 	 */
 	public boolean checkDementia(UserDTO userDto, int result) {
 		if (result >= 10) {
-			String api_key = "NCSD8AKDVFYWT8DH";
-			String api_secret = "GUS1EXEIK3Q24XAVVUJW2J6TEOCFGXHJ";
+			String api_key = "NCSGPNSXP9HXOWQ4";
+			String api_secret = "LYET2SQAVHGBYAOXIXFFYR8WLW4ANBCG";
 
 			Message Auth = new Message(api_key, api_secret);
 			HashMap<String, String> params = new HashMap<String, String>();
@@ -31,7 +31,7 @@ public class DementiaService {
 			} else {
 				params.put("to", userDto.getUserEmergency());
 			}
-			params.put("from", "01053561553");
+			params.put("from", "01063366282");
 			params.put("type", "SMS");
 			params.put("text", userDto.getUserName() + "님은 치매 초기 증상으로 보입니다.");
 			params.put("app_version", "test app 1.2");
