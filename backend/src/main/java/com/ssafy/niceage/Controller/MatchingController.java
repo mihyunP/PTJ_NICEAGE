@@ -1,6 +1,8 @@
 package com.ssafy.niceage.Controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,7 @@ import com.ssafy.niceage.Service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 
 @Api
@@ -36,6 +39,7 @@ public class MatchingController {
 			matchingService.addList(request);
 			long roomNumber = matchingService.findList(request);
 			matchingService.deleteList(request.getUserId());
+			System.out.println("매칭종료 : " + user.getUserNo());
 			response = new MainResponse("success", roomNumber);
 		} catch (Exception e) {
 			response = new MainResponse("fail", e.getMessage());
@@ -45,4 +49,21 @@ public class MatchingController {
 
 	}
 
+	@ApiOperation(value = "1:1친구매칭 취소", response = MainResponse.class)
+	@GetMapping("/cancel/{userId}")
+	public MainResponse cancelMatch(@ApiParam(value = "유저 아이디") @PathVariable String userId) {
+		
+		MainResponse response = null;
+		
+		try {
+			User user = userService.findById(userId);
+			matchingService.cancel(user);
+			response = new MainResponse("success", "매칭이 취소됐습니다.");
+		} catch (Exception e) {
+			response = new MainResponse("fail", e.getMessage());
+		}
+		
+		return response;
+		
+	}
 }

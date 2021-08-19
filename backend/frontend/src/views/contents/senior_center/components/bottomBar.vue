@@ -25,16 +25,12 @@
       </el-button>
     </el-col>
     <el-col :span="6">
-      <el-button class="select-btn" round>
-        <span class="iconify" data-inline="false" data-icon="ant-design:camera-filled" style="color: #61acf1; font-size: 48px;"></span>
-        <span>사진찍기</span>
-      </el-button>
-    </el-col>
-    <el-col :span="6">
       <el-button class="select-btn" round @click="leaveSession">
         <span class="iconify" data-inline="false" data-icon="icomoon-free:exit" style="color: #e25353; font-size: 48px;"></span>
         나가기
       </el-button>
+    </el-col>
+    <el-col :span="6">
     </el-col>
   </el-row>
 </template>
@@ -59,7 +55,7 @@ export default {
     },
     leaveSession() {
       this.$emit('leaveSession')
-    }
+    },
   }
 }
 </script>

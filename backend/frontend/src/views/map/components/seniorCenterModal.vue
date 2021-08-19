@@ -3,7 +3,7 @@
     v-model="state.dialogVisible"
     width="70%"
     :before-close="handleClose"
-    top="10vh">
+    top="5vh">
     <span class="center-title">{{ centerInfo.seniorName }}</span>
     <el-card class="card-container">
       <template #header class="card-header">
@@ -33,12 +33,12 @@
         <el-divider></el-divider>
       </div>
     </el-card>
-
+<!-- 
     <template #footer>
       <span class="dialog-footer">
       <el-button @click="handleClose">취소</el-button>
       </span>
-    </template>
+    </template> -->
   </el-dialog>
 </template>
 

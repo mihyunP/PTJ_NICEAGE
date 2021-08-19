@@ -53,10 +53,8 @@ import { reactive } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios';
 import BackButton from '@/views/components/BackButton'
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-const OPENVIDU_SERVER_URL = "https://i5b202.p.ssafy.io:4443"
-const OPENVIDU_SERVER_SECRET = "ssafy"
+const OPENVIDU_SERVER_URL = process.env.VUE_APP_OPENVIDU_SERVER_URL
+const OPENVIDU_SERVER_SECRET = process.env.VUE_APP_OPENVIDU_SERVER_SECRET
 export default {
   name: 'HealthSelect',
   components: {

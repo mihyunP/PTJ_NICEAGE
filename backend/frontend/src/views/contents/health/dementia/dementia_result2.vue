@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">진단 결과를 확인해주세요.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <back-button/>
         </el-col>
       </el-row>
@@ -32,9 +34,28 @@
 </template>
 <script>
 import BackButton from '../../../components/BackButton.vue'
+import { useStore } from 'vuex'
 export default {
   components: { BackButton },
-
+  setup() {
+    const store = useStore()
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+    return { clickTTS }
+  }
 }
 </script>
 
@@ -76,11 +97,5 @@ export default {
     background-size: contain;
     background-repeat: no-repeat;
     background-image: url('../../../../assets/images/main.png');
-  }
-  /* 이전 페이지로 돌아가기 css */
-  .previouspage {
-    font-family: SangSangFlowerRoad;
-    font-size: 45px;
-   color: rgba(248, 141, 141, 1);
   }
 </style>
