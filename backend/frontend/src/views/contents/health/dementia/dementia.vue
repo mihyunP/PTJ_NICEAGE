@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">해당 하는 항목에 체크하시면 치매 진단 결과를 확인하실 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <back-button/>
         </el-col>
       </el-row>
@@ -78,7 +80,7 @@
           </el-container>
           
           <el-row justify="center">
-            <el-button @click="state.page+=1">
+            <el-button class="my-button" @click="state.page+=1">
               <div class="bottom-button">다음</div>
             </el-button>
           </el-row>
@@ -147,7 +149,7 @@
               </table>
           </el-container>  
           <el-row justify="center">
-            <el-button @click="state.page+=1">
+            <el-button class="my-button" @click="state.page+=1">
               <div class="bottom-button">다음</div>
             </el-button>
           </el-row>
@@ -216,7 +218,7 @@
           </el-container>
           
           <el-row justify="center">
-            <el-button @click="state.page+=1">
+            <el-button class="my-button" @click="state.page+=1">
               <div class="bottom-button" @click="submit()">제출하기</div>
             </el-button>
           </el-row>
@@ -320,7 +322,24 @@ import BackButton from '../../../components/BackButton.vue'
 
       })
       }
-    return { state, submit}
+    
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+
+    return { state, submit, clickTTS}
     }
   }
 
@@ -345,7 +364,7 @@ import BackButton from '../../../components/BackButton.vue'
     line-height: 300%;
   }
 
-  .el-button {
+  .my-button {
     margin: 15px;
     width: 150px;
     height: 50px;

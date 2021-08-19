@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <back-button/>
         </el-col>
       </el-row>
@@ -36,8 +38,8 @@
             </el-form-item>
             <el-form-item>
               <el-row justify="center" align="middle">
-                <el-button @click="clickModify">수정</el-button>
-                <el-button @click="clickDelete">삭제</el-button>
+                <el-button class="my-button" @click="clickModify">수정</el-button>
+                <el-button class="my-button" @click="clickDelete">삭제</el-button>
               </el-row>
             </el-form-item>
             </el-form>
@@ -113,9 +115,25 @@ export default {
       })
     }
 
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+
 
     console.log(props.title);
-    return { state, clickModify, useStore, clickDelete }
+    return { state, clickModify, useStore, clickDelete, clickTTS }
   }
 }
 </script>
@@ -129,7 +147,7 @@ export default {
     font-size: 50px !important;
     text-align: left;
   }
-  .el-button {
+  .my-button {
     font-family: BlackHanSans;
     font-size: 25px;
     margin: 15px;
