@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.niceage.Controller.Request.ChangePwRequest;
 import com.ssafy.niceage.Controller.Request.ReportRequest;
 import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.Report.Report;
@@ -132,6 +133,20 @@ public class UserController {
             userService.updateUser(userId, request);
             response = new MainResponse("success", "수정 성공");
         } catch (Exception e ) {
+            response = new MainResponse("fail", e.getMessage());
+        }
+        return response;
+    }
+    
+    @ApiOperation(value = "비밀번호 수정", notes = "", response = MainResponse.class)
+    @PostMapping("/pwd") // 부분 수정은 post
+    public MainResponse updatePassword(@ApiParam(value = "아이디, 패스워드")@RequestBody ChangePwRequest request) {
+
+       MainResponse response = null;
+        try {
+            userService.updatePw(request);
+            response = new MainResponse("success", "수정 성공");
+        } catch (Exception e) {
             response = new MainResponse("fail", e.getMessage());
         }
         return response;
