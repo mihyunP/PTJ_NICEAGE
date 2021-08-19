@@ -30,6 +30,7 @@ public class MatchingService {
 	private List<Boolean> statusList = new ArrayList<>();
 	private long[] matchUserNo = new long[10000];
 	private boolean[] timeIndex = new boolean[10000];
+	private boolean[] cancel = new boolean[10000];
 	
 	@Getter
 	public class MatchInfo {
@@ -161,6 +162,12 @@ public class MatchingService {
 					timer.cancel();
 				}
 				
+				// cancel : 매칭취소 여부를 담은 boolean배열 - true: 매칭취소
+				if (cancel[(int) userNo]) {
+					System.out.println("매칭취소 " + userNo);
+					timer.cancel();
+				}
+				
 				// 총 10번의 탐색을 했으나 매칭에 성공하지 못한 경우
 				if (i == 10) {
 					timeIndex[(int) userNo] = true;
@@ -266,9 +273,10 @@ public class MatchingService {
 		// 총 실행 10번 후 작업이 종료된다. 5초에 한 번씩 작업을 진행
 		timer.schedule(task, 2000, 2000);
 
-		try {
+		try { // 시간제한 (20초)가 지나거나 매칭취소를 누르기전까지 계속 Thread.sleep : 2초단위로 지연시키는 이유는 매칭하기 위한 탐색을 2초마다 하기 때문
 			while (!timeIndex[(int) userNo]) {
 				Thread.sleep(2000);
+				if (cancel[(int) userNo]) break;
 			}
 			// 매칭이 됐다면 반환객체만들고 매칭여부를 알리는 배열 값을 0으로 바꿔주고 타이머 종료후 리턴
 			if (matchUserNo[(int) userNo] != 0) {
@@ -287,8 +295,12 @@ public class MatchingService {
 			e.printStackTrace();
 		}
 
-		// 매칭에 실패한 경우 null을 리턴
+		System.out.println(cancel[(int) userNo]);
+		// 매칭취소여부는 모든 함수 종료시점에서 false로 되돌려 놓아야한다
+		cancel[(int) userNo] = false;
+		// 매칭에 실패한 경우 0을 리턴
 		long fail = 0;
+		System.out.println(cancel[(int) userNo]);
 		return fail;
 	}
 
@@ -312,6 +324,18 @@ public class MatchingService {
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 1:1친구매칭을 잡다가 중간에 취소했을 경우
+	 * @param userId
+	 */
+	public void cancel(User user) {
+		System.out.println("들어온거냐");
+		long userNo = user.getUserNo();
+		if (!cancel[(int) userNo]) {
+			cancel[(int) userNo] = true;
 		}
 	}
 }
