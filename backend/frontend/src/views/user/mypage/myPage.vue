@@ -243,7 +243,6 @@ export default {
           state.signupForm.userEmergency = res.data.data.userEmergency
           state.signupForm.userBirth = res.data.data.userBirth
           // this.myInfo = res.data.data
-          console.log(state.signupForm)
         } else {
           alert('개인정보를 불러올 수 없습니다.')
           router.push({
@@ -258,7 +257,6 @@ export default {
         if (valid) {
           store.commit('root/loadingOn')
           state.signupForm.userAddress = state.signupForm.userAddress + ' ' + state.signupForm.userDetailAddress
-          console.log('124214',state.signupForm.userBirth)
           const myForm = {
             userId: state.signupForm.userId,
             userPassword: state.signupForm.userPassword,
@@ -269,10 +267,8 @@ export default {
             userPhone: state.signupForm.userPhone,
             userEmergency: state.signupForm.userEmergency
           }
-          console.log(myForm)
           store.dispatch('root/requestChangeUserInfo', myForm)
-          .then(function (res) {
-            console.log(res)
+          .then(function () {
             store.commit('root/loadingOff')
             initSignupForm()
             state.updateDialogVisible = true
@@ -354,8 +350,7 @@ export default {
       }
       store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
-      .then(res => {
-        console.log(res)
+      .then(() => {
         store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
@@ -373,7 +368,6 @@ export default {
       store.commit('root/loadingOn')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data.data)
         store.commit('root/loadingOff')
         if (res.data.data == "true") {
           state.isAuthNumConfirmed = true

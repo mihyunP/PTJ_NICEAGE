@@ -225,7 +225,6 @@ export default {
           store.commit('root/loadingOn')
           state.signupForm.userAddress = state.signupForm.userAddress + ' ' + state.signupForm.userDetailAddress
           state.signupForm.userBirth = state.signupForm.userBirthYear + '-' + state.signupForm.userBirthMonth + '-' + state.signupForm.userBirthDay
-          console.log(state.signupForm)
           store.dispatch('root/requestSignup', state.signupForm)
           .then(function () {
             store.commit('root/loadingOff')
@@ -251,7 +250,6 @@ export default {
       store.commit('root/loadingOn')
       store.dispatch('root/requestOverlapped', {userId: userId})
       .then((res) => {
-        console.log(res)
         store.commit('root/loadingOff')
         if (res.data.data) {
           alert("이미 존재하는 아이디입니다.")
@@ -323,8 +321,7 @@ export default {
       }
       store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
-      .then(res => {
-        console.log(res)
+      .then(() => {
         store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
@@ -342,7 +339,6 @@ export default {
       store.commit('root/loadingOn')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data.data)
         store.commit('root/loadingOff')
         if (res.data.data == "true") {
           state.isDisabled = false

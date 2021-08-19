@@ -114,7 +114,7 @@ export default defineComponent ({
     
 
 
-    console.log("data"+state.pagedTableData)
+    // console.log("data"+state.pagedTableData)
 
     const setPage= function (val) {
         state.page = val
@@ -134,16 +134,16 @@ export default defineComponent ({
             // writer:val.boardWriter,
         }})
 
-        console.log("var"+this.var);
-        console.log("page"+state.page);
-        console.log("currentRow"+state.currentRow);
-        // state.id = val.boardId;
-        // router.push('/boarddetail/'+ state.id);
+        // console.log("var"+this.var);
+        // console.log("page"+state.page);
+        // console.log("currentRow"+state.currentRow);
+        // // state.id = val.boardId;
+        // // router.push('/boarddetail/'+ state.id);
       
-        console.log("title : "+val.boardTitle)
-        console.log("id : "+val.boardId)
+        // console.log("title : "+val.boardTitle)
+        // console.log("id : "+val.boardId)
         
-        console.log(this.id);
+        // console.log(this.id);
     }
 
     store.dispatch('root/requestBoardContent')
@@ -153,7 +153,7 @@ export default defineComponent ({
           element.boardDate = times[0]
           state.boardList.push(element)
         });
-        console.log(state.boardList);
+        // console.log(state.boardList);
       })
       .catch((err) => {
         console.log(err);
@@ -183,15 +183,15 @@ export default defineComponent ({
           const writer = v.userName;
           return title.includes(word) || writer.includes(word);
         })
-        console.log(state.boardList);
+        // console.log(state.boardList);
       })
       .catch((err) => {
         console.log(err);
       })
     };
 
-    console.log("PTD");
-    console.log(state.pagedTableData);
+    // console.log("PTD");
+    // console.log(state.pagedTableData);
 
     // const handleSizeChange = function (state.boardList.length/10) {
     //     console.log(`${val} items per page`);

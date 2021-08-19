@@ -152,8 +152,8 @@ export default {
         }
 
         const initMap = () => {
-            console.log('123',state.dialogVisible)
-            console.log(1+" "+window.kakao);
+            // console.log('123',state.dialogVisible)
+            // console.log(1+" "+window.kakao);
             var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
             mapOption = {
                 center: new window.kakao.maps.LatLng(33.450701, 126.570667),
@@ -233,7 +233,6 @@ export default {
                     });
                     // 마커에 클릭이벤트를 등록합니다
                     window.kakao.maps.event.addListener(marker, 'click', function() {
-                        console.log(marker)
                         marker.fa.addEventListener("click", function() {
                             state.ClickedSeniorCenter = roomInfo;
                             getNumOfPeople()
@@ -259,7 +258,6 @@ export default {
                 })
                 .then(res => {
                     store.commit('root/loadingOff')
-                    console.log(res.data)
                     const sessions = res.data.content
                     const sessionId = String(state.ClickedSeniorCenter.seniorId)
                     sessions.forEach(session => {
@@ -270,7 +268,6 @@ export default {
                         }
                     }); 
                     state.personnelList = personnelListTmp
-                    console.log(state.personnelList)
                     state.dialogVisible = true
                 })
                 .catch((err) => {
@@ -285,9 +282,7 @@ export default {
             .then(result => {
                 // console.log(result);
                 state.SeniorCenterInfo = result.data.data;
-                console.log(state.SeniorCenterInfo)
                     if (window.kakao && window.kakao.maps) {
-                console.log(window.kakao);
                 initMap();
             } else {
                 const script = document.createElement('script');
@@ -306,7 +301,6 @@ export default {
             .then(result => {
                 // console.log(result);
                 state.FrequenceSeniorCenterInfo = result.data.data;
-                console.log("fsci"+" "+state.FrequenceSeniorCenterInfo);
             })
         })
         const onCloseCenterDialog = () => {

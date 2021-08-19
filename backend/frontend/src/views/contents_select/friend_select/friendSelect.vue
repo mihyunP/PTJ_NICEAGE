@@ -150,22 +150,22 @@ export default {
       status : 1,
     }
   },
-
+  
   methods: {
     getSelection(num) {
       if(this.status==1){
         this.select.region = num;
-        console.log("region :"+ this.select.region);
+        // console.log("region :"+ this.select.region);
         this.status++;
-        console.log("status :"+ this.status);   
+        // console.log("status :"+ this.status);   
       }else if (this.status==2) {
         this.select.gender = num;
-        console.log("gender :"+ this.select.gender);
+        // console.log("gender :"+ this.select.gender);
         this.status++;
-        console.log("status :"+ this.status);  
+        // console.log("status :"+ this.status);  
       }else if (this.status==3) {
         this.select.hobby = num;
-        console.log("hobby :"+ this.select.hobby);
+        // console.log("hobby :"+ this.select.hobby);
         this.onLoading()
         this.requestFriendMatching()
       }
@@ -191,7 +191,7 @@ export default {
       this.$store.dispatch('root/requestFriendMatching', payload)
       .then((res) => {
         this.offLoading()
-        console.log(res)
+        // console.log(res)
         if (res.data.data) {
           this.$router.push({
             name: 'FriendMatching',

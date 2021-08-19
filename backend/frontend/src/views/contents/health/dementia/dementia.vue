@@ -291,21 +291,17 @@
 
     const submit= () => {
           state.result = state.selectedValues.length        
-          console.log(state.selectedValues) // 배열? 각방 요소별 값 찍힘
-          console.log(state.selectedValues.length)
         // return this.selectedValues.length
 
       
     
       
       const userId = store.getters['root/getMyId']
-      console.log(userId)
+
       store.dispatch('root/requestDementiaResult', {userId : userId, result : state.result}) //`{result}?result=2`
-      .then(res => {
-        console.log("백->프론트 응답"+res);
+      .then(() => {
         
         if (state.selectedValues.length < 10) {
-          console.log("under10");
             router.push({
             name: 'DementiaResult1',
           })

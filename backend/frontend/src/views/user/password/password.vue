@@ -122,8 +122,8 @@ export default {
       }
       store.commit('root/loadingOn')
       store.dispatch('root/requestAuthenticationNumber', payload)
-      .then(res => {
-        console.log(res)
+      .then(() => {
+        // console.log(res)
         store.commit('root/loadingOff')
         alert('인증번호가 발송되었습니다.')
       }) 
@@ -141,7 +141,6 @@ export default {
       store.commit('root/loadingOff')
       store.dispatch('root/requestConfirmAuthNum', param)
       .then(res => {
-        console.log(res.data.data)
         store.commit('root/loadingOff')
         if (res.data.data == "true") {
           state.isAuthNumConfirmed = true
@@ -161,7 +160,6 @@ export default {
       store.commit('root/loadingOff')
       store.dispatch('root/requestCheckUser', {userId: state.passwordForm.userId, userPhone: state.passwordForm.userPhone})
       .then(res => {
-        console.log(res)
         store.commit('root/loadingOff')
         if (res.data.status == "success") {
           router.push({
