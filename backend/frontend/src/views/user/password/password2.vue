@@ -20,16 +20,16 @@
         <el-main>
           <el-form :model="state.newPasswordForm" :rules="state.rules" ref="newPasswordForm" label-position="top">
             <el-form-item prop="userPassword" label="비밀번호를 만들어주세요." :label-width="state.formLabelWidth">
-              <el-input v-model="state.newPasswordForm.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+              <el-input v-model="state.newPasswordForm.userPassword" autocomplete="off" show-password></el-input>
             </el-form-item>
             <el-form-item prop="userPasswordConfirmation" label="위의 비밀번호를 다시 입력해주세요." :label-width="state.formLabelWidth">
-              <el-input v-model="state.newPasswordForm.userPasswordConfirmation" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+              <el-input v-model="state.newPasswordForm.userPasswordConfirmation" autocomplete="off" show-password></el-input>
             </el-form-item>
           </el-form>
         </el-main>
         <div class="info-font">다 입력 하셨나요?</div>
         <el-row justify="center">
-          <el-button class="select-btn" @click="clickChangePassword" :disabled="state.isDisabled">
+          <el-button class="select-btn" @click="clickChangePassword" >
             <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
             <div class="select-font">다 입력했어~</div>
           </el-button>
@@ -58,7 +58,6 @@ export default {
   },
   // setup() {
   //   const router = useRouter()
-
   // }
   setup(props) {
     const store = useStore()
@@ -70,6 +69,13 @@ export default {
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
+   const validateConfirm = function(rule, value, callback) {
+      if (value !== state.newPasswordForm.userPassword) {
+        callback(new Error('비밀번호가 일치하지 않습니다.'))
+      } else {
+        callback()
+      }
+    }
     const state = reactive({
       newPasswordForm: {
         userPassword: '',
@@ -82,6 +88,7 @@ export default {
           { max: 15, message: '최대 15글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
         userPasswordConfirmation: [
+          { validator: validateConfirm, trigger: 'blur' },
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
           { min: 8, message: '최소 9글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 15, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
@@ -97,34 +104,28 @@ export default {
         if (valid) {
           console.log('submit')
           store.commit('root/loadingOn')
-
-          store.dispatch('root/requestMyDetail', props.userId)
-          .then((res) => {
-            const myInfo = res.data.data
-            myInfo.userPassword = state.newPasswordForm.userPassword
-            console.log('수정할 내 정보',myInfo)
-            store.dispatch('root/requestChangeUserInfo', myInfo)
-            .then(result => {
-              store.commit('root/loadingOff')
-              console.log(result)
-              if (result.data.status == "success") {
-                alert('비밀번호가 변경되었습니다!!')
-                router.push({
-                name: 'Login'
-              })
-              } else {
-                alert('변경할 비밀번호를 다시 입력해주세요.')
-              }
-              state.newPasswordForm.userPassword = ''
-              state.newPasswordForm.userPasswordConfirmation = ''
+          const data = {
+            userId: props.userId,
+            userPw: state.newPasswordForm.userPassword
+          }
+          console.log(data)
+          store.dispatch('root/requestChangePassword', data)
+          .then(result => {
+            store.commit('root/loadingOff')
+            if (result.data.status == "success") {
+              alert('비밀번호가 변경되었습니다!!')
+              router.push({
+              name: 'Login'
             })
-            .catch(function (err) {
-              store.commit('root/loadingOff')
-              alert(err)
-            })
+            } else {
+              alert('변경할 비밀번호를 다시 입력해주세요.')
+            }
+            state.newPasswordForm.userPassword = ''
+            state.newPasswordForm.userPasswordConfirmation = ''
           })
-          .catch(() => {
-            alert('아이디가 존재하지 않습니다.')
+          .catch(function (err) {
+            store.commit('root/loadingOff')
+            alert(err)
           })
         } else {
           alert('Validate error!')

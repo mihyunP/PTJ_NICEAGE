@@ -145,7 +145,6 @@ export default {
     */
 
     const validateConfirm = function(rule, value, callback) {
-      console.log('벨리데이트컨펌!!')
       if (value !== state.signupForm.userPassword) {
         callback(new Error('비밀번호가 일치하지 않습니다.'))
       } else {
