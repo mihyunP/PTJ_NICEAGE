@@ -5,7 +5,9 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
 <br>
 <br>
 <br>
@@ -33,7 +35,7 @@
     </el-col>
     <el-col :span="12">
 <div v-if="state.nowuserId==state.form.user.userId">
-          <el-button round @click="clickModify" >수정</el-button>
+          <el-button class="my-button" round @click="clickModify" >수정</el-button>
 </div>
     </el-col>
   </el-row>
@@ -170,7 +172,22 @@ export default ({
       })
       // params : 제목, 콘텐츠 넘겨주기
     }
-    return {state, clickModify }
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+    return {state, clickModify, clickTTS }
   }
 })
 
@@ -194,7 +211,7 @@ export default ({
     line-height: 300%;
   }
 
-  .el-button {
+  .my-button {
     margin: 15px;
     width: 150px;
     height: 50px;
