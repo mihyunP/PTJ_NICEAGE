@@ -1,6 +1,6 @@
 package com.ssafy.niceage.Domain.Report;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.*;
 
@@ -24,7 +24,7 @@ public class Report {
 	
 	@JsonFormat(pattern = "yyyy-MM-dd kk:mm:ss")
 	@Column (name = "report_date", updatable=false)
-    private LocalDateTime reportDate;
+    private Date reportDate;
 	
 	public static Report receiptReport(ReportRequest request) {
 		Report reportInput = new Report();
@@ -33,6 +33,11 @@ public class Report {
 		reportInput.setReporterTargetId(request.getReporterTargetId());
 		reportInput.setReportDate(request.getReportDate());
         return reportInput;
+	}
+	
+	@PrePersist
+	public void onCreate() {
+		this.reportDate = new Date();
 	}
 
 }
