@@ -209,7 +209,10 @@ export default {
             }
           })
         } else {
-          alert('친구를 찾지 못했습니다.')
+          this.$message({
+            message: '친구 매칭이 취소되었습니다.',
+            type: 'warning'
+          });
         }
       })
       .catch(err => {
@@ -217,9 +220,13 @@ export default {
       })
     },
     handleClose() {
+      const userId = this.$store.getters['root/getMyId']
       this.offLoading()
-      this.$router.push({
-        name: 'Home'
+      this.$store.dispatch('root/requestCancelFriendMatching', userId)
+      .then(() => {
+        this.$router.push({
+          name: 'Home'
+        })
       })
     },
     clickTTS() {

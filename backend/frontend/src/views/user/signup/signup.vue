@@ -143,6 +143,15 @@ export default {
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
+
+    // const validateConfirm = function(rule, value, callback) {
+
+    //   if (value !== state.signupForm.userPassword) {
+    //     callback(new Error('비밀번호가 일치하지 않습니다.'))
+    //   } else {
+    //     callback()
+    //   }
+    // }
     const state = reactive({
       signupForm: {
         userId: '',
@@ -160,6 +169,7 @@ export default {
         userEmergency: "",
         authenticationNumber: "",
       },
+      
       rules: {
         userId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
