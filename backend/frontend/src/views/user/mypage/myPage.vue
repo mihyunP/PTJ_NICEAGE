@@ -258,8 +258,19 @@ export default {
         if (valid) {
           store.commit('root/loadingOn')
           state.signupForm.userAddress = state.signupForm.userAddress + ' ' + state.signupForm.userDetailAddress
-          state.signupForm.userBirth = state.signupForm.userBirthYear + '-' + state.signupForm.userBirthMonth + '-' + state.signupForm.userBirthDay
-          store.dispatch('root/requestChangeUserInfo', state.signupForm)
+          console.log('124214',state.signupForm.userBirth)
+          const myForm = {
+            userId: state.signupForm.userId,
+            userPassword: state.signupForm.userPassword,
+            userName: state.signupForm.userName,
+            userAddress: state.signupForm.userAddress,
+            userGender: state.signupForm.userGender,
+            userBirth: state.signupForm.userBirth,
+            userPhone: state.signupForm.userPhone,
+            userEmergency: state.signupForm.userEmergency
+          }
+          console.log(myForm)
+          store.dispatch('root/requestChangeUserInfo', myForm)
           .then(function (res) {
             console.log(res)
             store.commit('root/loadingOff')
@@ -278,6 +289,11 @@ export default {
 
     const deleteMyAccount = function() {
       store.dispatch('root/requestDeleteAccount', state.myId)
+      .then(() => {
+        this.router.push({
+          name: 'Home'
+        })
+      })
     }
 
     const initSignupForm = function () {

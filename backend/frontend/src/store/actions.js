@@ -65,6 +65,13 @@ export function requestChangeUserInfo ({ state }, payload) {
   return axios.put(url, body)
 }
 
+export function requestChangePassword ({ state }, payload) {
+  console.log('requestChangePassword', state)
+  const url = `user/pwd`
+  const body = payload
+  return axios.post(url, body)
+}
+
 export function requestMyDetail({ state }, myId) {
   console.log('requestMyDetail', state, myId)
   const url = `/user/${myId}`

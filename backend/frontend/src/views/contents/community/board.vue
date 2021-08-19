@@ -103,9 +103,8 @@ export default defineComponent ({
       currentRow: null,
       pagedTableData :computed(() => state.boardList.slice(state.pageSize * state.page - state.pageSize, state.pageSize * state.page),
       ),
-     
-    })
     
+    })
     // state.reverseBoardList = state.boardList; 
     // console.log("aaa"+state.reverseBoardList.length);
     // for(var i=0; i<state.boardList.length;i++){
@@ -149,8 +148,11 @@ export default defineComponent ({
 
     store.dispatch('root/requestBoardContent')
     .then(res => {
-        console.log(res.data)
-        state.boardList = res.data.data;
+        res.data.data.forEach(element => {
+          let times = element.boardDate.split('T')
+          element.boardDate = times[0]
+          state.boardList.push(element)
+        });
         console.log(state.boardList);
       })
       .catch((err) => {
@@ -170,7 +172,11 @@ export default defineComponent ({
         // .toUpperCase()
         const word = state.keyword;
         let arr = res.data.data;
-        console.log(res.data)
+        arr.forEach(element => {
+          let times = element.boardDate.split('T')
+          element.boardDate = times[0]
+          state.boardList.push(element)
+        });
         state.boardList = arr.filter((v)=>{
         
           const title = v.boardTitle;
@@ -184,7 +190,7 @@ export default defineComponent ({
       })
     };
 
-     console.log("PTD");
+    console.log("PTD");
     console.log(state.pagedTableData);
 
     // const handleSizeChange = function (state.boardList.length/10) {

@@ -165,7 +165,8 @@ export default {
         store.commit('root/loadingOff')
         if (res.data.status == "success") {
           router.push({
-            name: 'Password2'
+            name: 'Password2',
+            params: {userId: state.passwordForm.userId}
           })
         } else {
           alert('해당하는 사용자가 존재하지 않습니다.')
