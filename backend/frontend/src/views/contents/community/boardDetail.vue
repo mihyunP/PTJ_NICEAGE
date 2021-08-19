@@ -78,7 +78,6 @@
 
 <script>
   import comment from './components/comment.vue'
-  import BackButton from '../../components/BackButton.vue'
   // import { defineComponent } from 'vue'
 
   import { reactive } from 'vue'
@@ -111,7 +110,7 @@ export default ({
             // },
         },
   components: {
-   comment, BackButton,
+   comment,
   },
   setup(props) { // props.으로 props에 선언한 변수에 접근가능함
     const store = useStore()
