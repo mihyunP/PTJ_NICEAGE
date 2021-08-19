@@ -295,12 +295,14 @@ public class MatchingService {
 			e.printStackTrace();
 		}
 
+		System.out.println("timeindex: " + timeIndex[(int) userNo]);
 		System.out.println(cancel[(int) userNo]);
 		// 매칭취소여부는 모든 함수 종료시점에서 false로 되돌려 놓아야한다
 		cancel[(int) userNo] = false;
 		// 매칭에 실패한 경우 0을 리턴
 		long fail = 0;
 		System.out.println(cancel[(int) userNo]);
+		timeIndex[(int) userNo] = false;
 		return fail;
 	}
 
