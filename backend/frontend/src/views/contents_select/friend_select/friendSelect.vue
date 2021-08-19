@@ -14,9 +14,7 @@
     </el-col>
     <BackButton/>
       <el-col class="right-content" :span="12">
-  <div id="app">
-<div v-if="status==1">
-      <el-row class="main-content" justify="center" align="middle">
+      <el-row v-if="status==1" class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">친구를 소개해 드릴까요?</div>
 
@@ -32,10 +30,8 @@
           </el-row>
             </el-col>
       </el-row>
-</div>
 
-<div v-else-if="status==2">
-   <el-row class="main-content" justify="center" align="middle">
+   <el-row v-else-if="status==2" class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">친구의 성별을 선택해주세요.</div>
 
@@ -55,10 +51,8 @@
            </el-row>
               </el-col>
       </el-row>
-</div>
 
-<div v-else-if="status==3">
-   <el-row class="main-content" justify="center" align="middle">
+   <el-row v-else-if="status==3" class="main-content" justify="center" align="middle">
         <el-col :span="24">
           <div class="question">취미를 선택해 주세요.</div>
 
@@ -100,8 +94,6 @@
 
               </el-col>
       </el-row>  
-</div>
-  </div>
     </el-col>
   </el-row>
   <div v-if="dialogVisible" class="loading-container">
@@ -283,7 +275,7 @@ export default {
   }
   .question {
     font-family: SangSangFlowerRoad;
-    font-size: 88px;
+    font-size: 50px;
     color: rgba(248, 141, 141, 1);
   }
   .dialog-question {
