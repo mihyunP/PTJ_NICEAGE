@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.niceage.Controller.Request.ChangePwRequest;
 import com.ssafy.niceage.Controller.Request.UserRequest;
 import com.ssafy.niceage.Domain.User.User;
 import com.ssafy.niceage.Repository.UserRepository;
@@ -79,6 +80,23 @@ public class UserService {
         if(findUser.isPresent()) {
             findUser.get().setUserName(request.getUserName());
             findUser.get().setUserPhone(request.getUserPhone());
+            findUser.get().setUserBirth(request.getUserBirth());
+            findUser.get().setUserAddress(request.getUserAddress());
+            findUser.get().setUserEmergency(request.getUserEmergency());
+        }
+        else{
+            throw new IllegalStateException("잘못된 유저 아이디입니다.");
+        }
+    }
+    
+    /**
+     * 비밀번호 수정
+     */
+    @Transactional
+    public void updatePw(ChangePwRequest request) {
+        Optional<User> findUser = Optional.ofNullable(userRepository.findByUserId(request.getUserId()));
+        if(findUser.isPresent()){
+            findUser.get().setUserPassword(request.getUserPw());
         }
         else{
             throw new IllegalStateException("잘못된 유저 아이디입니다.");
