@@ -29,8 +29,8 @@
           <span class="iconify" data-inline="false" data-icon="noto:person-dark-skin-tone-bald" style="font-size: 156px;"></span>
             <div class="select-button">다른 지역 친구</div>
           </el-button>
-           </el-row>
-              </el-col>
+          </el-row>
+            </el-col>
       </el-row>
 </div>
 
@@ -205,10 +205,14 @@ export default {
             name: 'FriendMatching',
             params: {
               mySessionId: res.data.data, 
+              myUserName: payload.userId
             }
           })
         } else {
-          alert('친구를 찾지 못했습니다.')
+          this.$message({
+            message: '친구 매칭이 취소되었습니다.',
+            type: 'warning'
+          });
         }
       })
       .catch(err => {
@@ -217,6 +221,9 @@ export default {
     },
     handleClose() {
       this.offLoading()
+      this.$router.push({
+        name: 'Home'
+      })
     },
     clickTTS() {
       const text = document.querySelector('.explanation').innerText

@@ -32,13 +32,13 @@
                   </el-row>
                 </el-form-item>
                 <el-form-item prop="userPassword" label="비밀번호를 만들어주세요." :label-width="state.formLabelWidth">
-                  <el-input v-model="state.signupForm.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+                  <el-input v-model="state.signupForm.userPassword" autocomplete="off" show-password ></el-input>
                 </el-form-item>
                 <el-form-item prop="userPasswordConfirmation" label="위의 비밀번호를 다시 입력해주세요." :label-width="state.formLabelWidth">
-                  <el-input v-model="state.signupForm.userPasswordConfirmation" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+                  <el-input v-model="state.signupForm.userPasswordConfirmation" autocomplete="off" show-password ></el-input>
                 </el-form-item>
                 <el-form-item prop="userName" label="성함을 입력해주세요." :label-width="state.formLabelWidth" >
-                  <el-input v-model="state.signupForm.userName" autocomplete="off" @keyup="checkValidation"></el-input>
+                  <el-input v-model="state.signupForm.userName" autocomplete="off" ></el-input>
                 </el-form-item>
                 <el-form-item prop="userGender" label="성별을 선택해주세요.">
                   <el-row justify="start">
@@ -143,6 +143,15 @@ export default {
       // rules의 객체 키 값과 form의 객체 키 값이 같아야 매칭되어 적용됨
       //
     */
+
+    const validateConfirm = function(rule, value, callback) {
+      console.log('벨리데이트컨펌!!')
+      if (value !== state.signupForm.userPassword) {
+        callback(new Error('비밀번호가 일치하지 않습니다.'))
+      } else {
+        callback()
+      }
+    }
     const state = reactive({
       signupForm: {
         userId: '',
@@ -160,6 +169,7 @@ export default {
         userEmergency: "",
         authenticationNumber: "",
       },
+      
       rules: {
         userId: [
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
@@ -172,6 +182,7 @@ export default {
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
         ],
         userPasswordConfirmation: [
+          { validator: validateConfirm, trigger: 'blur' },
           { required: true, message: '필수 입력 항목입니다.', trigger: 'blur' },
           { min: 8, message: '최소 8글자를 입력해야 합니다.', trigger: 'blur' },
           { max: 16, message: '최대 16글자까지 입력 가능합니다.', trigger: 'blur' },
@@ -231,7 +242,7 @@ export default {
             alert("회원 가입에 실패하였습니다.", err)
           })
         } else {
-          alert('Validate error!')
+          alert('회원정보를 다시 입력해주세요.')
         }
       });
     }
@@ -272,13 +283,14 @@ export default {
     }
 
     const checkValidation = function () {
-      signupForm.value.validate((valid) => {
-        if (valid) {
-          state.isDisabled = false
-        } else {
-          state.isDisabled = true
-        }
-      })
+      // signupForm.value.validate((valid) => {
+      //   if (valid) {
+      //     state.isDisabled = false
+      //   } else {
+      //     state.isDisabled = true
+      //   }
+      // })
+      // state.isDisabled = true
     }
 
     const execDaumPostcode = function() {
@@ -334,8 +346,8 @@ export default {
         console.log(res.data.data)
         store.commit('root/loadingOff')
         if (res.data.data == "true") {
+          state.isDisabled = false
           state.isAuthNumConfirmed = true
-          checkValidation()
           alert('인증되셨습니다.')
         } else {
           alert('인증에 실패했습니다. 다시 인증해주세요.')

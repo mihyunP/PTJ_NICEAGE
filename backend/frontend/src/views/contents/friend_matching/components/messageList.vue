@@ -1,6 +1,6 @@
 <template>
   <el-scrollbar class="list-container">
-    <Message v-for="(msg, index) in msgs" :key="index" :msg="msg" />
+    <Message v-for="(msg, index) in msgs" :key="index" :msg="msg"/>
   </el-scrollbar>
   <!-- <div class="container">
     <Message v-for="(msg, index) in msgs" :key="index" :msg="msg" />
@@ -18,12 +18,6 @@ export default {
     msgs: {
       type: Array
     },
-    senderObj: {
-      type: Object
-    },
-    me: {
-      type: Object
-    }
   },
 }
 </script>
@@ -31,6 +25,7 @@ export default {
 <style scoped>
 .list-container {
   height: 65vh;
-  background: white;
+  background: rgba(173, 203, 176, 0.2);
+  border-radius: 30px !important;
 }
 </style>

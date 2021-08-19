@@ -89,6 +89,13 @@ export function requestReportList({ state }) {
   return axios.get(url)
 }
 
+export function requestReportUser({ state }, payload) {
+  console.log('requestReportList', state)
+  const url = `/user/report`
+  const body = payload
+  return axios.post(url, body)
+}
+
 export function requestEnter ({ state }, payload) {
   console.log('requestEnter', state, payload)
   const url = `/enter/enter`
@@ -174,5 +181,11 @@ export function requestFriendMatching ({ state }, payload) {
 export function requestSOS ({ state }, userId) {
   console.log('requestFriendMatching', state, userId)
   const url = `/sos119/${userId}`
+  return axios.get(url)
+}
+
+export function requestCancelFriendMatching ({ state }, userId) {
+  console.log('requestCancelFriendMatching', state, userId)
+  const url = `/match/cancel/${userId}`
   return axios.get(url)
 }

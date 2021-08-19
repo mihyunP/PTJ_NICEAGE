@@ -1,7 +1,13 @@
 <template>
 <div class="video-frame" v-if="streamManager">
-	<ov-video :stream-manager="streamManager"/>
-	<div><p>{{ clientData }}</p></div>
+  <el-popover
+    trigger="hover"
+    :content="`${clientData}님`"
+  >
+    <template #reference>
+			<ov-video :stream-manager="streamManager"/>
+    </template>
+  </el-popover>
 </div>
 </template>
 

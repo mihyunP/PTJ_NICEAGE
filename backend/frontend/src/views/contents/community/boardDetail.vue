@@ -5,8 +5,31 @@
         <el-col :span="24">
           <el-row justify="center"><div class="main-image"></div></el-row>
           <div class="explanation">자유롭게 글을 작성하거나 다른 사람들의 글을 볼 수 있습니다.</div>
-          <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
-            <back-button/>
+          <el-button type="text" @click="clickTTS">
+            <span class="iconify" data-inline="false" data-icon="el:speaker" style="font-size: 100px;"></span>
+          </el-button>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<!-- 전 페이지로 돌아가기 시작 -->
+
+  <el-popover
+    placement="top-start"
+    :width="230"
+    trigger="hover"
+    content="뒤로 가려면 화살표를 클릭해주세요."
+  >
+    <template #reference>
+      <el-button class="back-btn" type="text" @click="$router.go(-1)">
+        <span class="iconify" data-inline="false" data-icon="akar-icons:arrow-back-thick-fill" style="color: #f88d8d; font-size: 100px;" ></span>
+      </el-button>
+    </template>
+  </el-popover>
+
+<!-- 전 페이지로 돌아가기 끝 -->
         </el-col>
       </el-row>
     </el-col>
@@ -22,7 +45,7 @@
     </el-col>
     <el-col :span="12">
 <div v-if="state.nowuserId==state.form.user.userId">
-          <el-button round @click="clickModify" >수정</el-button>
+          <el-button class="my-button" round @click="clickModify" >수정</el-button>
 </div>
     </el-col>
   </el-row>
@@ -159,7 +182,22 @@ export default ({
       })
       // params : 제목, 콘텐츠 넘겨주기
     }
-    return {state, clickModify }
+    const clickTTS = () => {
+      const text = document.querySelector('.explanation').innerText
+      let source; 
+      let context; 
+      context = new AudioContext();
+      store.dispatch('requestKakaoTTS', text)
+      .then(res => {
+        context.decodeAudioData(res.data, function(buffer) {
+            source = context.createBufferSource();
+            source.buffer = buffer;
+            source.connect(context.destination);
+            source.start(); 
+          });  
+      })
+    }
+    return {state, clickModify, clickTTS }
   }
 })
 
@@ -178,9 +216,8 @@ export default ({
     font-size: 50px !important;
     text-align: left;
   }
-  .el-button {
-    font-family: BlackHanSans;
-    font-size: 25px;
+
+  .my-button {
     margin: 15px;
     width: 150px;
     height: 50px;
@@ -222,5 +259,10 @@ export default ({
     margin: 50px;
     background: #EFDEDE !important;
     line-height: 300%;
-  } 
+  }
+  .back-btn {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+  }
 </style>

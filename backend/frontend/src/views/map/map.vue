@@ -7,56 +7,83 @@
                     <el-scrollbar height="650px">
                 <!-- <div v-if="!state.dialogVisible">{{ state.dialogVisible }}</div> -->
                 <!-- <div v-if="!state.dialogVisible">{{ state.SeniorCenterInfo[0].seniorId }}</div> --> 
-                    <table>
+                    <!-- <table>
                         <thead></thead>
                         <tbody>
                     <tr v-bind:key="s" v-for="s in state.SeniorCenterInfo" @click="loadModal(s)">
                     <td>
-                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
+                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="80">
                     </td>
                     <td>
                             이름 : {{ s.seniorName }}<br>
                             주소 : {{ s.seniorAddress }}<br>
                     </td>
+                    <el-divider></el-divider>
                     </tr>
                         </tbody>
-                    </table>
+                    </table> -->
+                <el-card
+                :key="s" v-for="s in state.SeniorCenterInfo" @click="loadModal(s)" shadow="hover" style="margin: 5px;">
+                    <el-row>
+                    <el-col :span="6">
+                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="90">
+                    </el-col>
+                    <el-col :span="16" :offset="1">
+                        <el-row justify="start" align="middle">
+                            <div>
+                                <span style="font-family: SSShinb7; font-size: 30px;">{{ s.seniorName }}</span></div>
+                            <el-divider style="margin: 12px;"></el-divider>
+                            <span style="font-size: 14px;">{{ s.seniorAddress }}</span>
+                        </el-row>
+                    </el-col>
+                    </el-row>
+                </el-card>
             </el-scrollbar>
                 </el-tab-pane>
 
                 <el-tab-pane label="자주 가는 순">
                     <el-scrollbar height="650px">
-                    <table>
-                        <thead></thead>
-                        <tbody>
-                    <tr v-bind:key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="loadModal(s)">
-                    <td>
-                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
-                    </td>
-                    <td>
-                            이름 : {{ s.seniorName }}<br>
-                            주소 : {{ s.seniorAddress }}<br>
-                    </td>
-                    </tr>
-                        </tbody>
-                    </table>
+                <el-card
+                :key="s" v-for="s in state.FrequenceSeniorCenterInfo" @click="loadModal(s)" shadow="hover" style="margin: 5px;">
+                    <el-row>
+                    <el-col :span="6">
+                        <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="90">
+                    </el-col>
+                    <el-col :span="16" :offset="1">
+                        <el-row justify="start" align="middle">
+                            <div>
+                                <span style="font-family: SSShinb7; font-size: 30px;">{{ s.seniorName }}</span></div>
+                            <el-divider style="margin: 12px;"></el-divider>
+                            <span style="font-size: 14px;">{{ s.seniorAddress }}</span>
+                        </el-row>
+                    </el-col>
+                    </el-row>
+                </el-card>
             </el-scrollbar>
                 </el-tab-pane>
                 <el-tab-pane label="인원수 많은 순">
                     <el-scrollbar height="650px">
-                        <table>
-                        <tbody>
-                            <tr v-bind:key="s" v-for="s in state.mostPeopleCenterInfo" @click="loadModal(s)">
-                                <td>
-                                    <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="100">
-                                </td>
-                                <td>
-                                    이름 : {{ s.seniorName }}<br>
-                                    주소 : {{ s.seniorAddress }}<br>
-                                </td>
-                            </tr>
-                        </tbody>
-                        </table>
+                    <div v-if="state.mostPeopleCenterInfo.length">
+                        <el-card
+                        :key="s" v-for="s in state.mostPeopleCenterInfo" @click="loadModal(s)" shadow="hover" style="margin: 5px;">
+                            <el-row>
+                            <el-col :span="6">
+                                <img src="https://kr.seaicons.com/wp-content/uploads/2015/06/house-icon.png" alt="My Image" width="90">
+                            </el-col>
+                            <el-col :span="16" :offset="1">
+                                <el-row justify="start" align="middle">
+                                    <div>
+                                        <span style="font-family: SSShinb7; font-size: 30px;">{{ s.seniorName }}</span></div>
+                                    <el-divider style="margin: 12px;"></el-divider>
+                                    <span style="font-size: 14px;">{{ s.seniorAddress }}</span>
+                                </el-row>
+                            </el-col>
+                            </el-row>
+                        </el-card>
+                    </div>
+                    <div v-else>
+                        <span><span style="font-family: SSShinb7; font-size: 30px; color: #26730B;">내 나이가 어때서</span>  의 첫번째 손님입니다. ❤</span>
+                    </div>
                     </el-scrollbar>
                 </el-tab-pane>
             </el-tabs>

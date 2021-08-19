@@ -21,16 +21,16 @@
         <el-main>
           <el-form :model="state.form" :rules="state.rules" ref="loginForm" label-position="top">
             <el-form-item prop="userId" label="아이디" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.userId" autocomplete="off" @keyup="checkValidation"></el-input>
+              <el-input v-model="state.form.userId" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item prop="userPassword" label="비밀번호" :label-width="state.formLabelWidth">
-              <el-input v-model="state.form.userPassword" autocomplete="off" show-password @keyup="checkValidation"></el-input>
+              <el-input v-model="state.form.userPassword" autocomplete="off" show-password></el-input>
             </el-form-item>
           </el-form>
         </el-main>
         <div class="info-font">다 입력 하셨나요?</div>
         <el-row justify="center">
-          <el-button class="select-btn" @click="clickLogin" :disabled="state.isDisabled">
+          <el-button class="select-btn" @click="clickLogin">
             <span class="iconify" data-inline="false" data-icon="noto:man-gesturing-ok" style="font-size: 80px;"></span>
             <div class="select-font">다 입력했어~</div>
           </el-button>
