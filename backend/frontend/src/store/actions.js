@@ -151,12 +151,11 @@ export function requestDementiaResult ({ state }, param) {
     return axios.post(url, body)
   }
   // 댓글 삭제
-
   export function requestDeleteComment({ state }, param) {
     console.log('requestDeleteComment', state, param)
-    const url = `/board/delete/${param.userId}/${param.boardId}/${param.commentId}` 
+    const url = `/comment/delete/${param.userId}/${param.boardId}/${param.commentId}` 
     return axios.delete(url)
-  }
+  } 
   // 댓글 수정
   export function requestUpdateComment ({ state }, payload) {
     console.log('requestUpdateComment', state, payload)
