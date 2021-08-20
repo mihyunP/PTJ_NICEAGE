@@ -14,6 +14,12 @@
 
 
 
+## :link: 배포 URL
+
+https://i5b202.p.ssafy.io
+
+
+
 ## :page_with_curl: 문서
 
 1. [요구사항 정의서](https://www.notion.so/709655c8876742329bfdd19bb724e9b6)
