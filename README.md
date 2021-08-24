@@ -1,6 +1,28 @@
 # :house: 내 나이가 어때서(Nice Age)
+<div>
+<p align="center">
+  <br/><b>코로나 19 시대의 어르신들을 위한 화상 미팅 서비스</b>
+  <p align="center">
+ <img src="https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript">
+ <img src="https://img.shields.io/badge/Vue.js-v3.0.0-green?logo=vue.js">
+ <img src="https://img.shields.io/badge/Vuetify-v3-green?logo=Vuetify">
+ <img src="https://img.shields.io/badge/Java-v1.8-blue?logo=java">
+ <img src="https://img.shields.io/badge/spring boot-v2.5.3-blue?logo=spring">
+ <img src="https://img.shields.io/badge/spring data jpa -v2.5-blue?logo=spring">
+ <img src="https://img.shields.io/badge/Hibernate----59666C?logo=Hibernate">
+ <img src="https://img.shields.io/badge/Gradle-v7.0-02303A?logo=Gradle">
+ <img src="https://img.shields.io/badge/AWS%20RDS----blue?logo=amazonaws">
+ <img src="https://img.shields.io/badge/MySQL-v8.0-blue?logo=mysql">
+ <img src="https://img.shields.io/badge/NGINX----009639?logo=NGINX">
+ <img src="https://img.shields.io/badge/Docker----2496ED?logo=Docker">
+  </p>
+<br/>  
+<br/> 
+</p>    
+</div>
 
-> 주제: 코로나 19 시대의 어르신들을 위한 화상 미팅 서비스
+
+> 서비스명: 내 나이가 어때서(Nice Age) 
 >
 > 팀명: 개발하기 딱 좋은 나이
 >
@@ -20,7 +42,7 @@ https://i5b202.p.ssafy.io
 
 
 
-## :page_with_curl: 문서
+## :page_with_curl: 산출물
 
 1. [요구사항 정의서](https://www.notion.so/709655c8876742329bfdd19bb724e9b6)
 
@@ -36,7 +58,7 @@ https://i5b202.p.ssafy.io
 
 
 
-## :person_frowning: 팀원역할
+## 👨 팀원역할
 
 | 이름   | 역할 | 내용                                           |
 | ------ | ---- | ---------------------------------------------- |
