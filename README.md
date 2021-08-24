@@ -1,6 +1,7 @@
 # :house: 내 나이가 어때서(Nice Age)
 <div>
 <p align="center">
+  <img width="200px;" src="https://user-images.githubusercontent.com/43925006/130594380-3eeef5fc-09c9-4eef-9ebc-73d50461b4a9.png" />
   <br/><b>코로나 19 시대의 어르신들을 위한 화상 미팅 서비스</b>
   <p align="center">
  <img src="https://img.shields.io/badge/JavaScript-ES6+-green?logo=javascript">
